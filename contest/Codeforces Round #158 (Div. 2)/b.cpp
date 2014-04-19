@@ -172,7 +172,12 @@ int main()
     }
 
 
-    cout<<(int(res/1000000))<<'-'<<((int)res/10000)%100<<"-"<<(res%10000)<<endl;
+    int dd, mm, yy;
+    dd = (int(res/1000000));
+    mm = ((int)res/10000)%100;
+    yy = (res%10000);
+
+    pf("%02d-%02d-%d", dd, mm, yy);
 
 
 
