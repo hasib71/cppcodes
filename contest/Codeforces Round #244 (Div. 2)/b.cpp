@@ -111,67 +111,117 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 //Header ends here
 
 
+#define MAXX 200007
+
+
+int sum[4*MAXX];
+
+#define set settt
+
+
+
+
+void set(int idx, int st, int ed, int pos, int val)
+{
+    if(st == ed && st == pos)
+    {
+        sum[idx] = val;
+        return;
+    }
+    else
+    {
+        int l = idx*2;
+        int r = l + 1;
+
+        int mid = (st+ed)/2;
+
+        if(pos<=mid)
+        {
+            set(l, st, mid, pos, val);
+        }
+        else
+        {
+            set(r, mid+1, ed, pos, val);
+        }
+
+        sum[idx] = max(sum[l], sum[r]);
+
+    }
+}
+
+
+int get(int idx, int st, int ed, int s, int e)
+{
+    if(st == s && ed == e)
+    {
+        return sum[idx];
+    }
+    else
+    {
+        int l = idx*2;
+        int r = l+1;
+
+        int mid = (st+ed)/2;
+
+        if(e <= mid)
+        {
+            return get(l, st, mid, s, e);
+        }
+        else if(mid < s)
+        {
+            return get(r, mid+1, ed, s, e);
+        }
+        else
+        {
+            return max( get(l, st, mid, s, mid), get(r, mid+1, ed, mid+1, e) );
+        }
+    }
+}
+
+
+
+
+
+
+
 
 
 
 int main()
 {
     int n;
-    set<pair<ll, int> >w, b;
+    int t, c;
 
+    int num;
 
+    cin>>n>>t>>c;
 
-    int c;
-    ll s;
-
-
-    cin>>n;
-
-    loop(i, n)
+    for(int i=1; i<=n; i++)
     {
-        cin>>c>>s;
-        if(c == 0)
-        {
-            w.insert( MP(s, i) );
-        }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
-    }
-
-    vector<pair< pair<int, int>, ll> >res;
-
-
-    while( !w.empty() && !b.empty() )
-    {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
+        cin>>num;
+        set(1, 1, n, i, num);
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
+
+    int cnt = 0;
+
+    for(int i=1; i<=n; i++)
     {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
+        int j = i + c - 1;
+
+        if(j > n)
+        {
+            break;
+        }
+
+
+        if( get(1, 1, n, i, j) <= t ) cnt++;
+
+
     }
 
-    return 0;
+    cout<<cnt<<endl;
+
+
 }
-

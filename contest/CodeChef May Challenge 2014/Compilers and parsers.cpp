@@ -116,62 +116,43 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+    int kases;
+    string ss;
 
+    cin>>kases;
 
-
-    int c;
-    ll s;
-
-
-    cin>>n;
-
-    loop(i, n)
+    while(kases--)
     {
-        cin>>c>>s;
-        if(c == 0)
+        cin>>ss;
+        int cnt = 0;
+
+        int sum = 0;
+        loop(i, SZ(ss))
         {
-            w.insert( MP(s, i) );
+            if(ss[i] == '<')
+            {
+                sum++;
+            }
+            else
+            {
+                if(sum > 0)
+                {
+                    sum--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if(sum==0) cnt = i+1;
         }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
-    }
 
-    vector<pair< pair<int, int>, ll> >res;
+        cout<<cnt<<endl;
 
 
-    while( !w.empty() && !b.empty() )
-    {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
-    {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
-    }
 
-    return 0;
+
 }
-

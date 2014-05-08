@@ -111,67 +111,79 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 //Header ends here
 
 
-
+#define MAXX 107
 
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+    int n, m;
+    ll ara[MAXX];
 
+    bool bi[MAXX];
+    mem(bi, 0);
 
-
-    int c;
-    ll s;
-
-
-    cin>>n;
+    cin>>n>>m;
 
     loop(i, n)
     {
-        cin>>c>>s;
-        if(c == 0)
+        cin>>ara[i];
+    }
+
+    int abc;
+
+    loop(i, m)
+    {
+        cin>>abc;
+        abc--;
+        bi[abc] = 1;
+    }
+
+    vector<ll>A;
+    vector<ll > B;
+
+
+    loop(i, n)
+    {
+        if(bi[i])
         {
-            w.insert( MP(s, i) );
+            B.pb(ara[i]);
         }
         else
         {
-            b.insert( MP(s, i) );
+            A.pb(ara[i]);
         }
     }
 
-    vector<pair< pair<int, int>, ll> >res;
+    sort(all(B));
 
 
-    while( !w.empty() && !b.empty() )
+    ll sum = 0;
+
+    loop(i, SZ(A))
     {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
+        sum += A[i];
+    }
 
-        w.erase(wh); b.erase(bl);
 
-        ll mn = min(wh.fr, bl.fr);
 
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
+    for(int i=SZ(B) - 1; i>-1; i--)
+    {
+        if(B[i] < sum)
         {
-            w.insert(wh);
+            sum = sum*2;
         }
         else
         {
-            b.insert(bl);
+            sum = sum+B[i];
         }
     }
 
+    cout<<sum<<endl;
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
-    {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
-    }
 
-    return 0;
+
+
+
+
+
 }
-

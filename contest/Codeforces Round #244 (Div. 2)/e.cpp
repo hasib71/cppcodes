@@ -111,67 +111,81 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 //Header ends here
 
 
-
+#define MAXX 1000007
 
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+    int n, k;
+    int ara[MAXX];
 
-
-
-    int c;
-    ll s;
-
-
-    cin>>n;
+    sf("%d %d", &n, &k);
 
     loop(i, n)
     {
-        cin>>c>>s;
-        if(c == 0)
-        {
-            w.insert( MP(s, i) );
-        }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
+        sf("%d", ara+i);
     }
 
-    vector<pair< pair<int, int>, ll> >res;
 
 
-    while( !w.empty() && !b.empty() )
+
+    int station = ara[n/2];
+
+
+    int cnt, pos;
+
+    cnt = 0, pos = n-1;
+
+    vector<int>v;
+
+    while(station < ara[pos])
     {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
+        if(cnt == 0)
         {
-            w.insert(wh);
+            v.pb(ara[pos]);
         }
-        else
-        {
-            b.insert(bl);
-        }
+
+        cnt++;
+        pos--;
+
+        cnt = cnt % k;
+
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
+    cnt = 0, pos = 0;
+
+    while(ara[pos] < station)
     {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
+        if(cnt == 0)
+        {
+            v.pb(ara[pos]);
+        }
+
+        cnt++;
+        pos++;
+
+        cnt = cnt%k;
+
     }
 
-    return 0;
+    //dump(station);
+    //dump(v);
+
+
+    ll sum = 0;
+
+    loop(i, SZ(v))
+    {
+        sum += abs(station - v[i]);
+    }
+
+    sum *= 2;
+
+    cout<<sum<<endl;
+
+
+
+
+
 }
-

@@ -116,62 +116,37 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+    int n, a, b;
+
+    cin>>n>>a>>b;
+
+    int cor[105];
+
+    mem(cor, 1);
 
 
+    int p;
 
-    int c;
-    ll s;
-
-
-    cin>>n;
-
-    loop(i, n)
+    loop(i, a)
     {
-        cin>>c>>s;
-        if(c == 0)
-        {
-            w.insert( MP(s, i) );
-        }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
+        cin>>p;
+        cor[p] = 1;
     }
 
-    vector<pair< pair<int, int>, ll> >res;
-
-
-    while( !w.empty() && !b.empty() )
+    loop(i, b)
     {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
+        cin>>p;
+        cor[p] = 2;
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
+    for(int i=1; i<=n; i++)
     {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
+        cout<<cor[i]<<" ";
     }
 
-    return 0;
+
+
+
+
 }
-

@@ -112,66 +112,79 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 
 
 
+struct city{
+    int population;
+    double dist;
+
+    void set(double x, double y, int p)
+    {
+        population = p;
+        dist = sqrt( x*x + y*y );
+    }
+};
+
+
+
+#define MAXX 1006
+
+
+bool comp(city a, city b)
+{
+    if(a.dist < b.dist)
+    {
+        return true;
+    }
+    else if(a.dist == b.dist)
+    {
+        return a.population > b.population;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+    int n, s;
+    cin>>n>>s;
 
+    city mycity[MAXX];
 
-
-    int c;
-    ll s;
-
-
-    cin>>n;
+    int x, y, d;
 
     loop(i, n)
     {
-        cin>>c>>s;
-        if(c == 0)
-        {
-            w.insert( MP(s, i) );
-        }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
+        cin>>x>>y>>d;
+        mycity[i].set(x, y, d);
     }
 
-    vector<pair< pair<int, int>, ll> >res;
+    sort(mycity, mycity+n, comp);
 
+    double minDist = 0;
 
-    while( !w.empty() && !b.empty() )
+    loop(i, n)
     {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
+        if(s < 1000000)
         {
-            w.insert(wh);
+            minDist = mycity[i].dist;
+            s += mycity[i].population;
         }
-        else
-        {
-            b.insert(bl);
-        }
+        else break;
     }
 
-
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
+    if(s < 1000000)
     {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
+        cout<<-1<<endl;
+    }
+    else
+    {
+        pf("%.7lf\n", minDist);
     }
 
-    return 0;
+
+
+
+
 }
-

@@ -110,6 +110,8 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 
 //Header ends here
 
+vector<int>A, B, C, D;
+
 
 
 
@@ -117,61 +119,74 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 int main()
 {
     int n;
-    set<pair<ll, int> >w, b;
-
-
-
-    int c;
-    ll s;
-
 
     cin>>n;
 
+    A.resize(n), B.resize(n), C.resize(n), D.resize(n);
+
+
     loop(i, n)
     {
-        cin>>c>>s;
-        if(c == 0)
-        {
-            w.insert( MP(s, i) );
-        }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
+        cin>>A[i]>>B[i]>>C[i]>>D[i];
     }
 
-    vector<pair< pair<int, int>, ll> >res;
+    vector<int>v;
 
-
-    while( !w.empty() && !b.empty() )
+    loop(i, n)
     {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
+        loop(j, n)
         {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
+            v.pb(A[i] + B[j]);
         }
     }
 
+    sort(all(v));
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
+
+
+    ll cnt = 0;
+
+
+
+    loop(i, n)
     {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
+        loop(j, n)
+        {
+            int s = C[i] + D[j];
+            s = -s;
+
+            int low = 0, high = SZ(v) - 1;
+
+            while(low <= high)
+            {
+                int mid = (low+high)/2;
+
+
+                if(v[mid] < s )
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+
+
+            while(v[low] == s)
+            {
+                cnt++;
+                low++;
+                if(low >= SZ(v)) break;
+            }
+
+        }
     }
 
-    return 0;
+
+    cout<<cnt<<endl;
+
+
+
+
 }
-

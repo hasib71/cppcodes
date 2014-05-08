@@ -117,61 +117,56 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 int main()
 {
     int n;
-    set<pair<ll, int> >w, b;
-
-
-
-    int c;
-    ll s;
-
-
     cin>>n;
+    string s;
+    cin>>s;
+
+    int lo, hi;
+    lo = hi = 0;
 
     loop(i, n)
     {
-        cin>>c>>s;
-        if(c == 0)
+        if(s[i] == 'x') lo++;
+        else hi++;
+    }
+
+
+    int req = 0;
+
+    loop(i, n)
+    {
+        if(lo != hi)
         {
-            w.insert( MP(s, i) );
+            if(s[i] == 'x')
+            {
+                if(lo > hi)
+                {
+                    s[i] = 'X';
+                    lo--, hi++;
+                    req++;
+                }
+            }
+            else
+            {
+                if(lo < hi)
+                {
+                    s[i] = 'x';
+                    lo++, hi--;
+                    req++;
+                }
+            }
         }
         else
         {
-            b.insert( MP(s, i) );
+            break;
         }
     }
 
-    vector<pair< pair<int, int>, ll> >res;
+    cout<<req<<endl<<s<<endl;
 
 
-    while( !w.empty() && !b.empty() )
-    {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
-    }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
-    {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
-    }
 
-    return 0;
+
 }
-

@@ -111,67 +111,86 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 //Header ends here
 
 
+ll fac[21];
 
 
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+
+    fac[0] = 1;
+
+    for(int i=1; i<21; i++) fac[i] = fac[i-1] * i;
 
 
 
-    int c;
-    ll s;
 
+    int kases, kaseno = 0;
+    take(kases);
 
-    cin>>n;
+    ll num;
 
-    loop(i, n)
+    while(kases--)
     {
-        cin>>c>>s;
-        if(c == 0)
+        take(num);
+
+        vector<int>v;
+
+        int low = 0;
+        int high = 20;
+
+
+        while(num != 0 && high > -1)
         {
-            w.insert( MP(s, i) );
+            //dump(high);
+            //dump(num);
+
+            low = 0;
+
+            while(low <= high)
+            {
+                int mid = (low+high)/2;
+
+                if(fac[mid] <= num)
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+
+            num -= fac[high];
+
+
+            v.pb(high);
+            //dump(v);
+            high--;
+        }
+
+        pf("Case %d: ", ++kaseno);
+
+        if(num == 0)
+        {
+            reverse(all(v));
+            pf("%d!", v[0]);
+
+            FOR(i, 1, SZ(v))
+            {
+                pf("+%d!", v[i]);
+            }
         }
         else
         {
-            b.insert( MP(s, i) );
+            pf("impossible");
         }
-    }
-
-    vector<pair< pair<int, int>, ll> >res;
+        pf("\n");
 
 
-    while( !w.empty() && !b.empty() )
-    {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
-    {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
-    }
 
-    return 0;
+
 }
-

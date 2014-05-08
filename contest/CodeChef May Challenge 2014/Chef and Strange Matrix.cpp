@@ -110,68 +110,71 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 
 //Header ends here
 
+#define MAXX 100007
 
 
+map<int, int>v[MAXX];
 
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+    int n, m, k;
+
+    cin>>n>>m>>k;
 
 
-
-    int c;
-    ll s;
+    int p, q;
 
 
-    cin>>n;
-
-    loop(i, n)
+    loop(i, k)
     {
-        cin>>c>>s;
-        if(c == 0)
+        cin>>p>>q;
+        v[p][q]++;
+    }
+
+    int sumA, sumB;
+
+
+    for(int i=1; i<=n; i++)
+    {
+        int total = 0;
+
+        for(map<int,int>::iterator it=v[i].begin(); it != v[i].end(); it++)
         {
-            w.insert( MP(s, i) );
+            if(it->fr == m) break;
+
+            sumA = it->fr + it->sc;
+            sumB = it->fr + 1;
+
+            if(v[i].find(sumB) != v[i].end())
+            {
+                sumB += v[i][sumB];
+            }
+
+            if(sumA > sumB)
+            {
+                total = -1;
+                break;
+            }
+        }
+
+        if(total == -1)
+        {
+            cout<<-1<<endl;
         }
         else
         {
-            b.insert( MP(s, i) );
-        }
-    }
-
-    vector<pair< pair<int, int>, ll> >res;
-
-
-    while( !w.empty() && !b.empty() )
-    {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
+            sumA = 1 + v[i][1];
+            sumB = m + v[i][m];
+            //if(1==m)
+                //cout<<sumA<<endl;
+            //else
+                cout<<sumB - sumA<<endl;
         }
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
-    {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
-    }
 
-    return 0;
+
+
 }
-

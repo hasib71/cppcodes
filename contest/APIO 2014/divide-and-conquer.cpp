@@ -111,67 +111,109 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 //Header ends here
 
 
+#define MAXX 100007
+
+
+struct DATA{
+    ll x, gold, energy;
+    void in(ll X, ll G, ll D)
+    {
+        x=X;
+        gold = G;
+        energy = D;
+    }
+}v[MAXX];
 
 
 
 int main()
 {
+    #ifndef hasibpc
+        read("divide.in");
+        write("divide.out");
+    #endif
+
     int n;
-    set<pair<ll, int> >w, b;
-
-
-
-    int c;
-    ll s;
-
+    ll X, G, D;
 
     cin>>n;
 
-    loop(i, n)
+
+    for(int i=1; i<=n; i++)
     {
-        cin>>c>>s;
-        if(c == 0)
-        {
-            w.insert( MP(s, i) );
-        }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
-    }
-
-    vector<pair< pair<int, int>, ll> >res;
-
-
-    while( !w.empty() && !b.empty() )
-    {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
+        cin>>X>>G>>D;
+        v[i].in(X,G,D);
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
+    ll comuGold[MAXX];
+
+    comuGold[0] = 0;
+
+    for(int i=1; i<=n; i++)
     {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
+        comuGold[i] = comuGold[i-1] + v[i].gold;
     }
 
-    return 0;
+
+    ll mxGold = comuGold[1];
+
+
+    ll comuSeries[MAXX];
+
+    comuSeries[0] = -(1<<29);
+
+    comuSeries[1] = v[1].energy;
+
+    ll hate = 0;
+
+
+    ll diff;
+
+
+    for(int i=2; i<=n; i++)
+    {
+        diff = (v[i].x - v[i-1].x);
+
+        hate = hate + v[i].energy - diff;
+
+        comuSeries[i-1] = max(comuSeries[i-2], v[i-1].energy + v[i].energy - diff - hate  );
+
+        comuSeries[i] = -hate;
+
+        //cerr<<comuSeries[i-1]<<"    "<<comuSeries[i]<<endl;
+
+
+        int low = 1, high = i;
+
+        while(low <= high)
+        {
+            int mid = (low+high)/2;
+
+            if(- hate <= comuSeries[mid])
+            {
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+
+        //dump(hate);
+        //dump(low);
+        //dump( comuGold[i] - comuGold[low-1]);
+
+
+
+        mxGold = max(mxGold, comuGold[i] - comuGold[low-1] );
+
+    }
+
+    cout<<mxGold<<endl;
+
+
+
+
+
 }
-

@@ -48,7 +48,7 @@
 #define SZ(a) int(a.size())
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
-#define dump(x) cout<<#x<<" = "<<x<<endl
+#define dump(x) cerr<<#x<<" = "<<x<<endl
 
 using namespace std;
 
@@ -110,68 +110,95 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 
 //Header ends here
 
+#define MAXX 300007
+
+typedef pair<pair<int, int>, int> P;
 
 
 
+priority_queue<P, vector<P>, greater<P> > Q; // last, first, x
+set<P> S; // x, first, last
+
+vector<P> v; // first, last , x
+
+
+P obj;
+set<P>::iterator it;
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+    #ifndef hasibpc
+        read("trading.in");
+        write("trading.out");
+    #endif
+    int n, m;
 
+    int L, R, X;
 
+    cin>>n>>m;
 
-    int c;
-    ll s;
-
-
-    cin>>n;
-
-    loop(i, n)
+    loop(i, m)
     {
-        cin>>c>>s;
-        if(c == 0)
+        cin>>L>>R>>X;
+        v.pb(MP(MP(L,R), X));
+    }
+
+    sort(all(v));
+
+    int pos = 0;
+
+    for(int i=1; i<=n; i++)
+    {
+        while( pos < SZ(v))
         {
-            w.insert( MP(s, i) );
+            if(v[pos].fr.fr == i )
+            {
+                obj = MP(MP(v[pos].fr.sc, v[pos].fr.fr), v[pos].sc - i + 1 );
+                Q.push(obj);
+
+                swap(obj.fr.fr, obj.sc);
+                S.insert(obj);
+
+                pos++;
+            }
+            else break;
+        }
+
+        while( ! Q.empty() )
+        {
+            obj = Q.top();
+            if(obj.fr.fr < i)
+            {
+                Q.pop();
+                swap(obj.fr.fr, obj.sc);
+                S.erase(obj);
+            }
+            else break;
+        }
+
+        if(S.empty())
+        {
+            cout<<0<<" ";
         }
         else
         {
-            b.insert( MP(s, i) );
+            it = S.end();
+            it--;
+            //cerr<<"my first element " << it->fr.fr<<" "<<it->fr.sc<<" "<<it->sc<<endl<<endl;
+            cout<<it->fr.fr + i - 1<<" ";
         }
-    }
-
-    vector<pair< pair<int, int>, ll> >res;
 
 
-    while( !w.empty() && !b.empty() )
-    {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
 
-        w.erase(wh); b.erase(bl);
 
-        ll mn = min(wh.fr, bl.fr);
 
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
-    {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
-    }
 
-    return 0;
+
+
+
+
+
 }
-

@@ -111,67 +111,149 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 //Header ends here
 
 
+#define MAXX 100007
+#define MOD 1000000007
+
+int n;
+ll cost[MAXX];
+
+ll minCost = 0;
+ll way = 1;
+
+vector<int>graph[MAXX];
+
+
+int lowlink[MAXX], idx[MAXX];
+
+bool inStack[MAXX];
+
+stack<int>S;
+
+
+int dTime = 0;
+
+void tarjan(int u)
+{
+    dump(u);
+    lowlink[u] = idx[u] = ++dTime;
+
+    inStack[u] = true;
+
+    S.push(u);
+
+    loop(i, SZ(graph[u]))
+    {
+        int v = graph[u][i];
+        cerr<<" --- v = "<<v<<endl;
+
+        if(idx[v] == -1)
+        {
+            tarjan(v);
+            lowlink[u] = min(lowlink[u], lowlink[v]);
+
+
+            pf("---lowLink[%d] = %d\n", u, lowlink[u]);
+
+        }
+        else if(inStack[v])
+        {
+            lowlink[u] = min(lowlink[u], idx[v]);
+        }
+    }
+
+
+    if(lowlink[u] == idx[u])
+    {
+        int v;
+        vector<int>components;
+
+        while(true)
+        {
+            v = S.top(); S.pop();
+            inStack[v] = false;
+            components.pb(v);
+            if(u == v) break;
+        }
+
+        dump(components);
+
+        ll tmp = (1LL<<35);
+
+        loop(i, SZ(components))
+        {
+            v = components[i];
+            tmp = min(tmp, cost[v]);
+
+        }
+
+
+        minCost += tmp;
+
+        ll cnt = 0;
+
+        loop(i, SZ(components))
+        {
+            v = components[i];
+            if(cost[v] == tmp) cnt++;
+        }
+
+        way = (way*cnt)%MOD;
+
+    }
+
+}
+
+
+
+
 
 
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
-
-
-
-    int c;
-    ll s;
-
-
     cin>>n;
 
-    loop(i, n)
+    for(int i=1; i<=n; i++)
     {
-        cin>>c>>s;
-        if(c == 0)
-        {
-            w.insert( MP(s, i) );
-        }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
+        cin>>cost[i];
     }
 
-    vector<pair< pair<int, int>, ll> >res;
+    int m, p, q;
+    cin>>m;
 
-
-    while( !w.empty() && !b.empty() )
+    loop(i, m)
     {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
+        cin>>p>>q;
+        graph[p].pb(q);
+    }
 
-        w.erase(wh); b.erase(bl);
+    mem(idx, -1);
 
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
+    for(int i=1; i<=n; i++)
+    {
+        if(idx[i] == -1) tarjan(i);
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
+
+    for(int i=1; i<=n; i++)
     {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
+        pf("lowLink[%d] = %d\n", i, lowlink[i]);
     }
 
-    return 0;
+
+
+
+    cout<<minCost<<" "<<way<<endl;
+
+
+
+
+
+
+
+
+
+
+
 }
-

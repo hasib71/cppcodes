@@ -111,67 +111,56 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 //Header ends here
 
 
-
+#define MAXX 100007
 
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
 
+    int N, K;
+    ll ara[MAXX];
 
+    cin>>N>>K;
 
-    int c;
-    ll s;
+    loop(i, N) cin>>ara[i];
 
-
-    cin>>n;
-
-    loop(i, n)
+    if(K==0)
     {
-        cin>>c>>s;
-        if(c == 0)
+        loop(i, N)
         {
-            w.insert( MP(s, i) );
+            if(i) pf(" ");
+            cout<<ara[i];
         }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
+        cout<<endl;
+
     }
-
-    vector<pair< pair<int, int>, ll> >res;
-
-
-    while( !w.empty() && !b.empty() )
+    else if(K%2==1)
     {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
+        ll mx = -(1LL<<32);
+        loop(i, N) mx = max(mx, ara[i]);
 
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
+        loop(i, N)
         {
-            w.insert(wh);
+            if(i) pf(" ");
+            cout<<mx - ara[i];
         }
-        else
+
+        cout<<endl;
+    }
+    else
+    {
+        ll mn = 1LL<<32;
+        loop(i, N) mn = min(mn, ara[i]);
+        loop(i, N)
         {
-            b.insert(bl);
+            if(i) pf(" ");
+            cout<<ara[i] - mn;
         }
+        cout<<endl;
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
-    {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
-    }
 
-    return 0;
+
 }
 

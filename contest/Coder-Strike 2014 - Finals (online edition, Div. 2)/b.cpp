@@ -116,62 +116,41 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+    bool sym[100];
+
+    char symchar[] = {'A', 'H', 'I', 'O', 'T', 'U', 'V', 'M', 'W', 'X', 'Y'};
+
+    mem(sym, 0);
+    loop(i, 11) sym[ symchar[i] ] = true;
 
 
+    string ss;
+    cin>>ss;
 
-    int c;
-    ll s;
+    bool pos = true;
 
-
-    cin>>n;
-
-    loop(i, n)
+    for(int i=0, j=SZ(ss)-1; j>-1; i++, j--)
     {
-        cin>>c>>s;
-        if(c == 0)
+        if( sym[ ss[i] ] && ss[i] == ss[j] )
         {
-            w.insert( MP(s, i) );
+
         }
         else
         {
-            b.insert( MP(s, i) );
+            pos = false;
         }
     }
 
-    vector<pair< pair<int, int>, ll> >res;
-
-
-    while( !w.empty() && !b.empty() )
+    if(pos)
     {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
+        cout<<"YES"<<endl;
     }
-
-
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
+    else
     {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
+        cout<<"NO"<<endl;
     }
 
-    return 0;
+
+
+
 }
-

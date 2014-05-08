@@ -116,62 +116,60 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 
 int main()
 {
-    int n;
-    set<pair<ll, int> >w, b;
+    int n, m, k;
+
+    int matt[20007][17];
+
+    ll cnt[20007];
+
+    ll grp[17];
+
+    mem(grp, 0);
+
+    mem(cnt, 0);
 
 
 
-    int c;
-    ll s;
+    cin>>n>>m>>k;
 
-
-    cin>>n;
-
-    loop(i, n)
+    for(int i=1; i<=n; i++)
     {
-        cin>>c>>s;
-        if(c == 0)
+        for(int j=1; j<=m; j++)
         {
-            w.insert( MP(s, i) );
-        }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
-    }
-
-    vector<pair< pair<int, int>, ll> >res;
-
-
-    while( !w.empty() && !b.empty() )
-    {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
+            cin>>matt[i][j];
         }
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
+    int p, q;
+
+    loop(i, k)
     {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
+        cin>>p>>q;
+
+        grp[q]++;
+        cnt[p]--;
     }
 
-    return 0;
+
+
+
+    for(int i=1; i<=n; i++)
+    {
+        for(int j=1; j<=m; j++)
+        {
+            if(matt[i][j])
+            {
+                cnt[i] += grp[j];
+            }
+        }
+
+        cout<<cnt[i]<<" ";
+    }
+
+
+
+
+
+
 }
-

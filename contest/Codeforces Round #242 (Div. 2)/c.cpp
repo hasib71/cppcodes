@@ -110,6 +110,20 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 
 //Header ends here
 
+int calc(int n)
+{
+    int val = 0;
+
+    for(int i=1; i<=n; i++)
+    {
+        for(int j=1; j<=n; j++)
+        {
+            val = val ^ (j%i);
+        }
+    }
+
+    return val;
+}
 
 
 
@@ -117,61 +131,18 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 int main()
 {
     int n;
-    set<pair<ll, int> >w, b;
 
+    //calc(1000000);
 
-
-    int c;
-    ll s;
-
-
-    cin>>n;
-
-    loop(i, n)
+    for(int i=1; i<100; i++)
     {
-        cin>>c>>s;
-        if(c == 0)
-        {
-            w.insert( MP(s, i) );
-        }
-        else
-        {
-            b.insert( MP(s, i) );
-        }
-    }
-
-    vector<pair< pair<int, int>, ll> >res;
-
-
-    while( !w.empty() && !b.empty() )
-    {
-        //cerr<<"hr"<<endl;
-        pair<ll, int> wh = *w.begin(), bl = *b.begin();
-
-        w.erase(wh); b.erase(bl);
-
-        ll mn = min(wh.fr, bl.fr);
-
-        wh.fr -= mn; bl.fr -= mn;
-
-        res.pb( MP( MP(wh.sc, bl.sc), mn ) );
-
-        if(wh.fr || (!wh.fr && !bl.fr && SZ(w) < SZ(b)))
-        {
-            w.insert(wh);
-        }
-        else
-        {
-            b.insert(bl);
-        }
+        cout<<i<<" "<<calc(i)<<endl;
+        //calc(i);
     }
 
 
-    for(vector<pair< pair<int, int>, ll> >::iterator it = res.begin(); it != res.end(); it++)
-    {
-        cout<<it->fr.fr+1<<" "<<it->fr.sc+1<<" "<<it->sc<<endl;
-    }
 
-    return 0;
+
+
+
 }
-
