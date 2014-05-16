@@ -1,3 +1,20 @@
+/**
+   __      __            ______             _________     __     ______
+  |  |    |  |          /  __  \           /   _____ \   |  |   |   __  \
+  |  |    |  |         /  /  \  \          |  |     \/   |  |   |  |  \  \
+  |  |    |  |        /  /    \  \         |  |          |  |   |  |   \  \
+  |  |____|  |       /  /######\  \        |  |______    |  |   |  |___*  /
+  |   ____   |      /              \       |______   |   |  |   |   ___  X
+  |  |    |  |     /  /##########\  \             |  |   |  |   |  |   *  \
+  |  |    |  |    /  /            \  \            |  |   |  |   |  |   /  /
+  |  |    |  |   /  /              \  \   /\______|  |   |  |   |  |__/  /
+  |__|    |__|   \_/                \_/   \__________|   |__|   |_______/
+
+
+**/
+
+
+
 #include<iostream>
 #include<cstdio>
 #include<cstring>
@@ -36,7 +53,7 @@
 using namespace std;
 
 #define take(args...) asdf,args
-#define debug(args...) asdfg,args; cout<<endl
+
 struct ASDF{
     ASDF& operator,(int &a) {
         sf("%d", &a);
@@ -65,42 +82,42 @@ struct ASDF{
         return *this;
     }
 }asdf;
-struct ASDFG{
-    template<typename T>
-    ASDFG& operator,(vector<T> &v){
-        pf("[");
-        cout<<v[0];
-        FOR(i, 1, SZ(v)){
-            cout<<", "<<v[i];
-        }
-        pf("]");
-        return *this;
+
+
+template<typename T>
+ostream& operator<<(ostream& output, vector<T>&v)
+{
+    output<<"[ ";
+    if(SZ(v))
+    {
+        output<<v[0];
     }
-
-    template<typename T>
-    ASDFG& operator,(T x) {
-        cout<<x<<" ";
-        return *this;
+    FOR(i, 1, SZ(v))
+    {
+        output<<", "<<v[i];
     }
+    output<<" ]";
+    return output;
+}
 
-
-}asdfg;
-
+template<typename T1, typename T2>
+ostream& operator<<(ostream& output, pair<T1, T2>&p)
+{
+    output<<"( "<<p.fr<<", "<<p.sc<<" )";
+    return output;
+}
 
 
 //Header ends here
 
-bool used[12]
 
-
-void permute(int pos)
-{
-    if
-}
 
 
 
 int main()
 {
+
+
+
 
 }
