@@ -48,10 +48,40 @@
 #define SZ(a) int(a.size())
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
+#define dump(x) cout<<#x<<" = "<<x<<endl
 
-#define dump(x) cerr<<#x<<" = "<<x<<endl
-#define debug(args...) cerr,args; cerr<<endl;
 using namespace std;
+
+#define take(args...) asdf,args
+
+struct ASDF{
+    ASDF& operator,(int &a) {
+        sf("%d", &a);
+        return *this;
+    }
+    ASDF& operator,(long int &a){
+        sf("%ld", &a);
+        return *this;
+    }
+    ASDF& operator,(long long int &a){
+        sf("%lld", &a);
+        return *this;
+    }
+    ASDF& operator,(char &c){
+        sf("%c", &c);
+        return *this;
+    }
+    ASDF& operator,(double &d){
+        sf("%lf", &d);
+        return *this;
+    }
+
+    template<typename T>
+    ASDF& operator,(T &a){
+        cin>>a;
+        return *this;
+    }
+}asdf;
 
 
 template<typename T>
@@ -78,25 +108,61 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 }
 
 
-
-
-template<typename T>
-ostream& operator,(ostream& output, T x)
-{
-    output<<x<<" ";
-    return output;
-}
-
-
-
-
-
 //Header ends here
+
+
 
 
 
 int main()
 {
+
+
+    int kases;
+
+    cin>>kases;
+    int N;
+
+    while(kases--)
+    {
+        cin>>N;
+
+        if(360 % N == 0)
+        {
+            cout<<"y ";
+        }
+        else
+        {
+            cout<<"n ";
+        }
+
+
+
+
+        if( 0 < N && N <= 360)
+        {
+            cout<<"y ";
+        }
+        else
+        {
+            cout<<"n ";
+        }
+
+
+        if(0 < N && N < 27)
+        {
+            cout<<"y";
+        }
+        else
+        {
+            cout<<"n";
+        }
+        cout<<endl;
+
+
+
+
+    }
 
 
 

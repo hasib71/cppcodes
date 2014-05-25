@@ -48,10 +48,40 @@
 #define SZ(a) int(a.size())
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
+#define dump(x) cout<<#x<<" = "<<x<<endl
 
-#define dump(x) cerr<<#x<<" = "<<x<<endl
-#define debug(args...) cerr,args; cerr<<endl;
 using namespace std;
+
+#define take(args...) asdf,args
+
+struct ASDF{
+    ASDF& operator,(int &a) {
+        sf("%d", &a);
+        return *this;
+    }
+    ASDF& operator,(long int &a){
+        sf("%ld", &a);
+        return *this;
+    }
+    ASDF& operator,(long long int &a){
+        sf("%lld", &a);
+        return *this;
+    }
+    ASDF& operator,(char &c){
+        sf("%c", &c);
+        return *this;
+    }
+    ASDF& operator,(double &d){
+        sf("%lf", &d);
+        return *this;
+    }
+
+    template<typename T>
+    ASDF& operator,(T &a){
+        cin>>a;
+        return *this;
+    }
+}asdf;
 
 
 template<typename T>
@@ -78,27 +108,51 @@ ostream& operator<<(ostream& output, pair<T1, T2>&p)
 }
 
 
-
-
-template<typename T>
-ostream& operator,(ostream& output, T x)
-{
-    output<<x<<" ";
-    return output;
-}
-
-
-
-
-
 //Header ends here
 
+#define MAXX 2000007
 
 
-int main()
+bool dp[MAXX];
+
+
+class NumbersChallenge {
+public:
+	int MinNumber(vector <int>);
+};
+
+int NumbersChallenge::MinNumber(vector <int> S)
 {
+	mem(dp, 0);
 
+	dp[0] = true;
 
+	loop(i, SZ(S))
+	{
+	    for(int j=MAXX-1; j>-1; j--)
+	    {
+	        if(dp[j])
+	        {
+	            dp[ j + S[i] ] = true;
+	        }
+	    }
+	}
+
+	int result;
+
+	for(int i=1; i<MAXX; i++)
+	{
+	    if(dp[i] == false)
+	    {
+	        result = i;
+	        break;
+	    }
+	}
+	return result;
 
 
 }
+
+<%:testing-code%>
+//Powered by [KawigiEdit] 2.0!
+
