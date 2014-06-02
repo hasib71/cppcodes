@@ -15,19 +15,7 @@
 
 
 
-#include<iostream>
-#include<cstdio>
-#include<cstring>
-#include<cstdlib>
-#include<cmath>
-
-#include<algorithm>
-#include<vector>
-#include<queue>
-#include<stack>
-#include<map>
-#include<utility>
-#include<set>
+#include<bits/stdc++.h>
 
 
 #define FOR(i, s, e) for(int i=s; i<e; i++)
@@ -94,14 +82,81 @@ ostream& operator,(ostream& output, T x)
 //Header ends here
 
 
-#define low(x) (x & -(x))
 
 int main()
 {
-    for(int i=1; i<100; i++)
+    string str[4];
+    int len[4];
+
+    loop(i, 4)
     {
-        cerr<<i<<" "<<low(i)<<endl;
+        cin>>str[i];
+        len[i] = SZ(str[i]) - 2;
     }
+
+    int ct = 0;
+    int id = -1;
+
+
+    loop(i, 4)
+    {
+        bool pos = true;
+        loop(j, 4)
+        {
+            if(i == j) continue;
+
+
+            if(len[i] < len[j]*2)
+            {
+                pos = false;
+                break;
+            }
+        }
+        if(pos)
+        {
+            ct++;
+            id = i;
+        }
+
+
+
+        pos = true;
+
+        loop(j, 4)
+        {
+            if(i==j) continue;
+
+            if(len[i]*2 <= len[j])
+            {
+
+            }
+            else
+            {
+                pos  = false;
+                break;
+            }
+        }
+
+        if(pos)
+        {
+            ct++;
+            id = i;
+        }
+
+    }
+
+
+    if(ct == 1)
+    {
+        cout<<(char)(id+'A') <<endl;
+    }
+    else
+    {
+        cout<<"C"<<endl;
+    }
+
+
+
 
 
 

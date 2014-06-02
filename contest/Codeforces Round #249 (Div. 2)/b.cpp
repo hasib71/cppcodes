@@ -94,14 +94,49 @@ ostream& operator,(ostream& output, T x)
 //Header ends here
 
 
-#define low(x) (x & -(x))
 
 int main()
 {
-    for(int i=1; i<100; i++)
+    string ss;
+    int k;
+
+    cin>>ss;
+    cin>>k;
+
+    int pos;
+
+
+    loop(i, SZ(ss))
     {
-        cerr<<i<<" "<<low(i)<<endl;
+        pos = i;
+        for(int j=i+1; j<SZ(ss); j++)
+        {
+            if(j-i <= k)
+            {
+                if(ss[j] > ss[pos])
+                {
+                    pos = j;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+
+
+        k = k - (pos-i);
+
+
+
+        while(pos != i)
+        {
+            swap(ss[pos], ss[pos-1]);
+            pos--;
+        }
     }
+
+    cout<<ss<<endl;
 
 
 

@@ -15,19 +15,7 @@
 
 
 
-#include<iostream>
-#include<cstdio>
-#include<cstring>
-#include<cstdlib>
-#include<cmath>
-
-#include<algorithm>
-#include<vector>
-#include<queue>
-#include<stack>
-#include<map>
-#include<utility>
-#include<set>
+#include<bits/stdc++.h>
 
 
 #define FOR(i, s, e) for(int i=s; i<e; i++)
@@ -93,14 +81,45 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define lb(x) (x & -(x))
 
-#define low(x) (x & -(x))
+
+
+#define MAXX 100007
 
 int main()
 {
-    for(int i=1; i<100; i++)
+    int sum, limit;
+
+    cin>>sum>>limit;
+
+    int lowbit;
+
+    vector<int>v;
+
+    for(int i=limit; i>0; i--)
     {
-        cerr<<i<<" "<<low(i)<<endl;
+        lowbit = lb(i);
+
+        if(sum >= lowbit)
+        {
+            v.pb(i);
+            sum -= lowbit;
+        }
+    }
+
+
+    if(sum == 0)
+    {
+        cout<<SZ(v)<<endl;
+        loop(i, SZ(v))
+        {
+            cout<<v[i]<<" ";
+        }
+    }
+    else
+    {
+        cout<<-1<<endl;
     }
 
 

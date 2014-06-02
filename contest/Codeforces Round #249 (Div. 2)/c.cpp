@@ -93,15 +93,129 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
-
-#define low(x) (x & -(x))
+#define MAXX 1007
 
 int main()
 {
-    for(int i=1; i<100; i++)
+    int n;
+
+    int ara[MAXX];
+
+    cin>>n;
+
+
+    int comu[MAXX];
+
+    comu[0] = 0;
+
+    int mx, mn;
+
+    mx = mn = 0;
+
+    for(int i=1; i<=n; i++)
     {
-        cerr<<i<<" "<<low(i)<<endl;
+        cin>>ara[i];
+
+        if(i%2)
+        {
+            comu[i] = comu[i-1] + ara[i];
+        }
+        else
+        {
+            comu[i] = comu[i-1] - ara[i];
+        }
+
+
+        mx = max(mx, comu[i]);
+        mn = min(mn, comu[i]);
     }
+
+
+
+    int N = mx - mn;
+
+    char res[N][MAXX];
+
+
+    mem(res, 0);
+
+
+
+    int curr = N + mn;
+    int x = 0;
+
+    //dump(N);
+    //dump(curr);
+
+
+    for(int i=1; i<=n; i++)
+    {
+        if(i%2 == 1)
+        {
+            int cnt = 0;
+
+            while(cnt < ara[i])
+            {
+                curr--;
+                res[curr][x] = '/';
+                cnt++;
+                x++;
+            }
+        }
+        else
+        {
+            int cnt = 0;
+
+            while(cnt < ara[i])
+            {
+                res[curr][x] = '\\';
+                cnt++;
+                x++;
+                curr++;
+            }
+        }
+    }
+
+
+
+
+    loop(i, N)
+    {
+        loop(j, x)
+        {
+            if(res[i][j] == 0)
+            {
+                pf(" ");
+            }
+            else
+            {
+                pf("%c", res[i][j]);
+            }
+        }
+
+        cout<<endl;
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -15,19 +15,7 @@
 
 
 
-#include<iostream>
-#include<cstdio>
-#include<cstring>
-#include<cstdlib>
-#include<cmath>
-
-#include<algorithm>
-#include<vector>
-#include<queue>
-#include<stack>
-#include<map>
-#include<utility>
-#include<set>
+#include<bits/stdc++.h>
 
 
 #define FOR(i, s, e) for(int i=s; i<e; i++)
@@ -94,14 +82,83 @@ ostream& operator,(ostream& output, T x)
 //Header ends here
 
 
-#define low(x) (x & -(x))
+
+#define MAXX 1007
+
+
+
+bool matrix[MAXX][MAXX];
+
+vector<paii>v;
+
+int cost[MAXX];
+
+
+
+
 
 int main()
 {
-    for(int i=1; i<100; i++)
+
+    int n, m;
+
+    sf("%d %d", &n, &m);
+
+    for(int i=1; i<=n; i++)
     {
-        cerr<<i<<" "<<low(i)<<endl;
+        sf("%d", &cost[i]);
+
+        v.pb(MP(cost[i], i));
     }
+
+
+    int x, y;
+
+    loop(i, m)
+    {
+        sf("%d %d", &x ,&y);
+        matrix[x][y] = true;
+        matrix[y][x] = true;
+    }
+
+
+
+    sort(all(v));
+    reverse(all(v));
+
+
+   // dump(v);
+
+
+
+
+    ll totalCost = 0;
+
+    loop(i, n)
+    {
+        int node = v[i].sc;
+
+        for(int j = 1; j<=n; j++)
+        {
+            if(matrix[node][j])
+            {
+                totalCost += cost[j];
+                //dump(cost[j]);
+
+                matrix[node][j] = matrix[j][node] = false;
+            }
+        }
+    }
+
+    cout<<totalCost<<endl;
+
+
+
+
+
+
+
+
 
 
 

@@ -94,14 +94,39 @@ ostream& operator,(ostream& output, T x)
 //Header ends here
 
 
-#define low(x) (x & -(x))
 
 int main()
 {
-    for(int i=1; i<100; i++)
+    int n, m;
+
+    int ara[107];
+
+    cin>>n>>m;
+
+    loop(i, n)
     {
-        cerr<<i<<" "<<low(i)<<endl;
+        cin>>ara[i];
     }
+
+
+    int cnt = 0;
+
+    int sum = 1<<29;
+
+    loop(i, n)
+    {
+        if(sum + ara[i] > m)
+        {
+            cnt++;
+            sum = ara[i];
+        }
+        else
+        {
+            sum += ara[i];
+        }
+    }
+
+    cout<<cnt<<endl;
 
 
 

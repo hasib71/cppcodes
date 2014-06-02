@@ -94,14 +94,9 @@ ostream& operator,(ostream& output, T x)
 //Header ends here
 
 
-#define low(x) (x & -(x))
 
 int main()
 {
-    for(int i=1; i<100; i++)
-    {
-        cerr<<i<<" "<<low(i)<<endl;
-    }
 
 
 

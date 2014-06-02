@@ -94,15 +94,50 @@ ostream& operator,(ostream& output, T x)
 //Header ends here
 
 
-#define low(x) (x & -(x))
 
 int main()
 {
-    for(int i=1; i<100; i++)
+    int kases, kaseno = 0;
+
+    int n, ara[107];
+    int pos[107];
+
+    sf("%d", &kases);
+
+    while(kases--)
     {
-        cerr<<i<<" "<<low(i)<<endl;
+        sf("%d", &n);
+        for(int i=1; i<=n; i++) sf("%d", &ara[i]), pos[ ara[i] ] = i;
+
+        int cnt = 0;
+
+        for(int i = 1; i<=n; i++)
+        {
+            if(pos[i] != i)
+            {
+                int a = ara[i];
+                int aPos = i;
+
+                int b = i;
+                int bPos = pos[i];
+
+                swap(a, b);
+                cnt++;
+
+                ara[aPos] = a;
+                ara[bPos] = b;
+
+                pos[a] = aPos;
+                pos[b] = bPos;
+
+            }
+        }
+
+        pf("Case %d: %d\n", ++kaseno, cnt);
+
     }
 
+    return 0;
 
 
 
