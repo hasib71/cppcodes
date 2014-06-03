@@ -45,70 +45,55 @@ ostream& operator,(ostream &out, T &x )
 
 #define MAXX 57
 
+
+int dp[MAXX][MAXX];
+
+int a[MAXX], b[MAXX], N;
+
+
+int rec(int i, int j)
+{
+    if(i< 0 || j < 0) return 0;
+
+    int &ret = dp[i][j];
+    if(ret != -1) return ret;
+
+    int point = 0;
+    if(a[i] > b[j]) point = 2;
+    else if(a[i] == b[j]) point = 1;
+
+    return ret = max( max(rec(i-1, j), rec(i, j-1)), rec(i-1, j-1) + point );
+}
+
 int main()
 {
     int kases, kaseno = 0;
 
-    int a[MAXX], b[MAXX], N;
+
 
     sf("%d", &kases);
 
     while(kases--)
     {
+        mem(dp, -1);
+
         sf("%d", &N);
 
         loop(i, N)
         {
-            sf("%d", &a[i]);
+            sf("%d", a+i);
         }
-
         loop(i, N)
         {
-            sf("%d", &b[i]);
+            sf("%d", b+i);
         }
 
 
-        sort(a, a+N);
-        sort(b, b+N);
+        sort(a, a+N); reverse(a, a+N);
+        sort(b, b+N); reverse(b, b+N);
 
 
-        bool used[MAXX];
-        mem(used, 0);
-
-
-
-        int posA = 0, posB = 0;
-
-        int result = 0;
-
-        while(posA < N && posB < N)
-        {
-            if(a[posA] > b[posB])
-            {
-                used[posA] = true;
-                posB++;
-                result += 2;
-            }
-            posA++;
-        }
-
-        for(int i=N-1; i>-1; i--)
-        {
-            if(used[i] == false)
-            {
-                dump(a[i]);
-                if(a[i] == b[posB])
-                {
-
-                    result++;
-                }
-                posB++;
-            }
-        }
-
-
-        pf("Case %d: %d\n", ++kaseno, result);
-
+        pf("Case %d: %d\n", ++kaseno, rec(N-1, N-1));
 
 
 
