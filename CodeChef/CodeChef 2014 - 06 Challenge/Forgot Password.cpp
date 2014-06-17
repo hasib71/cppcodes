@@ -85,14 +85,101 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    int kases;
+
+    cin>>kases;
+
+    while(kases--)
     {
-        cout<<i<<" 150"<<endl;
+        int n;
+        cin>>n;
+        char c;
+        char mp[128];
+        loop(i, 128) mp[i] = i;
+        loop(i, n)
+        {
+            cin>>c;
+            cin>>mp[c];
+        }
+
+
+        string ss;
+        cin>>ss;
+
+        loop(i, SZ(ss))
+        {
+            ss[i] = mp[ ss[i] ];
+        }
+
+        int p = 0, q = SZ(ss) - 1;
+
+        while(p < SZ(ss))
+        {
+            if(ss[p] == '0')
+            {
+                p++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+
+        bool hasPoint = false;
+
+
+        for(int i=p; i<=q; i++)
+        {
+            if(ss[i] == '.')
+            {
+                hasPoint = true;
+                break;
+            }
+        }
+
+        if(hasPoint)
+        {
+            while(q > -1)
+            {
+                if(ss[q] == '0')
+                {
+                    q--;
+                }
+                else if(ss[q] == '.')
+                {
+                    q--;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        if(p <= q)
+        {
+            while(p <= q)
+            {
+                pf("%c", ss[p++]);
+            }
+        }
+        else
+        {
+            pf("0");
+        }
+        pf("\n");
+
+
+
+
+
+
     }
 
 
 
 
 }
+

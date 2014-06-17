@@ -81,16 +81,73 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define GORIGHT 0
+#define GOLEFT 1
+
+
+int dir = 0;
+
+    int rows, columns, k;
+
+void f(int &x, int &y, int r)
+{
+    cout<<r;
+
+    loop(i, r)
+    {
+        if(dir == GORIGHT)
+        {
+            y++;
+            if(y > columns)
+            {
+                y--;
+                x++;
+                dir = GOLEFT;
+            }
+            cout<<" "<<x<<" "<<y;
+        }
+        else
+        {
+            if(dir == GOLEFT)
+            {
+                y--;
+
+                if(y < 1)
+                {
+                    y++;
+                    x++;
+                    dir = GORIGHT;
+                }
+                cout<<" "<<x<<" "<<y;
+
+            }
+        }
+    }
+    cout<<endl;
+
+
+}
+
 
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+
+    cin>>rows>>columns>>k;
+
+
+    int p, q;
+    p = 1;
+    q = 0;
+
+
+    for(int i=1; i<k; i++)
     {
-        cout<<i<<" 150"<<endl;
+        f(p, q, 2);
     }
+
+    f(p, q, rows*columns - (k-1)*2 );
+
 
 
 

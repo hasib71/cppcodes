@@ -82,15 +82,43 @@ ostream& operator,(ostream& output, T x)
 //Header ends here
 
 
+#define MAXX 100007
+int elm;
+bool used[MAXX];
+int n;
+
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    read("c2.in");
+    write("c2.out");
+
+    int kases;
+
+    cin>>kases;
+
+    while(kases--)
     {
-        cout<<i<<" 150"<<endl;
+        mem(used, 0);
+
+        cin>>n;
+        loop(i, n)
+        {
+            cin>>elm;
+            if(!used[ elm ])
+            {
+                if(i) pf(" ");
+                pf("%d", elm);
+                used[ elm ] = 1;
+            }
+        }
+        pf("\n");
+
+
+
+
     }
+
 
 
 

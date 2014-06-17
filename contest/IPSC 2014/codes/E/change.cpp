@@ -85,12 +85,19 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    read("image003.txt");
+    write("image.txt");
+    string ss;
+    cin>>ss;
+    loop(i, SZ(ss))
     {
-        cout<<i<<" 150"<<endl;
+        if(ss[i] == '{') ss[i] = '[';
+        else if(ss[i] == '}') ss[i] = ']';
     }
+
+
+    cout<<ss;
+
 
 
 

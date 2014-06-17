@@ -85,12 +85,36 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    int n, have;
+    cin>>n>>have;
+    int cnt = 0;
+    vector<int>v;
+
+    loop(i, n)
     {
-        cout<<i<<" 150"<<endl;
+        int k, p;
+        int low = 1<<29;
+
+        cin>>k;
+        loop(j, k)
+        {
+            cin>>p;
+            low = min(low, p);
+        }
+
+
+        if(low < have)
+        {
+            v.pb(i+1);
+            cnt++;
+        }
+
     }
+
+
+    cout<<cnt<<endl;
+    loop(i, cnt) cout<<v[i]<<" ";
+    cout<<endl;
 
 
 

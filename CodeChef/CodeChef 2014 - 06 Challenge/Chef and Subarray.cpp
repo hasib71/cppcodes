@@ -85,12 +85,36 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    int n;
+
+    cin>>n;
+
+    int elm;
+
+
+    int tmpCnt = 0, cnt = 0;
+
+
+    loop(i, n)
     {
-        cout<<i<<" 150"<<endl;
+        cin>>elm;
+        if(elm == 0)
+        {
+            tmpCnt = 0;
+        }
+        else
+        {
+            tmpCnt++;
+        }
+        cnt = max(cnt, tmpCnt);
     }
+
+    cout<<cnt<<endl;
+
+
+
+
+
 
 
 

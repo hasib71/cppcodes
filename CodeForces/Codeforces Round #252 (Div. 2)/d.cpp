@@ -85,12 +85,6 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
-    {
-        cout<<i<<" 150"<<endl;
-    }
 
 
 

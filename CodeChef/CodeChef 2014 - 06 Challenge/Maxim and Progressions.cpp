@@ -81,18 +81,142 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define MAXX 200007
+
+
+
+int n;
+int ara[MAXX];
+ll dp[107][207];
+
+#define MOD 1000000007
+
+
+
+ll bigMod(int base, int pow)
+{
+    if(pow == 0) return 1;
+
+    ll res = bigMod(base, pow/2);
+    res = (res*res) % MOD;
+
+
+    if(pow & 1)
+    {//odd
+        res = (res*base)%MOD;
+    }
+    return res;
+
+}
+
+
+ll countProgression()
+{
+    mem(dp, 0);
+    loop(i, n)
+    {
+        for(int j=1; j<=199; j++)
+        {
+            int diff = j - 100;
+            if(diff == 0) continue;
+            int prevNum = ara[i] - diff;
+
+
+            if(1 <= prevNum && prevNum <= 100)
+            {
+                dp[ ara[i] ][j] += dp[ prevNum ][j];
+            }
+            dp[ ara[i] ][j] = (1 + dp[ara[i]][j]);
+
+            if(dp[ ara[i] ][j] > MOD)
+            {
+                dp[ara[i]][j] -= MOD;
+            }
+
+            //pf("dp[%d][%d] = %lld\n", ara[i], j, dp[ ara[i] ][j] );
+        }
+    }
+
+
+
+
+    int counter[107];
+    mem(counter, 0);
+
+
+    loop(i, n)
+    {
+        counter[ ara[i] ]++;
+    }
+
+    /*
+
+    loop(i, n)
+    {
+        for(int j=1; j<=199; j++)
+        {
+            if(j == 100) continue;
+            dp[ ara[i] ][j]--;
+            //pf("dp[%d][%d] = %lld\n", ara[i], j, dp[ ara[i] ][j] );
+        }
+    }
+    */
+
+
+    ll cnt = - n*198 ;
+
+
+    for(int i=1; i<=100; i++)
+    {
+        for(int j=1; j<=199; j++)
+        {
+            if(dp[i][j] > 0 )
+            cnt = (cnt + dp[i][j])%MOD;
+        }
+    }
+
+    //dump(cnt);
+
+
+
+    for(int i=1; i<=100; i++)
+    {
+        cnt = (cnt + bigMod(2, counter[i]) - 1 )%MOD;
+    }
+
+
+    //dump(cnt);
+
+    return cnt;
+
+
+
+}
+
+
+
+
+
 
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    //ios_base::sync_with_stdio(0);
+
+    int kases;
+
+    sf("%d", &kases);
+
+    while(kases--)
     {
-        cout<<i<<" 150"<<endl;
+        cin>>n;
+        loop(i, n) sf("%d", &ara[i]);
+
+        //dump(countProgression());
+
+        ll result = ( bigMod(2, n) + 2*MOD - countProgression() - 1 ) % MOD;
+        cout<<result<<endl;
     }
-
-
 
 
 }

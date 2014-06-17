@@ -81,16 +81,118 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define MAXX 2007
+
+
+bool usedA[MAXX], usedB[MAXX];
+
+
+
+vector<paii>v1, v2;
+
+    int n, x;
+    int t, h, m;
+
+int calc(int cur)
+{
+    mem(usedA, 0);
+    mem(usedB, 0);
+
+    int cnt = 0;
+
+    int height = x;
+
+    while(true)
+    {
+        if(cur == 0)
+        {
+            int pos = -1;
+
+            loop(i, SZ(v1))
+            {
+                if( ! usedA[i] && v1[i].sc <= height )
+                {
+                    usedA[i] = 1;
+                    height += v1[i].fr;
+                    cnt++;
+                    pos = i;
+                    break;
+                }
+            }
+
+            if(pos == -1) break;
+
+            //cerr<<"taking "<<v1[pos]<<endl;
+
+
+        }
+        else
+        {
+            int pos = -1;
+            loop(i, SZ(v2))
+            {
+                if( !usedB[i] && v2[i].sc <= height )
+                {
+                    usedB[i] = 1;
+                    height += v2[i].fr;
+                    cnt++;
+                    pos = i;
+                    break;
+                }
+            }
+            if(pos == -1) break;
+
+            //cerr<<"taking "<<v2[pos]<<endl;
+        }
+
+        cur = 1 - cur;
+    }
+
+    return cnt;
+}
+
 
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+
+
+
+    cin>>n>>x;
+
+
+
+
+    loop(i, n)
     {
-        cout<<i<<" 150"<<endl;
+        cin>>t>>h>>m;
+        if(t)
+        {
+            v1.pb(MP(m, h));
+        }
+        else
+        {
+            v2.pb(MP(m, h));
+        }
     }
+
+    sort(all(v1)); reverse(all(v1));
+    sort(all(v2)); reverse(all(v2));
+
+
+
+    cout<<max(calc(0), calc(1))<<endl;
+
+
+
+
+
+
+
+
+
+
+
 
 
 

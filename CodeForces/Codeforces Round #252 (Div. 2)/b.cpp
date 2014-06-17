@@ -81,17 +81,14 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define MAXX 3007
+
 
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
-    {
-        cout<<i<<" 150"<<endl;
-    }
-
+    vector<int>day(30001);
+    cout<<day[0];
 
 
 

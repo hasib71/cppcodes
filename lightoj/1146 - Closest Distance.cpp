@@ -81,18 +81,101 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define point pair<double, double>
+
+#define devide(A, B, m1, m2) MP( (m1*B.fr + m2*A.fr)/(m1+m2) , (m1*B.sc + m2*A.sc)/(m1+m2) )
+
+#define EPS (1e-9)
+
+
+template<typename T>
+T sq(T x) { return x*x; }
+
+
+
+
+point A, B, C, D;
+
+
+
+
+double calcDistance(point A, point B)
+{
+    return sqrt( sq(A.fr - B.fr) + sq(A.sc - B.sc) );
+}
+
+
+double solve()
+{
+
+    int steps = 100;
+
+    while(steps--)
+    {
+        point left_1 = devide(A, B, 1,2);
+        point left_2 = devide(A, B, 2,1);
+
+        point right_1 = devide(C, D, 1,2);
+        point right_2 = devide(C, D, 2,1);
+
+
+
+        double dist_1 = calcDistance(left_1, right_1);
+        double dist_2 = calcDistance(left_2, right_2);
+
+        //debug(left_1, right_1);
+        //debug(dist_1);
+
+        if(abs(dist_1 - dist_2) < EPS)
+        {
+            A = left_1;
+            B = left_2;
+            C = right_1;
+            D = right_2;
+        }
+        else if(dist_1 > dist_2)
+        {
+            A = left_1;
+            C = right_1;
+        }
+        else
+        {
+            B = left_2;
+            D = right_2;
+        }
+    }
+
+    //debug(A, B, C, D);
+
+
+    return calcDistance( devide(A, B, 1,1), devide(C, D, 1,1) );
+
+
+
+}
+
+
+
 
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+
+
+
+
+    int kases, kaseno = 0;
+
+    cin>>kases;
+
+    while(kases--)
     {
-        cout<<i<<" 150"<<endl;
+        cin>>A.fr>>A.sc>>B.fr>>B.sc>>C.fr>>C.sc>>D.fr>>D.sc;
+        double dist = solve();
+        pf("Case %d: %.7lf\n", ++kaseno, dist);
     }
 
-
+    return 0;
 
 
 }

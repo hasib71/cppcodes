@@ -85,14 +85,39 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    ll n, m;
+    int kases;
+
+    cin>>kases;
+
+    while(kases--)
     {
-        cout<<i<<" 150"<<endl;
+        cin>>n>>m;
+
+        ll leftOdd = (n+1)/2;
+        ll rightOdd = (m+1)/2;
+
+        ll leftEven = n - leftOdd;
+        ll rightEven = m - rightOdd;
+
+        ll low = n*m;
+
+        ll up = leftOdd*rightEven + leftEven*rightOdd;
+
+        ll g = __gcd(low, up);
+        low /= g; up /= g;
+
+        cout<<up<<"/"<<low<<endl;
+
+
+
+
     }
 
 
 
 
+
+
 }
+

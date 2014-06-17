@@ -81,15 +81,51 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define MAXX 2007
+
+
+char graph[MAXX][MAXX];
+
+
 
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    int n, m , k;
+    cin>>n>>m>>k;
+
+    loop(i, n)
     {
-        cout<<i<<" 150"<<endl;
+        cin>>graph[i];
+    }
+
+
+    loop(j, m)
+    {
+        int cnt = 0;
+
+        loop(i, n)
+        {
+            if(j-i > -1 && graph[i][j-i] == 'R')
+            {
+                cnt++;
+            }
+
+            if(i+j < m && graph[i][i+j] == 'L')
+            {
+                cnt++;
+            }
+
+
+            if(i*2 < n && graph[2*i][j] == 'U')
+            {
+                cnt++;
+            }
+        }
+
+        cout<<cnt<<" ";
+
+
     }
 
 

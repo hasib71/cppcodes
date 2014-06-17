@@ -82,17 +82,103 @@ ostream& operator,(ostream& output, T x)
 //Header ends here
 
 
+#define MAXX 100007
 
-int main()
+int dist[MAXX];
+string ss;
+int N;
+vector<int>vv[10];
+
+void bfs(int u)
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    bool used[MAXX];
+    bool colorUsed[10];
+    mem(used, 0);
+    mem(colorUsed, 0);
+
+    int v;
+    queue<int>Q;
+    Q.push(u);
+
+    dist[u] = 0;
+    used[u] = true;
+
+    while(!Q.empty())
     {
-        cout<<i<<" 150"<<endl;
+        u = Q.front(); Q.pop();
+        //dump(u);
+        if(u == N) break;
+
+
+        if(!colorUsed[ ss[u] ])
+        {
+            colorUsed[ ss[u] ] = true;
+            vector<int> &vec = vv[ ss[u] ];
+
+
+            loop(i, SZ(vec))
+            {
+                v = vec[i];
+                if( ! used[v] )
+                {
+                    used[v]  =true;
+                    dist[v] = dist[u] + 1;
+                    Q.push(v);
+                }
+            }
+        }
+
+
+        if(u > 0)
+        {
+            if(!used[u-1])
+            {
+                used[u-1] = true;
+                dist[u-1] = 1 + dist[u];
+                Q.push(u-1);
+            }
+        }
+
+        if(u < N)
+        {
+            if(!used[u+1])
+            {
+                used[u+1] = true;
+                dist[u+1] = 1 + dist[u];
+                Q.push(u+1);
+            }
+        }
+
     }
 
 
 
+}
+
+
+
+
+int main()
+{
+    cin>>ss;
+    N = SZ(ss) - 1;
+
+    loop(i, SZ(ss))
+    {
+         ss[i] -= '0';
+         vv[ ss[i] ].pb(i);
+    }
+
+
+    mem(dist, 1);
+
+
+
+    bfs(0);
+
+    cout<<dist[N]<<endl;
+
+
 
 }
+

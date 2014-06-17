@@ -81,15 +81,127 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define MAXX ((1<<20) + 7)
+
+#define MAXCOIN 22
+
+
+int n;
+string ss;
+
+int dp[MAXX];
+
+int pos[MAXCOIN];
+
+
+
+
+
+
+
+int rec(int mask, int step)
+{
+    //dump(mask);
+    if(mask == 0) return 0;
+
+    int &ret = dp[mask];
+    if(ret != -1) return ret;
+
+    ret = 0;
+
+    loop(i, MAXCOIN)
+    {
+        if(mask & (1<<i) && step < pos[i])
+        {
+            int tmpMask = mask & ~(1<<i);
+            int tmpStep = step + 1;
+
+            if(tmpMask == 0)
+            {
+                ret = 1;
+                break;
+            }
+
+            bool possible = true;
+
+
+            loop(j, MAXCOIN)
+            {
+                if(tmpMask & (1<<j) && tmpStep < pos[j])
+                {
+                    if(rec(tmpMask & ~(1<<j), tmpStep+1 ) == 0)
+                    {
+                        possible = false;
+                        break;
+                    }
+                }
+            }
+
+            if(possible)
+            {
+                ret = 1;
+                break;
+            }
+
+        }
+    }
+
+
+
+    return ret;
+}
+
+
+
+
+
+
+void solve()
+{
+
+    mem(dp, -1);
+
+
+    int p = 0;
+
+    loop(i, n)
+    {
+        if(ss[i] == '1')
+        {
+            pos[p++] = i+1;
+        }
+    }
+
+    if(rec( (1<<(p)) - 1, 0 ))
+    {
+        cout<<"Adam"<<endl;
+    }
+    else
+    {
+        cout<<"Betka"<<endl;
+    }
+
+}
+
+
+
+
 
 
 int main()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    read("g1.in");
+    write("g1.out");
+    int kases;
+    cin>>kases;
+
+    while(kases--)
     {
-        cout<<i<<" 150"<<endl;
+        cin>>n;
+        cin>>ss;
+
+        solve();
+
     }
 
 
