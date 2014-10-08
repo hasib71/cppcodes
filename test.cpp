@@ -83,16 +83,53 @@ ostream& operator,(ostream& output, T x)
 
 
 
-int main()
+vector<int>primes;
+
+void generatePrime()
 {
-    write("input");
-    cout<<"3000 100"<<endl;
-    for(int i=1; i<=3000; i++)
+    bool isprime[1007];
+    mem(isprime, 1);
+
+    int root = sqrt(1007) + 1;
+
+    for(int i=3; i<root; i+=2)
     {
-        cout<<i<<" 150"<<endl;
+        if(isprime[i])
+        {
+            for(int j=i*i; j<1007; j+=2*i)
+            {
+                isprime[j] = 0;
+            }
+        }
     }
 
+    primes.pb(1);
+    primes.pb(1);
+    primes.pb(2);
+    for(int i=3; i < 1007; i+=2)
+        if(isprime[i])
+            primes.pb(i);
+
+}
+
+string v[] = {"jan", "asoo", "asoooooooo", "dost", "valo", "achis", "tui", "jan"};
+
+int hash(string str)
+{
+    double result = 0;
+
+    loop(i, SZ(str))
+    {
+        result += double(primes[i]*(str[i] + 1 - 'a'))/(double)primes[i+1];
+    }
+    return result;
+}
 
 
+int main()
+{
+    ll x = 100000000000;
+    ll d= 1 + 5*x;
+    printf("%lld\n", d);
 
 }
