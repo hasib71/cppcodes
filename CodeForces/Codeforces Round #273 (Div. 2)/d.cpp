@@ -83,35 +83,23 @@ ostream& operator,(ostream& output, T x)
 
 
 
-
-
-
-class myClass
-{
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
-
-};
-
-
-
-
-
 int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+{
+    int s = 0;
+
+    int i = 1;
+
+    while(i)
+    {
+        if(s >= 400001)
+            break;
+        s += i;
+        i++;
+    }
+
+    cout<<i<<endl;
+
+
+
+
 }
-
-
-
-
-
-

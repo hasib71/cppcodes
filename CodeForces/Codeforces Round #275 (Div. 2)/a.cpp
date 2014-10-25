@@ -83,35 +83,41 @@ ostream& operator,(ostream& output, T x)
 
 
 
-
-
-
-class myClass
-{
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
-
-};
-
-
-
-
-
 int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+{
+    ll left, right;
+
+    cin>>left>>right;
+
+    if(left+2 == right)
+    {
+        if(__gcd(left, right) != 1)
+        {
+            for(ll i=left; i<=right; i++)
+            {
+                cout<<i<<' ';
+            }
+        }
+        else
+        {
+            cout<<-1<<endl;
+        }
+    }
+    else if(left + 2 < right)
+    {
+        if((left%2) == 1)
+            left++;
+        for(ll i=left; i<=left+2; i++)
+        {
+            cout<<i<<' ';
+        }
+    }
+    else
+    {
+        cout<<-1<<endl;
+    }
+
+
+
+
 }
-
-
-
-
-
-

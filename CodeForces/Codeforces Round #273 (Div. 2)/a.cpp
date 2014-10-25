@@ -83,35 +83,27 @@ ostream& operator,(ostream& output, T x)
 
 
 
-
-
-
-class myClass
-{
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
-
-};
-
-
-
-
-
 int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+{
+    int v[5];
+    int sum = 0;
+
+    loop(i, 5)
+    {
+        cin>>v[i];
+        sum += v[i];
+    }
+
+    if( sum != 0 && (sum%5) == 0)
+    {
+        cout<<sum/5<<endl;
+    }
+    else
+    {
+        cout<<-1<<endl;
+    }
+
+
+
+
 }
-
-
-
-
-
-

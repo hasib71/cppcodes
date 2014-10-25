@@ -83,35 +83,31 @@ ostream& operator,(ostream& output, T x)
 
 
 
-
-
-
-class myClass
-{
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
-
-};
-
-
-
-
-
 int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+{
+    ll n, m;
+
+    cin>>n>>m;
+
+    ll tok = n/m;
+
+    ll low = 0, high = 0;
+
+
+
+    ll extraBit = n % m;
+
+    low = ( ((tok*(tok+1))/2) *extraBit + ((tok*(tok-1))/2)*(m - extraBit) );
+
+    n = n - (m-1);
+
+    high = (n*(n-1))/2;
+
+    cout<<low<<" "<<high<<endl;
+
+
+
+
+
+
 }
-
-
-
-
-
-

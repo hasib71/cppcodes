@@ -81,37 +81,113 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define MAXX 100007
 
+int bitMat[32][MAXX];
+int comuZeroBit[32][MAXX];
 
-
-
-
-class myClass
-{
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
-
-};
-
-
-
+vector<paii>v[32];
 
 
 int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+{
+    int n, m;
+    int l, r, q;
+
+    cin>>n>>m;
+    loop(tmp, m)
+    {
+        cin>>l>>r>>q;
+        loop(i, 32)
+        {
+            if( (q & (1<<i)))
+            {
+                bitMat[i][l]++;
+                bitMat[i][r+1]--;
+            }
+            else
+            {
+                v[i].pb(MP(l, r));
+            }
+        }
+
+    }
+
+    loop(i, 32)
+    {
+        int sum = 0;
+
+        for(int j=1; j<=n; j++)
+        {
+            sum += bitMat[i][j];
+            if(sum > 0)
+            {
+                bitMat[i][j] = 1;
+            }
+            else
+            {
+                comuZeroBit[i][j] = 1;
+            }
+
+            comuZeroBit[i][j] += comuZeroBit[i][j-1];
+
+        }
+    }
+
+    bool pos= 1;
+
+    loop(i, 32)
+    {
+        loop(j, SZ(v[i]))
+        {
+            l = v[i][j].fr;
+            r = v[i][j].sc;
+
+            if( (comuZeroBit[i][r] - comuZeroBit[i][l-1]) == 0)
+            {
+                pos = false;
+            }
+
+        }
+    }
+    if(pos)
+    {
+        cout<<"YES"<<endl;
+        for(int i=1; i<=n; i++)
+        {
+            int num = 0;
+            loop(j, 32)
+            {
+                if(bitMat[j][i] == 1)
+                {
+                    num = num | (1<<j);
+                }
+            }
+            cout<<num<<' ';
+        }
+    }
+    else
+    {
+        cout<<"NO"<<endl;
+    }
+
+
+
+    //dump(bitMat[29][3]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
-
-
-
-
-
-

@@ -83,35 +83,52 @@ ostream& operator,(ostream& output, T x)
 
 
 
-
-
-
-class myClass
+int main()
 {
-    public:
-        int k;
-        static myClass* f()
+    int n, k;
+
+    cin>>n>>k;
+
+    int i=1, j = n;
+
+    int uni = -1;
+
+    int p = 1;
+
+    while(i < j && uni + 1 < k)
+    {
+        if(p)
         {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
+            cout<<i<<' ';
+            i++;
+        }
+        else
+        {
+            cout<<j<<' ';
+            j--;
+        }
+        p ^= 1;
+        uni++;
+    }
+    p^=1;
+
+    while(i<=j)
+    {
+        if(p)
+        {
+            cout<<i<<' ';
+            i++;
+        }
+        else
+        {
+            cout<<j<<' ';
+            j--;
         }
 
-};
+    }
 
 
 
 
 
-int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
 }
-
-
-
-
-
-

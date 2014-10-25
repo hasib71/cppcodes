@@ -83,35 +83,26 @@ ostream& operator,(ostream& output, T x)
 
 
 
-
-
-
-class myClass
-{
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
-
-};
-
-
-
-
-
 int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+{
+    int a, b, c;
+    //loop(i, 3) cin>>a[i];
+    cin>>a>>b>>c;
+
+    int mx = -1;
+
+    int d;
+
+    d = max(a + b, a * b);
+
+    mx = max(d + c, d*c );
+
+
+    d = max(b+c, b*c);
+    mx = max(mx, max(d*a, d+a));
+
+    cout<<mx<<endl;
+
+
+
 }
-
-
-
-
-
-

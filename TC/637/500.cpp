@@ -82,36 +82,55 @@ ostream& operator,(ostream& output, T x)
 //Header ends here
 
 
-
-
-
-
-class myClass
-{
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
-
+class PathGameDiv2 {
+public:
+	int calc(vector <string>);
 };
 
+int PathGameDiv2::calc(vector <string> board) {
+    int extra = 0;
+    int lastPos = -1;
 
+	loop(i, SZ(board[0]))
+	{
+	    if(board[0][i] == '.' && board[1][i] == '.')
+	    {
+	        extra++;
+	    }
+	    else
+	    {
+	        if(lastPos != -1)
+	        {
+	            if(board[0][i] == '.' && lastPos == 1)
+	            {
+	                extra--;
+	                lastPos = 0;
+	            }
 
+	            if(board[1][i] == '.' && lastPos == 0)
+	            {
+	                extra--;
+	                lastPos = 1;
+	            }
+	        }
+	        else
+	        {
+	            if(board[0][i] == '.')
+	            {
+	                lastPos = 0;
+	            }
+	            else
+	            {
+	                lastPos = 1;
+	            }
+	        }
+	    }
 
+	    //dump(extra);
+	}
 
-int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+	return extra;
 }
 
-
-
-
-
-
+<%:testing-code%>
+//Powered by [KawigiEdit] 2.0!

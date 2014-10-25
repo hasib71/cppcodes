@@ -81,37 +81,62 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
-
-
-
-
-
-class myClass
-{
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
-
-};
-
-
-
-
+#define MAXX 10007
 
 int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+{
+    int n, k;
+    stack<int> cnt[MAXX];
+
+    cin>>n>>k;
+    int num;
+    loop(i, n)
+    {
+        cin>>num;
+        cnt[num].push(i+1);
+    }
+
+    int i=0, j = MAXX-1;
+
+    int m = 0;
+
+    vector<paii> v;
+
+    while(m <= k)
+    {
+        while(!cnt[i].size())
+        {
+            i++;
+        }
+        while(!cnt[j].size())
+        {
+            j--;
+        }
+
+        if(m >= k) break;
+
+        if(i + 1 >= j) break;
+
+        v.pb(MP(cnt[j].top(), cnt[i].top()));
+
+        cnt[i+1].push(cnt[i].top());
+        cnt[j-1].push(cnt[j].top());
+
+        cnt[i].pop();
+        cnt[j].pop();
+        m++;
+    }
+   // dump(i);
+    //dump(j);
+
+    cout<<j-i<<' '<<m<<endl;
+    loop(i, m)
+    {
+        cout<<v[i].fr<<' '<<v[i].sc<<endl;
+    }
+
+
+
+
 }
-
-
-
-
-
 

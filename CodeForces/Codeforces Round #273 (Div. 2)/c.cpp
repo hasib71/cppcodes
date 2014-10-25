@@ -83,35 +83,60 @@ ostream& operator,(ostream& output, T x)
 
 
 
-
-
-
-class myClass
-{
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
-
-};
-
-
-
-
-
 int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+{
+    vector<int>v;
+    v.resize(3);
+
+    cin>>v[0]>>v[1]>>v[2];
+
+    ll cnt = 0;
+
+    sort(all(v));
+
+    cnt = v[0];
+
+    v[1] -= v[0];
+    v[2] -= v[0];
+    v[0] = 0;
+
+    //dump(v[2]);
+
+
+    ll a = v[1]/3;
+    ll b = v[2]/3;
+
+    ll m = min(a, b);
+
+
+
+    cnt += m*2;
+
+    //dump(v[0]);
+
+    v[1] -= (m*3);
+    v[2] -= (m*3);
+
+
+
+    sort(all(v));
+
+    //dump(v[2]);
+
+    loop(i, v[1])
+    {
+        if(v[2] > 1)
+        {
+            v[2] -= 2;
+            cnt++;
+        }
+    }
+
+    cout<<cnt<<endl;
+
+
+
+
+
+
 }
-
-
-
-
-
-

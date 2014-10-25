@@ -83,35 +83,60 @@ ostream& operator,(ostream& output, T x)
 
 
 
-
-
-
-class myClass
+bool isPossible(ll cnt1, ll cnt2, ll x, ll y, ll v)
 {
-    public:
-        int k;
-        static myClass* f()
-        {
-            myClass *x = new myClass();
-            x->k = 345254;
-            return x;
-        }
+    //cerr<<v<<' ';
 
-};
+    ll p1 = v/x;
+    ll p2 = v/y;
+    ll p3 = v/(x*y);
+
+    p1 -= p3;
+    p2 -= p3;
+
+    v = v - p1 - p3 - p2;
+
+    //cerr<<"p2 = "<<p2<<" p1 = "<<p1;
 
 
+    cnt1 = cnt1 - min(cnt1, p2);
+    cnt2 = cnt2 - min(cnt2, p1);
 
+    bool ret = (cnt1+cnt2 <= v);
+    //cerr<<cnt1<<endl;
 
-
-int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+    return ret;
 }
 
 
 
+int main()
+{
+    ll low, high, mid;
+    ll cnt1, cnt2, x, y;
+
+    low = 1;
+    high = 1LL<<62;
+
+    cin>>cnt1>>cnt2>>x>>y;
+
+    while(low <= high)
+    {
+        mid = (low+high)/2;
+        if(isPossible(cnt1, cnt2, x, y, mid))
+        {
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+
+    cout<<low<<endl;
 
 
 
+
+
+}
