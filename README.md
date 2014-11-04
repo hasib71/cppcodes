@@ -1,3 +1,3 @@
 cppcodes
 ========
-Just a personal repository for backup Cpp files :)
+Just a personal repository for backuping Cpp files :)
