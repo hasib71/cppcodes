@@ -81,8 +81,44 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
+    ll n, r, avg;
+
+    cin>>n>>r>>avg;
+
+    vector<paii>v;
+
+    v.resize(n);
+
+    ll remain = (n*avg);
+
+    loop(i, n)
+    {
+        cin>>v[i].sc>>v[i].fr;
+        remain -= v[i].sc;
+    }
+
+    sort(all(v));
+
+    ll cnt = 0;
+
+    if(remain > 0)
+    {
+        loop(i , n )
+        {
+            ll tmp = min(r - v[i].sc, remain);
+            cnt += (tmp*v[i].fr);
+            remain -= tmp;
+        }
+    }
+
+    cout<<cnt<<endl;
+
+
+
+
 
 
 
 
 }
+

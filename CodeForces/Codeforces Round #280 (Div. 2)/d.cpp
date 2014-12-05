@@ -77,11 +77,104 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+ll n, x, y, hitNeeded;
 
+string solve()
+{
+    ll total = x + y;
+
+    hitNeeded = hitNeeded % total;
+
+    ll low = 1, high = x, mid;
+
+    bool flag_x =false, flag_y = false;
+
+    while(low <= high)
+    {
+        mid = (low+high)/2;
+
+        ll p = (mid*y)/x;
+        if( ((mid*y)%x ) == 0 )
+            p--;
+
+        ll tmp = p + mid - 1;
+
+        if( tmp == hitNeeded - 1 )
+        {
+            //dump(mid);
+            //dump(tmp);
+            flag_x = true;
+            break;
+        }
+        else if( tmp < hitNeeded - 1)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+
+    low = 1, high = y;
+
+    while(low <= high)
+    {
+        mid = (low + high)/2;
+
+        ll p = (mid*x)/y;
+
+        if( ((mid*x)%y ) == 0)
+            p--;
+
+        ll tmp = p + mid - 1;
+
+        if( tmp == hitNeeded - 1 )
+        {
+            //dump(p);
+            //dump(mid);
+            //dump(tmp);
+            flag_y = true;
+            break;
+        }
+        else if( tmp < hitNeeded - 1)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+
+    if(flag_x == flag_y)
+    {
+        return "Both";
+    }
+    else if(flag_x)
+    {
+        return "Vanya";
+    }
+    else
+    {
+        return "Vova";
+    }
+
+}
 
 int main()
 {
 
+
+    cin>>n>>x>>y;
+
+    loop(adfsa, n)
+    {
+        cin>>hitNeeded;
+
+        cout<<solve()<<endl;
+
+    }
 
 
 

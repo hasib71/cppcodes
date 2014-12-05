@@ -77,12 +77,54 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define MAXX 100007
 
+ll comuSum, ara[MAXX];
+
+ll cnt[MAXX];
+
+ll N, M;
 
 int main()
 {
+    int kases, kaseno = 0;
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        cin>>N>>M;
+
+        loop(i, N)
+        {
+            cin>>ara[i];
+        }
+
+        mem(cnt, 0);
+
+        comuSum = ara[0] % M;
+
+        cnt[comuSum]++;
+
+        FOR(i, 1, N)
+        {
+            comuSum = (comuSum + ara[i]) % M;
+
+            cnt[comuSum]++;
+        }
+
+        ll total = 0;
+
+        loop(i, MAXX)
+        {
+            total += (cnt[i]*(cnt[i]-1))/2;
+        }
+
+        total += cnt[0];
+
+        pf("Case %d: %ld\n", ++kaseno, total);
 
 
-
+    }
 
 }

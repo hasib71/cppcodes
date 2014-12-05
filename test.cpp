@@ -104,10 +104,12 @@ class myClass
 
 
 int main()
-{   myClass q;
-    q.k = 4;
-    myClass *p = myClass::f();
-    cout<<p->k;
+{
+    int a = 1;
+    int x = (++a) + (++a);
+    x = ++x + ++x;
+    cout<<x<<endl;
+
 }
 
 

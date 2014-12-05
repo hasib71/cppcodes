@@ -77,11 +77,37 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+#define MAXX 100007
+
+vector<int>primes;
+
+void generate()
+{
+    bool isPrime[MAXX];
+    mem(isPrime, 1);
+    int sqRoot = sqrt(MAXX) + 7;
+
+    for(int i=3; i<sqRoot; i+=2)
+    {
+        if(isPrime[i])
+        {
+            for(int j=i*i; j<MAXX; j+=2*i)
+            {
+                isPrime[j] = 0;
+            }
+        }
+    }
+    primes.pb(2);
+    for(int i=3; i<MAXX; i+=2)
+        if(isPrime[i])
+            primes.pb(i);
+}
 
 
 int main()
 {
-
+    generate();
+    loop(i, 100) cout<<primes[i]<<" ";
 
 
 

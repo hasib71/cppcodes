@@ -81,8 +81,37 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
+    int n, l;
+
+    double result = -INFINITY;
+
+    vector<int> v;
+
+    cin>>n>>l;
+
+    v.resize(n);
+
+    loop(i, n)
+    {
+        cin>>v[i];
+    }
+
+    sort(all(v));
+
+    FOR(i, 1, n)
+    {
+        result = max((v[i] - v[i-1])/2.0, result);
+    }
+
+    result = max((double)v[0], result);
+    result = max(double(l - v[n-1]), result);
+
+    printf("%.10lf\n", result);
+
+
 
 
 
 
 }
+

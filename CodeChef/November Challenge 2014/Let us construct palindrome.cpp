@@ -77,11 +77,53 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
-
+bool isPalindrome(int i, int j, string str)
+{
+    while(i<=j)
+    {
+        if(str[i] != str[j])
+            return false;
+        i++;
+        j--;
+    }
+    return true;
+}
 
 int main()
 {
+    int kases;
 
+    cin>>kases;
+
+    while(kases--)
+    {
+        string str;
+        cin>>str;
+        int i=0, j = SZ(str)-1;
+        bool ispossible = true;
+        while((j-i) > 1)
+        {
+            if(str[i] != str[j])
+            {
+                if( (! isPalindrome(i+1, j, str)) && (! isPalindrome(i, j-1, str)) )
+                {
+                    ispossible = false;
+                }
+                break;
+            }
+
+            i++;
+            j--;
+        }
+
+
+        if(ispossible)
+            cout<<"YES"<<endl;
+        else
+            cout<<"NO"<<endl;
+
+
+    }
 
 
 

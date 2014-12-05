@@ -81,6 +81,22 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
+    int n;
+    cin>>n;
+    int level = 0;
+    int used = 0;
+    int sum = 0;
+    while(true)
+    {
+        sum += level + 1;
+        used = used + sum;
+        //dump(used);
+        if(used <= n)
+            level++;
+        else
+            break;
+    }
+    cout<<level<<endl;
 
 
 

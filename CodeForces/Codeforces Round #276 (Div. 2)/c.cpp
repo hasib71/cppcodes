@@ -1,4 +1,4 @@
-/****************************************************************
+/**
    ▄█    █▄       ▄████████    ▄████████  ▄█  ▀█████████▄
   ███    ███     ███    ███   ███    ███ ███    ███    ███
   ███    ███     ███    ███   ███    █▀  ███   ███    ███
@@ -7,7 +7,11 @@
   ███    ███     ███    ███          ███ ███    ███    ██▄
   ███    ███     ███    ███    ▄█    ███ ███    ███    ███
   ███    █▀      ███    █▀   ▄████████▀  █▀   ▄█████████▀
-****************************************************************/
+
+
+
+
+**/
 
 
 
@@ -77,11 +81,54 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+ll calc(ll left, ll right)
+{
+    ll num = 0;
 
+    int i;
+
+    for(i=62; i > -1; i--)
+    {
+        if( (right & (1LL<<i)) != 0  )
+        {
+            if((left & (1LL<<i)) == 0)
+                break;
+            num |= (1LL<<i);
+        }
+    }
+    // dump(i);
+
+    if(i <= 1)
+    {
+        return right;
+    }
+    else
+    {
+        for(--i; i>-1; i--)
+        {
+            num |= (1LL<<i);
+        }
+        return num;
+    }
+
+
+}
 
 int main()
 {
+    //ll b = 1LL<<62;
+    //cout<<b<<endl;
+    int kases;
+    ll left, right;
 
+    cin>>kases;
+
+    while(kases--)
+    {
+        cin>>left>>right;
+        cout<<calc(left, right)<<endl;
+
+    }
 
 
 

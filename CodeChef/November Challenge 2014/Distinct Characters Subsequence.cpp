@@ -81,7 +81,17 @@ ostream& operator,(ostream& output, T x)
 
 int main()
 {
+    int kases;
+    cin>>kases;
 
+    while(kases--)
+    {
+        string ss;
+        cin>>ss;
+        set<char>s;
+        loop(i, SZ(ss)) s.insert(ss[i]);
+        cout<<SZ(s)<<endl;
+    }
 
 
 

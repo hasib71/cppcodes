@@ -76,12 +76,39 @@ ostream& operator,(ostream& output, T x)
 
 
 //Header ends here
+ll x, k;
+double calc()
+{
+    ll level = 0;
+    for(level=0; level<62; level++)
+    {
+        if((1LL<<level) > k)
+        {
+            break;
+        }
+    }
 
+    level = 1LL<<(level-1);
+    //dump(level);
+    double l = (double)x / (2.0 * level);
+    double diff = k - level;
+
+    double result = 2*l*diff + l;
+    return result;
+
+}
 
 
 int main()
 {
+    int kases;
+    cin>>kases;
+    while(kases--)
+    {
+        cin>>x>>k;
+        pf("%.7lf\n", calc());
 
+    }
 
 
 
