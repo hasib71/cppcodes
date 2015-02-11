@@ -33,7 +33,6 @@
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
 
-#define take(args...) asdf,args
 #define dump(x) cerr<<#x<<" = "<<x<<endl
 #define debug(args...) cerr,args; cerr<<endl;
 using namespace std;
@@ -73,7 +72,7 @@ ostream& operator,(ostream& output, T x)
 }
 
 
-
+#define take(args...) asdf,args
 struct ASDF{
     ASDF& operator,(int &a) {
         sf("%d", &a);
@@ -104,14 +103,76 @@ struct ASDF{
 }asdf;
 
 
-
 //Header ends here
+
+#define MAXX 107
+
+
+int N, R, P;
+
+ll dist[MAXX][MAXX];
 
 
 
 int main()
 {
+    //read("input");
+    int kases, kaseno=0;
 
+    ll u, v, income, expense;
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        cin>>N>> R>> P;
+
+
+        loop(i, MAXX)
+        {
+            loop(j, MAXX)
+            {
+                dist[i][j] = (1<<29);
+            }
+            dist[i][i] = 0;
+        }
+
+
+        loop(i, R)
+        {
+            cin>>u>> v>> income>> expense;
+            dist[u][v] = P*expense - income;
+        }
+
+
+        bool negetiveCycle = false;
+
+        loop(k, N)
+        {
+            loop(i, N)
+            {
+                loop(j, N)
+                {
+                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                }
+            }
+        }
+
+        loop(i, N)
+        {
+            if(dist[i][i] < 0)
+            {
+                //dump(i);
+                negetiveCycle = true;
+                break;
+            }
+        }
+
+
+        pf("Case %d: %s\n", ++kaseno, negetiveCycle?"YES":"NO");
+
+
+    }
 
 
 

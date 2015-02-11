@@ -107,10 +107,84 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 57
 
+vector<paii>v[MAXX];
+int N;
+int source;
+
+int flow[MAXX][MAXX];
+bool visited[MAXX];
+
+void dfs( int u)
+{
+    //dump(u);
+    visited[u] = true;
+
+    loop(i, SZ(v[u]))
+    {
+        paii to = v[u][i];
+
+       // dump(to.sc);
+
+        if(!visited[to.fr])
+        {
+            flow[source][to.fr] = min(flow[source][u] , to.sc);
+            dfs(to.fr);
+        }
+    }
+
+}
 
 int main()
 {
+    //read("input");
+    int kases;
+
+    take(kases);
+
+    while(kases--)
+    {
+        mem(flow, 1);
+        take(N);
+        for(int i=1; i<=N; i++)
+        {
+            v[i].clear();
+        }
+
+        int p, q, w;
+
+        loop(i, N-1)
+        {
+            take(p, q, w);
+
+            v[p].pb(MP(q, w));
+            v[q].pb(MP(p, w));
+        }
+
+        ll sum = 0;
+
+        for(source=1; source<=N; source++)
+        {
+            mem(visited, 0);
+
+            dfs(source);
+
+            for(int i=1; i<=N; i++)
+            {
+                if(i != source)
+                    sum += flow[source][i];
+            }
+        }
+
+        cout<<sum<<endl;
+
+
+
+
+
+
+    }
 
 
 

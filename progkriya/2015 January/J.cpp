@@ -108,9 +108,133 @@ struct ASDF{
 //Header ends here
 
 
+#define MAXX 10007
+
+char command[10];
+int N, q;
+
+
+
+
+struct DATA{
+    int val;
+    DATA *prev;
+    DATA()
+    {
+        val = 0;
+        prev = NULL;
+    }
+};
+
+
+struct VENDOR{
+    DATA *low, *high;
+};
+
+
+
+VENDOR v[MAXX];
+
+
+
 
 int main()
 {
+    #ifdef hasibpc
+        read("input");
+
+    #endif // hasibpc
+    int kases, kaseno = 0;
+
+    take(kases);
+
+    while(kases--)
+    {
+        pf("Case %d:\n", ++kaseno);
+        loop(i, MAXX)
+        {
+            v[i].low = v[i].high = NULL;
+        }
+
+        take(N, q);
+        while(q--)
+        {
+            scanf("%s", command);
+
+            if(command[2] == 's')
+            {
+                //push command;
+                int i, x;
+
+                take(i, x);
+
+                DATA *node = new DATA();
+
+                node->val = x;
+
+                node->prev = v[i].high;
+
+                v[i].high = node;
+
+                if(v[i].low == NULL)
+                {
+                    v[i].low = node;
+                }
+
+
+            }
+            else if(command[2] == 't')
+            { //put command
+
+                int i, j;
+
+                take(i, j);
+
+                if(v[j].low != NULL)
+                {
+                    v[j].low->prev = v[i].high;
+                    v[i].high = v[j].high;
+                    v[j].low = v[j].high = NULL;
+                }
+
+            }
+            else if(command[0] == 't')
+            {
+                //top command
+
+                int i;
+
+                take(i);
+
+                if(v[i].high != NULL)
+                {
+                    pf("%d\n", v[i].high->val );
+                }
+                else
+                {
+                    pf("Empty!\n");
+                }
+            }
+            else
+            {
+                // pop command
+
+                int i;
+
+                take(i);
+
+                if(v[i].high != NULL)
+                {
+                     DATA *d = v[i].high;
+
+                    v[i].high = v[i].high->prev;
+
+                    delete d;
+                }
+
+            }
+        }
+    }
 
 
 

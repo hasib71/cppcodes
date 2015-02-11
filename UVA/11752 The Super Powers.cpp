@@ -107,12 +107,91 @@ struct ASDF{
 
 //Header ends here
 
+#define ull unsigned ll
 
+ull N = 18446744073709551615;
+set<ull>s;
+
+
+void bigMod(ull n, int p)
+{
+    //cerr<<"n = "<<n<<"p = "<<p<<endl;
+    ull ret = 1;
+
+    for(int i=1; i<=p; i++)
+    {
+        if(ret > (N/n))
+        {
+            return;
+        }
+        else
+        {
+            ret = ret * n;
+        }
+    }
+
+    s.insert(ret);
+    //cout<<ret<<' ';
+}
+
+bool isPrime[100];
+
+void generatePrimes()
+{
+
+    int up = 100;
+
+    mem(isPrime, 1);
+
+    for(int i=4; i<up; i+=2)
+    {
+        isPrime[i] = false;
+    }
+
+
+    int root = sqrt(up);
+
+    for(int i=3; i<root; i+=2)
+    {
+        if(isPrime[i])
+        {
+            for(int j=i*i; j<up; j+=2*i)
+            {
+                isPrime[j] = false;
+            }
+        }
+    }
+
+
+}
 
 int main()
 {
+    //write("output");
+    generatePrimes();
 
+    //cout<<isPrime[4]<<endl;
+
+
+    for(ull i=2; i<=100000; i++)
+    {
+        for(int p=4; p<=64; p++)
+        {
+            if(!isPrime[p])
+            {
+                bigMod(i, p);
+                //return 0;
+            }
+
+        }
+    }
+    cout<<1<<endl;
+    for(set<ull>::iterator it = s.begin(); it != s.end(); it++)
+    {
+        cout<<*it<<endl;
+    }
 
 
 
 }
+

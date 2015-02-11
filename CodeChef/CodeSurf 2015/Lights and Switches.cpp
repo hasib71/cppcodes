@@ -107,11 +107,60 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 100007
 
+int ara[MAXX];
 
 int main()
 {
+    int kases;
 
+    string str;
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        cin>>str;
+
+        int cnt = 0;
+
+        loop(i, SZ(str))
+        {
+            if(str[i] == '1')
+            {
+                ara[i] = -1;
+                cnt++;
+            }
+            else
+            {
+                ara[i] = 1;
+            }
+        }
+
+        int max_so_far, mxEndingHere;
+
+        max_so_far = mxEndingHere = 0;
+
+        //kadane's algo
+
+        loop(i, SZ(str))
+        {
+            mxEndingHere = max(0, mxEndingHere + ara[i]);
+            max_so_far = max(max_so_far, mxEndingHere);
+        }
+
+        if(max_so_far == 0)
+        {
+            cout<<cnt-1<<endl;
+        }
+        else
+        {
+            cout<<cnt+max_so_far<<endl;
+        }
+
+
+    }
 
 
 

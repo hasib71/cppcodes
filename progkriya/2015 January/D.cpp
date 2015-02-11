@@ -108,9 +108,25 @@ struct ASDF{
 //Header ends here
 
 
-
 int main()
 {
+    string str;
+
+
+    while(cin>>str)
+    {
+        set<string>s;
+        int len = SZ(str);
+
+        for(int i=1; i<=len; i++)
+        {
+            for(int j = 0; j<len; j++)
+            {
+                s.insert(str.substr(0, i) + str.substr(j, len-j));
+            }
+        }
+        cout<<SZ(s)<<endl;
+    }
 
 
 

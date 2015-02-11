@@ -1,3 +1,10 @@
+/*
+ID: himuhas1
+TASK: wormhole
+LANG: C++
+*/
+
+
 /****************************************************************
    ▄█    █▄       ▄████████    ▄████████  ▄█  ▀█████████▄
   ███    ███     ███    ███   ███    ███ ███    ███    ███
@@ -107,11 +114,114 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 14
+int N;
+int X[MAXX], Y[MAXX];
+int pairTo[MAXX];
+int next_to_right[MAXX];
+
+bool cycle_exists()
+{
+    for(int start = 1; start<=N; start++)
+    {
+        int cur =  start;
+
+        for(int i=1; i<=N; i++)
+        {
+            cur = pairTo[cur];
+            cur = next_to_right[cur];
+        }
+
+        if(cur != 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+int solve()
+{
+    int i, ret = 0;
+    for(i=1; i<=N; i++)
+    {
+        if(pairTo[i] == 0)
+        {
+            break;
+        }
+    }
+
+    if(i > N)
+    {
+        //all paired up already
+        if(cycle_exists())
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+    for(int j=i+1; j<=N; j++)
+    {
+        if(pairTo[j] == 0)
+        {
+            pairTo[i] = j;
+            pairTo[j] = i;
+
+            ret += solve();
+
+            pairTo[i] = pairTo[j] = 0;
+
+        }
+    }
+
+    return ret;
+
+}
 
 
 int main()
 {
+    #ifndef hasibpc
+        read("wormhole.in");
+        write("wormhole.out");
+    #endif // hasibpc
 
+    sf("%d", &N);
+
+    loop(i, N)
+    {
+        sf("%d %d", &X[i+1], &Y[i+1]);
+    }
+
+
+    for(int i=1; i<=N; i++)
+    {
+        for(int j=1; j<=N; j++)
+        {
+            if( X[j] > X[i] && Y[i] == Y[j]  )
+            {
+                if(next_to_right[i] == 0)
+                {
+                    next_to_right[i] = j;
+                }
+                else if(X[j] < X[ next_to_right[i] ])
+                {
+                    next_to_right[i] = j;
+                }
+            }
+        }
+    }
+
+
+
+    pf("%d\n", solve());
 
 
 

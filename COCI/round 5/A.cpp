@@ -33,7 +33,6 @@
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
 
-#define take(args...) asdf,args
 #define dump(x) cerr<<#x<<" = "<<x<<endl
 #define debug(args...) cerr,args; cerr<<endl;
 using namespace std;
@@ -74,35 +73,6 @@ ostream& operator,(ostream& output, T x)
 
 
 
-struct ASDF{
-    ASDF& operator,(int &a) {
-        sf("%d", &a);
-        return *this;
-    }
-    ASDF& operator,(long int &a){
-        sf("%ld", &a);
-        return *this;
-    }
-    ASDF& operator,(long long int &a){
-        sf("%lld", &a);
-        return *this;
-    }
-    ASDF& operator,(char &c){
-        sf("%c", &c);
-        return *this;
-    }
-    ASDF& operator,(double &d){
-        sf("%lf", &d);
-        return *this;
-    }
-
-    template<typename T>
-    ASDF& operator,(T &a){
-        cin>>a;
-        return *this;
-    }
-}asdf;
-
 
 
 //Header ends here
@@ -111,6 +81,27 @@ struct ASDF{
 
 int main()
 {
+    int ara[8];
+
+    loop(i, 8)
+    {
+        cin>>ara[i];
+    }
+
+    int mxResult = 0;
+
+    loop(i, 8)
+    {
+        int cnt = 0;
+        int tmp = 0;
+        for(int j=i; cnt < 4; cnt++, j = (j+1)%8 )
+        {
+            tmp += ara[j];
+        }
+        mxResult = max(mxResult, tmp);
+    }
+
+    cout<<mxResult<<endl;
 
 
 

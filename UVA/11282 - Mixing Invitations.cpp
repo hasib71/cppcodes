@@ -107,10 +107,65 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 27
+
+ll D[MAXX];
+
+ll nCr[MAXX][MAXX];
+
+void init()
+{
+
+    /// pre calculate dearrangement
+    D[0] = 1;
+    D[1] = 0;
+    for(int i=2; i<MAXX; i++)
+    {
+        D[i] = (i-1)*(D[i-1] + D[i-2]);
+    }
+
+
+
+    ///
+
+    for(int i=0; i<MAXX; i++)
+    {
+        nCr[i][0] = 1;
+    }
+
+    for(int i=1; i<MAXX; i++)
+    {
+        for(int j=1; j<=i; j++)
+        {
+            nCr[i][j] = nCr[i-1][j] + nCr[i-1][j-1];
+        }
+    }
+
+    //cout<<nCr[4][2];
+
+}
+
+
+
+
 
 
 int main()
 {
+    init();
+
+    int n, m;
+
+    while(sf("%d %d", &n, &m) == 2)
+    {
+        ll cnt = 0;
+
+        for(int i=0; i<=m; i++)
+        {
+            cnt += nCr[n][i] * D[n-i];
+        }
+        cout<<cnt<<endl;
+    }
 
 
 

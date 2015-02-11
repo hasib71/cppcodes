@@ -108,10 +108,25 @@ struct ASDF{
 //Header ends here
 
 
+#define MAXX 1007
+
+int n, m;
+
+int dist[MAXX][MAXX];
+
 
 int main()
 {
+    int kases, kaseno = 0;
 
+    take(kases);
+
+    while(kases--)
+    {
+        take(n, m);
+
+
+    }
 
 
 

@@ -1,3 +1,9 @@
+/*
+ID: himuhas1
+TASK: skidesign
+LANG: C++
+*/
+
 /****************************************************************
    ▄█    █▄       ▄████████    ▄████████  ▄█  ▀█████████▄
   ███    ███     ███    ███   ███    ███ ███    ███    ███
@@ -107,10 +113,54 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 1007
+
+#define sq(x) ((x)*(x))
 
 
 int main()
 {
+    #ifndef hasibpc
+        read("skidesign.in");
+        write("skidesign.out");
+    #endif // hasibpc
+    int N;
+    int h[MAXX];
+
+
+    sf("%d", &N);
+
+    loop(i, N)
+    {
+        sf("%d", &h[i]);
+    }
+
+    sort(h, h+N);
+
+    int minCost = (1<<29);
+
+    for(int low=0; low<=100; low++)
+    {
+        int high = low + 17;
+
+        int cost = 0;
+
+        loop(i, N)
+        {
+            if(h[i] < low)
+            {
+                cost += sq(low - h[i]);
+            }
+            else if(h[i] > high)
+            {
+                cost += sq(h[i] - high);
+            }
+        }
+
+        minCost = min(minCost, cost);
+    }
+
+    pf("%d\n", minCost);
 
 
 

@@ -111,6 +111,27 @@ struct ASDF{
 
 int main()
 {
+    int kases, kaseno = 0;
+
+    int a1, a2, a3, n;
+
+    take(kases);
+
+    while(kases--)
+    {
+        take(a1, a2, a3, n);
+
+        if(a2 - a1 == a3 - a2)
+        {
+            int diff = a2 - a1;
+            n = a1 + (n-1) * diff;
+            pf("Case %d: %d\n", ++kaseno, n);
+        }
+        else
+        {
+            pf("Case %d: Error\n", ++kaseno);
+        }
+    }
 
 
 

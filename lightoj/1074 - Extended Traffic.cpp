@@ -107,10 +107,136 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 207
+#define INF (1<<29)
+
+ll busyNess[MAXX];
+
+int n;
+int m;
+int q;
+
+vector<paii>edges;
+
+ll dist[MAXX];
+
+ll cube(ll x)
+{
+    return x*x*x;
+}
+
+/*
+void floydWarshall()
+{
+    //mem(dist, 1);
+
+    for(int k=1; k<=n; k++)
+    {
+        for(int i=1; i<=n; i++)
+        {
+            for(int j=1; j<=n; j++)
+            {
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+                pf("dist[%d][%d] = %lld\n", i, j, dist[i][j]);
+            }
+        }
+    }
+}
+*/
+
+void bellmanFord()
+{
+    for(int i=1; i<=n; i++)
+    {
+        dist[i] = INF;
+    }
+
+    dist[1] = 0;
+
+    loop(i, n-1)
+    {
+
+        loop(j, SZ(edges))
+        {
+            int u = edges[j].fr;
+            int v = edges[j].sc;
+            ll x = cube( busyNess[v] - busyNess[u] );
+
+            if( (dist[u] != INF) &&  (dist[v] > dist[u] + x) )
+            {
+                dist[v] = dist[u] + x;
+            }
+
+        }
+
+    }
+
+    loop(i, 1)
+    {
+        loop(j, SZ(edges))
+        {
+            int u = edges[j].fr;
+            int v = edges[j].sc;
+            ll x = cube( busyNess[v] - busyNess[u] );
+
+            if((dist[u] != INF) && (dist[v] > dist[u] + x) )
+            {
+                dist[v] = -1;
+            }
+        }
+    }
+
+
+
+}
 
 
 int main()
 {
+    int kases, kaseno = 0;
+
+    take(kases);
+
+    while(kases--)
+    {
+        take(n);
+
+        for(int i=1; i<=n; i++)
+        {
+            take(busyNess[i]);
+        }
+
+        take(m);
+
+        int u, v;
+
+        edges.clear();
+
+        loop(i, m)
+        {
+            take(u, v);
+            edges.pb(MP(u, v));
+        }
+
+        bellmanFord();
+
+
+        take(q);
+
+        pf("Case %d:\n", ++kaseno);
+
+        while(q--)
+        {
+            take(v);
+
+            if(dist[v] < 3 || dist[v] == INF)
+                pf("?\n");
+            else
+                pf("%lld\n", dist[v]);
+        }
+
+
+    }
 
 
 

@@ -107,10 +107,138 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 107
+#define MAXLETTER 27
+
+#define white 0
+#define ash 1
+#define black 2
+
+string str[MAXX];
+int n;
+
+
+#define time bal
+
+
+pair<int, char>endTime[MAXLETTER];
+int color[MAXLETTER];
+
+vector<int>graph[MAXLETTER];
+
+
+int f(char ch)
+{
+    return ch - 'a';
+}
+
+
+int time = 0;
+
+bool possible = true;
+
+
+void dfs(int u)
+{
+    color[u] = ash;
+    time++;
+
+    loop(i, SZ(graph[u]))
+    {
+        int v = graph[u][i];
+        if(color[v] == white)
+        {
+            dfs(v);
+        }
+        else if(color[v] == ash)
+        {
+            //dump(u);
+            //dump(v);
+            possible = false;
+        }
+    }
+
+    color[u] = black;
+    time++;
+    endTime[u].fr = time;
+}
+
+
+
 
 
 int main()
 {
+    cin>>n;
+
+    loop(i, n)
+    {
+        cin>>str[i];
+    }
+
+    mem(color, white);
+
+
+    loop(i, n-1)
+    {
+        int len = min(SZ(str[i]), SZ(str[i+1]));
+
+        loop(j, len)
+        {
+            if(str[i][j] != str[i+1][j])
+            {
+                graph[ f(str[i][j]) ].pb(f(str[i+1][j]));
+                break;
+            }
+        }
+    }
+
+    loop(i, MAXLETTER)
+    {
+        endTime[i] = MP(0, 'a' + i);
+    }
+
+
+
+
+    loop(i, 26)
+    {
+        if(color[i] == white)
+            dfs(i);
+    }
+
+
+    sort(endTime, endTime + 26);
+    reverse(endTime, endTime + 26);
+
+    if(possible)
+    {
+        loop(i, 26)
+        {
+            cout<<endTime[i].sc;
+        }
+    }
+    else
+    {
+        cout<<"Impossible";
+    }
+
+    cout<<endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

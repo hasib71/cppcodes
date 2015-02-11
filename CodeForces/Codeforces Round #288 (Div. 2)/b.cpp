@@ -107,10 +107,55 @@ struct ASDF{
 
 //Header ends here
 
+bool isEven(char ch)
+{
+    int n = ch - '0';
+    return (n%2) == 0;
+}
 
 
 int main()
 {
+    string str;
+
+    cin>>str;
+
+    char last = str[ SZ(str) - 1 ];
+
+    bool possible = false;
+
+    int pos = SZ(str) - 1;
+
+    for(int i=pos; i>-1; i--)
+    {
+        if(isEven(str[i]))
+        {
+            if(!possible)
+            {
+                possible = true;
+
+                pos = i;
+            }
+            else
+            {
+                if(str[i] < last)
+                {
+                    pos = i;
+                }
+            }
+        }
+    }
+
+    if(possible)
+    {
+        swap(str[pos], str[ SZ(str) - 1 ]);
+
+        cout<<str<<endl;
+    }
+    else
+    {
+        cout<<-1<<endl;
+    }
 
 
 

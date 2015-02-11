@@ -107,10 +107,58 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 100007
+#define lowBit(i) (i & -i)
 
+int T[MAXX];
+
+
+int sum(int i)
+{
+    int ret = 0;
+
+    while(i > 0)
+    {
+        ret += T[i];
+        i -= lowBit(i);
+    }
+
+    return ret;
+}
+
+void update(int i)
+{
+    while(i < MAXX)
+    {
+        T[i]++;
+        i += lowBit(i);
+    }
+}
+
+int N;
 
 int main()
 {
+    int kases;
+
+    int x;
+
+    take(kases);
+
+    while(kases--)
+    {
+        take(N);
+
+        mem(T, 0);
+
+        loop(i, N)
+        {
+            take(x);
+            pf("%d ", x - sum(x));
+            update(x);
+        }
+        pf("\n");
+    }
 
 
 

@@ -107,10 +107,50 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 1007
+
+bool grid[MAXX][MAXX];
+
 
 
 int main()
 {
+    mem(grid, 0);
+    int n, m, k;
+
+    cin>>n>>m>>k;
+
+    int result = 0;
+
+    loop(i, k)
+    {
+        int p, q;
+
+        cin>>p>>q;
+        grid[p][q] = true;
+
+        if(grid[p-1][q])
+        {
+            if( (grid[p-1][q-1] && grid[p][q-1]) || (grid[p-1][q+1] && grid[p][q+1]) )
+            {
+                result = i + 1;
+                break;
+            }
+        }
+        else
+        {
+            if(grid[p+1][q])
+            {
+                if( (grid[p][q-1] && grid[p+1][q-1]) || ( grid[p][q+1] && grid[p+1][q+1] ) )
+                {
+                    result = i + 1;
+                    break;
+                }
+            }
+        }
+    }
+
+    cout<<result<<endl;
 
 
 

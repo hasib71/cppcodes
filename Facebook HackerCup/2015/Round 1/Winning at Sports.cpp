@@ -33,7 +33,6 @@
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
 
-#define take(args...) asdf,args
 #define dump(x) cerr<<#x<<" = "<<x<<endl
 #define debug(args...) cerr,args; cerr<<endl;
 using namespace std;
@@ -74,43 +73,74 @@ ostream& operator,(ostream& output, T x)
 
 
 
-struct ASDF{
-    ASDF& operator,(int &a) {
-        sf("%d", &a);
-        return *this;
-    }
-    ASDF& operator,(long int &a){
-        sf("%ld", &a);
-        return *this;
-    }
-    ASDF& operator,(long long int &a){
-        sf("%lld", &a);
-        return *this;
-    }
-    ASDF& operator,(char &c){
-        sf("%c", &c);
-        return *this;
-    }
-    ASDF& operator,(double &d){
-        sf("%lf", &d);
-        return *this;
-    }
-
-    template<typename T>
-    ASDF& operator,(T &a){
-        cin>>a;
-        return *this;
-    }
-}asdf;
-
 
 
 //Header ends here
 
+#define MAXX 2007
+#define MOD 1000000007
+
+
+char qwerty;
+
+ll dpStressFree[MAXX][MAXX];
+ll dpStressFull[MAXX][MAXX];
+
+
+void stressFree()
+{
+    dpStressFree[1][0] = 1;
+
+    for(int i=2; i<MAXX; i++)
+    {
+        loop(j, i)
+        {
+            dpStressFree[i][j] = ((i>0 ? dpStressFree[i-1][j] : 0) + (j > 0 ? dpStressFree[i][j-1]:0))%MOD;
+        }
+    }
+}
+
+void stressFull()
+{
+    dpStressFull[0][0] = 1;
+
+    for(int j=1; j<MAXX; j++)
+    {
+        for(int i=0; i<=j; i++)
+        {
+            ll sum = 0;
+            if(i == j)
+            {
+                sum = (i>0?dpStressFull[i-1][j] : 0);
+            }
+            else
+            {
+                sum = (i>0 ? dpStressFull[i-1][j] : 0) + (j>0 ? dpStressFull[i][j-1]:0);
+            }
+
+            dpStressFull[i][j] = sum % MOD;
+        }
+    }
+}
 
 
 int main()
 {
+    read("input");
+    write("output");
+    stressFree();
+    stressFull();
+    int kases, kaseno = 0;
+
+    int myPoint, yourPoint;
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        cin>>myPoint>>qwerty>>yourPoint;
+        pf("Case #%d: %lld %lld\n", ++kaseno, dpStressFree[myPoint][yourPoint], dpStressFull[yourPoint][yourPoint]);
+    }
 
 
 

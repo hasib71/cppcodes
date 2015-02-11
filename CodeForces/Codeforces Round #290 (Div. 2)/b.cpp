@@ -107,10 +107,100 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 57
+
+char graph[MAXX][MAXX];
+
+int n, m;
+
+paii parent[MAXX][MAXX];
+
+
+paii find(int i, int j)
+{
+    if(parent[i][j] == MP(i, j))
+    {
+        //dump(parent[i][j]);
+        return parent[i][j];
+    }
+
+    return parent[i][j] = find(parent[i][j].fr, parent[i][j].sc);
+}
+
 
 
 int main()
 {
+
+    cin>>n>>m;
+
+    mem(graph, -1);
+
+    loop(i, n)
+    {
+        cin>>graph[i];
+    }
+
+    loop(i, MAXX)
+    {
+        loop(j, MAXX)
+        {
+            parent[i][j] = MP(i, j);
+        }
+    }
+
+
+    bool found = false;
+
+
+    loop(i, n)
+    {
+        loop(j, m)
+        {
+            paii A = find(i, j);
+            paii B = find(i, j+1);
+            paii C = find(i+1, j);
+
+            if(graph[i][j] == graph[i][j+1])
+            {
+                if(A != B)
+                {
+                    parent[B.fr][B.sc] = A;
+                }
+                else
+                {
+                    found = true;
+                }
+            }
+
+            if(graph[i][j] == graph[i+1][j])
+            {
+                if(A != C)
+                {
+                    parent[C.fr][C.sc] = A;
+                    //cerr<<C<<" ->"<<A<<endl;
+                }
+                else
+                {
+                    found = true;
+                }
+            }
+
+        }
+    }
+
+    if(found)
+    {
+        cout<<"Yes"<<endl;
+    }
+    else
+    {
+        cout<<"No"<<endl;
+    }
+
+
+
+
 
 
 

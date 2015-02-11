@@ -107,10 +107,139 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 1007
 
+
+struct DATA{
+
+    int v, w;
+
+    bool operator<(const DATA& x) const
+    {
+        return w > x.w;
+    }
+
+    DATA(int a, int b)
+    {
+        v = a;
+        w = b;
+    }
+
+};
+
+vector<DATA>graph[MAXX];
+
+int n, m, k;
+
+int cntVisitedNode;
+
+ll MST()
+{
+    ll cost = 0;
+
+    cntVisitedNode = 0;
+
+    bool visited[MAXX];
+
+    priority_queue<DATA>Q;
+
+    loop(i, SZ(graph[k]))
+    {
+        //dump(graph[k][i].w);
+        Q.push(graph[k][i]);
+    }
+
+
+
+    cntVisitedNode = 1;
+
+    mem(visited, 0);
+
+    visited[k] = true;
+
+
+    while(!Q.empty())
+    {
+        DATA u = Q.top();
+
+        //cerr<<"u = "<<u.v<<endl;
+
+        Q.pop();
+
+        if(!visited[ u.v ])
+        {
+
+
+
+
+
+
+
+
+
+
+
+            dump(u.v);
+            cost += (ll)u.w;
+
+            visited[u.v] = true;
+
+            cntVisitedNode++;
+
+            loop(i, SZ(graph[u.v]))
+            {
+                Q.push(graph[u.v][i]);
+            }
+        }
+    }
+
+    return cntVisitedNode == n ? cost : -1;
+}
 
 int main()
 {
+
+
+    int kases, kaseno = 0;
+
+    take(kases);
+
+    while(kases--)
+    {
+        loop(i, MAXX)
+        {
+            graph[i].clear();
+        }
+
+        scanf("%d %d %d", &n, &m, &k);
+
+        int u, v, w;
+
+        loop(i, m)
+        {
+            take(u, v, w);
+
+            graph[u].pb(DATA(v, w));
+        }
+
+
+        ll result = MST();
+
+        pf("Case %d: ", ++kaseno);
+
+        if(result == -1)
+        {
+            pf("impossible\n");
+        }
+        else
+        {
+            pf("%lld\n", result);
+        }
+
+
+    }
+
+
 
 
 

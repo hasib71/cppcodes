@@ -108,10 +108,99 @@ struct ASDF{
 //Header ends here
 
 
+#define MAXX 16
+
+
+ll ara[MAXX];
+ll N;
+int M;
+ll cnt = 0;
+
+
+template<typename T>
+T gcd(T a, T b)
+{
+    if(a == 0)
+    {
+        return b;
+    }
+    else
+    {
+        return gcd(b%a, a);
+    }
+}
+
+template<typename T>
+T lcm(T a, T b)
+{
+    if(a == 0 || b == 0)
+    {
+        return a + b;
+    }
+    else
+    {
+        T g = gcd(a, b);
+
+        return (a/g) * b;
+    }
+}
+
+
+
+void process(int s)
+{
+    ll num = 1;
+
+    int k = 0;
+
+    for(int i=0; i<M; i++)
+    {
+        if( (s & (1<<i)) )
+        {
+            num = lcm(num, ara[i]);
+            k++;
+        }
+    }
+
+    if( (k & 1) )
+    {
+        cnt = cnt - (N/num);
+    }
+    else
+    {
+        cnt = cnt + (N/num);
+    }
+
+}
+
 
 int main()
 {
 
+    int kases, kaseno = 0;
+
+    take(kases);
+
+    while(kases--)
+    {
+        take(N, M);
+
+        loop(i, M)
+        {
+            take(ara[i]);
+        }
+
+        cnt = 0;
+
+        loop(s, (1<<M))
+        {
+            process(s);
+        }
+
+
+        pf("Case %d: %lld\n", ++kaseno, cnt);
+
+    }
 
 
 

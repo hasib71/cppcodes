@@ -107,10 +107,75 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 30
+
+bool dp[MAXX];
 
 
 int main()
 {
+    mem(dp, 0);
+
+    for(int i=2; i<MAXX; i++)
+    {
+        int k = i*i;
+
+        while(k < MAXX)
+        {
+            dp[k] = true;
+            k = k * i;
+        }
+    }
+
+    loop(i, MAXX)
+    {
+        if(dp[i])
+        {
+            for(int j=0; j<=i && (i+j) < MAXX; j++)
+            {
+                if(dp[j])
+                {
+                    dp[i+j] = true;
+                }
+            }
+        }
+    }
+
+
+
+    int kases;
+
+    take(kases);
+
+    ll a, b;
+
+    while(kases--)
+    {
+        cin>>a>>b;
+
+        ll cnt = 0;
+
+        if(b > 23)
+        {
+            cnt = b - max(a, (ll)24) + 1;
+            b = 23;
+        }
+
+        for(ll i=a; i<=b; i++)
+        {
+            if(dp[i])
+            {
+                cnt++;
+            }
+        }
+        cout<<cnt<<endl;
+
+    }
+
+
+
+
+
 
 
 

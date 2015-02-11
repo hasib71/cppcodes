@@ -111,6 +111,51 @@ struct ASDF{
 
 int main()
 {
+    ll w1, w2, n1, n2;
+
+    int kases;
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        cin>>w1>>w2>>n1>>n2;
+
+        ll total = 0;
+
+        if( ((w1 % 2) == 1)  )
+        {
+            if((n1 > 0))
+            {
+                total++;
+
+                n1--;
+            }
+
+            w1--;
+
+        }
+
+        if(((w2 % 2) == 1))
+        {
+            if((n1 > 0))
+            {
+                total++;
+
+                n1--;
+            }
+
+            w2--;
+
+        }
+
+
+        ll w = min(w1 + w2, 2 * n2 + n1);
+
+        cout<<total + w<<endl;
+
+
+    }
 
 
 

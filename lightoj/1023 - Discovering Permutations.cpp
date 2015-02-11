@@ -107,12 +107,66 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 27
+
+int N, K;
+
+bool visited[MAXX];
+
+vector<char> str;
+
+int cnt;
+
+void rec()
+{
+    if(SZ(str) == N)
+    {
+        loop(i, N)
+        {
+            pf("%c", str[i]);
+        }
+        pf("\n");
+        cnt++;
+        return;
+    }
+
+    for(int i=0; i<N; i++)
+    {
+        if(cnt == K)
+        {
+            break;
+        }
+
+        if(!visited[i])
+        {
+            visited[i] = true;
+            str.pb(i + 'A');
+            rec();
+            str.pop_back();
+            visited[i] = false;
+        }
+    }
+}
 
 
 int main()
 {
+    int kases, kaseno = 0;
 
+    take(kases);
 
+    while(kases--)
+    {
+        pf("Case %d:\n", ++kaseno);
+        take(N, K);
+
+        cnt = 0;
+
+        mem(visited, 0);
+
+        rec();
+
+    }
 
 
 }

@@ -1,3 +1,10 @@
+/*
+ID: himuhas1
+TASK: combo
+LANG: C++
+*/
+
+
 /****************************************************************
    ▄█    █▄       ▄████████    ▄████████  ▄█  ▀█████████▄
   ███    ███     ███    ███   ███    ███ ███    ███    ███
@@ -108,9 +115,67 @@ struct ASDF{
 //Header ends here
 
 
+#define MAXX 107
+
+int N;
+
+int a, b, c, p, q, r;
+
+bool flag[MAXX][MAXX][MAXX];
+
+int calc(int x, int y, int z)
+{
+    //cerr<<x<<' '<<y<<' '<<z<<endl;
+    int ret = 0;
+
+    for(int i = (x-2+3*N)%N, step1=0; step1<5; step1++, i = (i+1)%N)
+    {
+        for(int j = (y-2+3*N)%N, step2=0; step2<5; step2++, j = (j+1)%N)
+        {
+            for(int k = (z-2+3*N)%N, step3=0; step3 < 5; step3++, k = (k+1)%N)
+            {
+                if( ! flag[i][j][k])
+                {
+                    flag[i][j][k] = true;
+                    ret ++;
+
+                }
+            }
+        }
+    }
+
+
+    return ret;
+}
+
+
 
 int main()
 {
+    #ifndef hasibpc
+        read("combo.in");
+        write("combo.out");
+    #endif // hasibpc
+
+
+    cin>>N;
+    cin>>a>>b>>c>>p>>q>>r;
+
+    a--;
+    b--;
+    c--;
+    p--;
+    q--;
+    r--;
+
+
+    mem(flag, 0);
+
+    cout<<calc(a, b, c) + calc(p, q, r)<<endl;
+
+
+
+
 
 
 

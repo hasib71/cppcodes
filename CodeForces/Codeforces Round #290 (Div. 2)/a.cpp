@@ -111,6 +111,46 @@ struct ASDF{
 
 int main()
 {
+    int n, m;
+
+    int flag = 1;
+
+    cin>>n>>m;
+
+    loop(i, n)
+    {
+        if((i%2) == 0)
+        {
+            loop(j, m)
+            {
+                pf("#");
+            }
+            pf("\n");
+        }
+        else
+        {
+            if(flag)
+            {
+                loop(j, m-1)
+                {
+                    pf(".");
+                }
+                pf("#\n");
+            }
+            else
+            {
+                pf("#");
+                loop(j, m-1)
+                {
+                    pf(".");
+                }
+                pf("\n");
+            }
+
+            flag = flag ^ 1;
+
+        }
+    }
 
 
 

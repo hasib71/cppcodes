@@ -108,9 +108,115 @@ struct ASDF{
 //Header ends here
 
 
+#define MAXX 30007
+
+int n;
+int q;
+vector<paii>v;
+vector<pair<paii, paii> > query;
+
+int T[MAXX];
+
+int lowBit(int x)
+{
+    return x & -x;
+}
+
+int sum(int i)
+{
+    int result = 0;
+    while(i > 0)
+    {
+        result = result + T[i];
+        i = i - lowBit(i);
+    }
+    return result;
+}
+
+int sum(int i, int j)
+{
+    return sum(j) - sum(i-1);
+}
+
+
+void update(int pos, int value)
+{
+    while(pos <= n)
+    {
+        T[pos] += value;
+        pos = pos + lowBit(pos);
+    }
+}
+
 
 int main()
 {
+
+    take(n);
+    v.resize(n+1);
+
+    for(int i=1; i<=n; i++)
+    {
+        cin>>v[i].fr;
+        v[i].sc = i;
+    }
+
+    take(q);
+
+
+    loop(abc, q)
+    {
+        int i, j, k;
+        take(i, j, k);
+
+        query.pb(MP(MP(k, abc), MP(i, j)));
+    }
+
+    sort(all(v));
+    reverse(all(v));
+
+    sort(all(query));
+    reverse(all(query));
+
+
+
+    mem(T, 0);
+
+    int pos = 0;
+
+    loop(i, SZ(query))
+    {
+        int p, q, k;
+
+        k = query[i].fr.fr;
+        p = query[i].sc.fr;
+        q = query[i].sc.sc;
+
+
+        while(pos < n && v[pos].fr > k)
+        {
+            update(v[pos].sc, 1);
+            pos++;
+        }
+
+        int ret = sum(p, q);
+        query[i].fr.fr = query[i].fr.sc;
+        query[i].fr.sc = ret;
+
+    }
+
+    sort(all(query));
+
+    loop(i, SZ(query))
+    {
+        pf("%d\n", query[i].fr.sc);
+    }
+
+    return 0;
+
+
+
+
 
 
 

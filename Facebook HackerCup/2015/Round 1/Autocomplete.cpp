@@ -33,7 +33,6 @@
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
 
-#define take(args...) asdf,args
 #define dump(x) cerr<<#x<<" = "<<x<<endl
 #define debug(args...) cerr,args; cerr<<endl;
 using namespace std;
@@ -74,43 +73,101 @@ ostream& operator,(ostream& output, T x)
 
 
 
-struct ASDF{
-    ASDF& operator,(int &a) {
-        sf("%d", &a);
-        return *this;
-    }
-    ASDF& operator,(long int &a){
-        sf("%ld", &a);
-        return *this;
-    }
-    ASDF& operator,(long long int &a){
-        sf("%lld", &a);
-        return *this;
-    }
-    ASDF& operator,(char &c){
-        sf("%c", &c);
-        return *this;
-    }
-    ASDF& operator,(double &d){
-        sf("%lf", &d);
-        return *this;
-    }
-
-    template<typename T>
-    ASDF& operator,(T &a){
-        cin>>a;
-        return *this;
-    }
-}asdf;
-
 
 
 //Header ends here
 
 
+#define toInt(ch) int(ch - 'a')
+
+struct DATA{
+    DATA *child[27];
+    int touched;
+    DATA()
+    {
+        loop(i, 27)
+        {
+            child[i] = NULL;
+            touched = 0;
+        }
+    }
+
+};
+
+
+
+int N;
+DATA *head;
+
+
+int addString(string str)
+{
+    int result = 0;
+
+    DATA *curNode = head;
+
+    loop(i, SZ(str))
+    {
+        int k = toInt(str[i]);
+        if(curNode->child[k] == NULL)
+        {
+            curNode->child[k] = new DATA();
+        }
+
+        curNode = curNode->child[k];
+
+        curNode->touched++;
+
+        if(!result && (curNode->touched == 1))
+        {
+            result = i + 1;
+        }
+    }
+    if(result == 0)
+    {
+        result = SZ(str);
+    }
+    return result;
+}
+
+
+void emptyTrie(DATA *curNode)
+{
+    loop(i, 27)
+    {
+        if(curNode->child[i] != NULL)
+        {
+            emptyTrie(curNode->child[i]);
+        }
+    }
+
+    delete curNode;
+}
 
 int main()
 {
+    read("b.txt");
+    int kases, kaseno = 0;
+
+    string s;
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        cin>>N;
+
+        int sum = 0;
+
+        head = new DATA();
+
+        while(N--)
+        {
+            cin>>s;
+            sum += addString(s);
+        }
+        pf("Case #%d: %d\n", ++kaseno, sum);
+    }
 
 
 

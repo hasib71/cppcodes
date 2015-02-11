@@ -107,11 +107,89 @@ struct ASDF{
 
 //Header ends here
 
+#define s(n) (n+500)
+#define MAXX 2007
 
+
+
+bool ara[MAXX];
+bool hasGhost[MAXX];
+
+int m, t, r;
 
 int main()
 {
+    mem(ara, 0);
+    mem(hasGhost, 0);
 
+
+    cin>>m>>t>>r;
+
+    int tmp;
+
+    loop(i, m)
+    {
+        cin>>tmp;
+        hasGhost[ s(tmp) ] = true;
+
+    }
+
+    int totalCandle = 0;
+
+    bool possible = true;
+
+    tmp = 0;
+
+
+
+    for(int i= MAXX-1; i>-1; i--)
+    {
+
+        if(ara[i])
+        {
+            tmp--;
+        }
+
+        if(hasGhost[i])
+        {
+            if(tmp < r)
+            {
+                int k = i - t;
+
+                while(k < i && tmp < r && (ara[k] == false) )
+                {
+                    ara[k] = true;
+                    totalCandle++;
+                    tmp++;
+                    k++;
+                }
+
+                if(tmp < r)
+                {
+                    possible = false;
+                    break;
+                }
+
+            }
+        }
+
+
+
+
+    }
+
+
+
+
+
+    if(possible)
+    {
+        cout<<totalCandle<<endl;
+    }
+    else
+    {
+        cout<<-1<<endl;
+    }
 
 
 

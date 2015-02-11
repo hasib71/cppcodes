@@ -33,7 +33,6 @@
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
 
-#define take(args...) asdf,args
 #define dump(x) cerr<<#x<<" = "<<x<<endl
 #define debug(args...) cerr,args; cerr<<endl;
 using namespace std;
@@ -74,44 +73,90 @@ ostream& operator,(ostream& output, T x)
 
 
 
-struct ASDF{
-    ASDF& operator,(int &a) {
-        sf("%d", &a);
-        return *this;
-    }
-    ASDF& operator,(long int &a){
-        sf("%ld", &a);
-        return *this;
-    }
-    ASDF& operator,(long long int &a){
-        sf("%lld", &a);
-        return *this;
-    }
-    ASDF& operator,(char &c){
-        sf("%c", &c);
-        return *this;
-    }
-    ASDF& operator,(double &d){
-        sf("%lf", &d);
-        return *this;
-    }
-
-    template<typename T>
-    ASDF& operator,(T &a){
-        cin>>a;
-        return *this;
-    }
-}asdf;
-
 
 
 //Header ends here
 
+#define MAXX 200007
+
+#define MAXCOLOR 4
+
+int dp[MAXX][MAXCOLOR+1];
+
+vector<int>childList[MAXX];
+
+
+int rec(int pos, int parentColor)
+{
+    int &ret = dp[pos][parentColor];
+
+    if(ret != -1) return ret;
+
+
+    ret = INFINITY;
+
+    for(int i=1; i<=MAXCOLOR; i++)
+    {
+        if(i != parentColor )
+        {
+            int sum = i;
+
+            loop(j, SZ(childList[pos]))
+            {
+                sum += rec(childList[pos][j], i);
+            }
+
+            ret = min(sum, ret);
+        }
+    }
+
+    return ret;
+
+
+}
+
+int N;
 
 
 int main()
 {
+    read("input");
+    int kases, kaseno = 0;
 
+    int parent;
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        loop(i, MAXX)
+        {
+            childList[i].clear();
+        }
+
+
+        mem(dp, -1);
+
+        cin>>N;
+
+        for(int i =1; i<=N; i++)
+        {
+            cin>>parent;
+            if(parent != 0)
+            {
+                childList[parent].pb(i);
+
+                //cerr<<parent<<" -> "<<i<<endl;
+            }
+        }
+
+        int result = rec(1, 0);
+
+
+        pf("Case #%d: %d\n", ++kaseno, result);
+
+       // dump(dp[4][2]);
+    }
 
 
 

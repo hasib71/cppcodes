@@ -107,11 +107,30 @@ struct ASDF{
 
 //Header ends here
 
-
+int n;
+int x;
+double sum;
 
 int main()
 {
+    int kases, kaseno = 0;
 
+    take(kases);
+
+    while(kases--)
+    {
+        take(n);
+        sum = 0;
+
+        loop(i, n)
+        {
+            take(x);
+            sum += (double)x;
+
+        }
+
+        pf("%.9lf\n", sum/double(n));
+    }
 
 
 

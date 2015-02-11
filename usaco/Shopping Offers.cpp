@@ -1,3 +1,9 @@
+/*
+ID: himuhas1
+TASK: shopping
+LANG: C++
+*/
+
 /****************************************************************
    ▄█    █▄       ▄████████    ▄████████  ▄█  ▀█████████▄
   ███    ███     ███    ███   ███    ███ ███    ███    ███
@@ -107,10 +113,140 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 107
+#define MAX_N 7
+
+struct DATA{
+    int n;
+    vector<paii>v;
+    int p;
+};
+
+DATA offers[MAXX];
+
+
+
+int s, b;
+
+map<int, int>cart_elements;
+paii cart[MAX_N];
+
+int dp[MAX_N][MAX_N][MAX_N][MAX_N][MAX_N][MAXX];
+
+
+int rec(int items[MAX_N], int pos)
+{
+    int &ret = dp[ items[1] ][ items[2] ][ items[3] ][ items[4] ][ items[5] ][pos];
+    if(ret != -1)
+    {
+        return ret;
+    }
+
+    if(pos >= s)
+    {
+        /// applied all the offers.
+
+        ret = 0;
+        for(int i=1; i<=5; i++)
+        {
+            //dump(items[i]);
+            ret += (items[i] * cart[i].sc);
+        }
+        //cout<<endl;
+        return ret;
+    }
+    else
+    {
+        ret = rec(items, pos+1);
+
+        bool can_take_this_offer = true;
+
+        loop(i, offers[pos].n)
+        {
+            if( cart_elements.find(offers[pos].v[i].fr) == cart_elements.end() || offers[pos].v[i].sc > items[ cart_elements[offers[pos].v[i].fr] ] )
+            {
+                can_take_this_offer = false;
+            }
+        }
+
+        if(can_take_this_offer)
+        {
+            loop(i, offers[pos].n)
+            {
+                items[ cart_elements[offers[pos].v[i].fr] ] -= offers[pos].v[i].sc;
+            }
+        }
+
+        ret = min(ret, rec(items, pos) + offers[pos].p);
+        ret = min(ret, rec(items, pos+1) + offers[pos].p);
+
+        if(can_take_this_offer)
+        {
+            loop(i, offers[pos].n)
+            {
+                items[ cart_elements[offers[pos].v[i].fr] ] += offers[pos].v[i].sc;
+            }
+        }
+
+
+
+        return ret;
+
+
+
+    }
+}
+
 
 
 int main()
 {
+    #ifndef hasibpc
+        read("shopping.in");
+        write("shopping.out");
+    #endif // hasibpc
+
+    sf("%d", &s);
+
+    loop(i, s)
+    {
+        sf("%d", &offers[i].n);
+
+        loop(j, offers[i].n)
+        {
+            int c, k;
+
+            sf("%d %d", &c, &k);
+
+            offers[i].v.pb(MP(c, k));
+        }
+
+        sf("%d", &offers[i].p);
+    }
+
+    sf("%d", &b);
+
+    int id, quantity, price;
+
+    int tmp = 1;
+    int items[MAX_N];
+    mem(items, 0);
+
+    loop(i, b)
+    {
+        sf("%d %d %d", &id, &quantity, &price);
+        cart[i+1] = MP(quantity, price);
+        items[tmp] = quantity;
+        cart_elements[id] = tmp++;
+
+    }
+
+
+    mem(dp, -1);
+    cout<<rec(items, 0)<<endl;
+
+
+
 
 
 
