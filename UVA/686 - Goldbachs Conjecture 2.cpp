@@ -107,12 +107,65 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 32777
+
+vector<int>primes;
+
+int cntWays[MAXX];
+
+
+void calcCountWays()
+{
+    for(int i=0; i<SZ(primes); i++)
+    {
+        for(int j=i; j<SZ(primes); j++)
+        {
+            if(primes[i] + primes[j] >= MAXX)
+            {
+                break;
+            }
+            cntWays[ primes[i] + primes[j] ]++;
+        }
+    }
+}
+
+void generatePrimes()
+{
+    bool isPrime[MAXX];
+
+    mem(isPrime, 1);
+
+    int root = sqrt(MAXX) + 7;
+
+    for(int i=3; i<root; i+=2)
+    {
+        if(isPrime[i])
+        {
+            for(int j=i*i; j<MAXX; j+=2*i)
+            {
+                isPrime[j] = false;
+            }
+        }
+    }
+
+    primes.pb(2);
+    for(int i=3; i<MAXX; i+=2)
+    {
+        if(isPrime[i])
+        {
+            primes.pb(i);
+        }
+    }
+}
+
 
 
 
 void init()
 {
+    generatePrimes();
 
+    calcCountWays();
 }
 
 
@@ -120,6 +173,16 @@ int main()
 {
     init();
 
+
+    int n;
+
+    while(true)
+    {
+        sf("%d", &n);
+        if(n == 0) break;
+
+        pf("%d\n", cntWays[n]);
+    }
 
 
     return 0;

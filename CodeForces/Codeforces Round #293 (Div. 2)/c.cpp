@@ -106,9 +106,18 @@ struct ASDF{
 
 
 //Header ends here
+#define MAXX 100007
 
 
 
+int n, m, k;
+
+int pos[MAXX];
+int ara[MAXX];
+
+int id, prevId;
+
+int curPos, prevPos;
 
 void init()
 {
@@ -119,6 +128,45 @@ void init()
 int main()
 {
     init();
+
+    ll result = 0;
+
+    sf("%d %d %d", &n, &m, &k);
+
+    loop(i, n)
+    {
+        sf("%d", &ara[i]);
+
+        pos[ ara[i] ] = i;
+    }
+
+    loop(i, m)
+    {
+        sf("%d", &id);
+
+        result += (int)(pos[id]/k) + 1;
+
+        curPos = pos[id];
+
+        if(curPos == 0)
+        {
+            continue;
+        }
+        else
+        {
+            prevPos = curPos - 1;
+
+            prevId = ara[prevPos];
+
+            swap(ara[curPos], ara[prevPos]);
+
+            swap(pos[prevId], pos[id]);
+
+        }
+
+    }
+
+    cout<<result<<endl;
 
 
 

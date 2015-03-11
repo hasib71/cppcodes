@@ -115,10 +115,64 @@ void init()
 
 }
 
+set<string>st;
+string str;
+int n, m;
+
+bool found;
 
 int main()
 {
     init();
+
+
+    cin>>n>>m;
+
+    loop(i, n)
+    {
+        cin>>str;
+        st.insert(str);
+    }
+
+    loop(i, m)
+    {
+        cin>>str;
+
+        found = false;
+
+        loop(j, SZ(str))
+        {
+            char ch, backup;
+            ch = backup = str[j];
+
+            for(int k=1; k<3; k++)
+            {
+                ch = (backup - 'a' + k) % 3 ;
+                ch += 'a';
+                str[j] = ch;
+
+                if(st.find(str) != st.end())
+                {
+                    found = true;
+                    goto hell;
+                }
+            }
+
+            str[j] = backup;
+        }
+
+        hell:
+            if(found)
+            {
+                pf("YES\n");
+            }
+            else
+            {
+                pf("NO\n");
+            }
+    }
+
+
 
 
 

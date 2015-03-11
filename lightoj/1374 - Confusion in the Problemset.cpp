@@ -107,18 +107,80 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 10007
 
+int n;
 
+int m;
+
+int x;
+
+int cnt[MAXX];
 
 void init()
 {
-
+    mem(cnt, 0);
 }
+
+
+
+
 
 
 int main()
 {
     init();
+
+    int kases, kaseno = 0;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        init();
+
+        sf("%d", &n);
+
+        m = n - 1;
+
+        loop(i, n)
+        {
+            sf("%d", &x);
+
+            if(x > m)
+            {
+                continue;
+            }
+            else
+            {
+                cnt[x]++;
+                cnt[m-x]++;
+            }
+        }
+
+        bool possible = true;
+
+        loop(i, n)
+        {
+            if(cnt[i] != 2)
+            {
+                possible = false;
+                break;
+            }
+        }
+
+        pf("Case %d: ", ++kaseno);
+
+        if(possible)
+        {
+            pf("yes\n");
+        }
+        else
+        {
+            pf("no\n");
+        }
+
+    }
 
 
 

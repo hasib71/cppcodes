@@ -107,11 +107,123 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 1007
+#define MAX_PRIMES 170
+
+
+vector<int>primes;
+int factor[MAXX][MAX_PRIMES];
+
+
+void generatePrimes()
+{
+    bool isPrime[MAXX];
+
+    mem(isPrime, 1);
+
+    int root = sqrt(MAXX);
+
+
+    for(int i=3; i<root; i+=2)
+    {
+        if(isPrime[i])
+        {
+            for(int j=i*i; j<MAXX; j+=2*i)
+            {
+                isPrime[j] = false;
+            }
+        }
+    }
+
+    primes.pb(2);
+    for(int i=3; i<MAXX; i+=2)
+    {
+        if(isPrime[i])
+        {
+            primes.pb(i);
+        }
+    }
+}
+
+void generateFactors()
+{
+    for(int n=2; n<MAXX; n++)
+    {
+        int pos = -1;
+
+        loop(i, SZ(primes))
+        {
+            if((n % primes[i]) == 0)
+            {
+                pos = i;
+                break;
+            }
+        }
+
+        int before = n/primes[pos];
+
+        loop(i, SZ(primes))
+        {
+            factor[n][i] = factor[before][i];
+        }
+
+        factor[n][pos]++;
+    }
+}
+
+
+
 
 
 
 void init()
 {
+    generatePrimes();
+
+    generateFactors();
+}
+
+
+void solve(int N, int K)
+{
+    ll cnt[MAX_PRIMES];
+
+    mem(cnt, 0);
+
+    while(N > 0)
+    {
+        loop(i, SZ(primes))
+        {
+            cnt[i]+= factor[N][i];
+        }
+        N -= K;
+    }
+
+    ll limit = 1000000000000000000;
+
+    ll ret = 1;
+
+    bool exceeded = false;
+
+    loop(i, MAX_PRIMES)
+    {
+        if(ret > (limit/(cnt[i] + 1)))
+        {
+            exceeded = true;
+            break;
+        }
+
+        ret = ret * (cnt[i] + 1);
+    }
+
+    if(exceeded)
+    {
+        pf("Infinity\n");
+    }
+    else
+    {
+        pf("%lld\n", ret);
+    }
 
 }
 
@@ -119,6 +231,23 @@ void init()
 int main()
 {
     init();
+
+    int kases, kaseno = 0;
+
+    sf("%d", &kases);
+
+    char str[27];
+    int N;
+
+    while(kases--)
+    {
+        sf("%d%s", &N, str);
+
+        pf("Case %d: ", ++kaseno);
+
+        solve(N, strlen(str));
+
+    }
 
 
 

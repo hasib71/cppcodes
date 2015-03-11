@@ -107,20 +107,60 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 27
 
 
+char str[MAXX];
+ll fac[MAXX];
 
 void init()
 {
-
+    fac[0] = 1;
+    FOR(i, 1, MAXX)
+    {
+        fac[i] = i * fac[i-1];
+    }
 }
 
+
+ll solve()
+{
+    int cnt[MAXX];
+
+    mem(cnt, 0);
+
+    int len = strlen(str);
+
+    loop(i, len)
+    {
+        cnt[ str[i] - 'A' ]++;
+    }
+
+    ll ret = fac[len];
+
+    loop(i, MAXX)
+    {
+        ret /= fac[cnt[i]];
+    }
+    return ret;
+}
 
 int main()
 {
     init();
 
+    int kases, kaseno = 0;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        sf("%s", str);
+        pf("Data set %d: %lld\n", ++kaseno, solve());
+
+    }
 
 
-    return 0;
+
+
 }

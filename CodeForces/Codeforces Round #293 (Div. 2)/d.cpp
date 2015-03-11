@@ -107,6 +107,15 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 2007
+
+
+int n, t;
+
+double p;
+
+
+double matrix[MAXX][MAXX];
 
 
 
@@ -118,7 +127,47 @@ void init()
 
 int main()
 {
+
     init();
+
+
+    cin>>n>>p>>t;
+
+    matrix[1][1] = p;
+
+    for(int day=2; day<=t; day++)
+    {
+        matrix[1][day] = matrix[1][day-1] * (1.0-p);
+    }
+
+
+    for(int person=2; person<=n; person++)
+    {
+        double x = 0;
+
+        for(int day=2; day<=t; day++)
+        {
+            x = (x*(1.0 - p) + matrix[person-1][day-1]);
+
+            matrix[person][day] = x * p;
+        }
+    }
+
+    double res = 0;
+
+
+    for(int person=1; person<=n; person++)
+    {
+        for(int day=1; day<=t; day++)
+        {
+            res += matrix[person][day];
+        }
+    }
+
+
+    pf("%.7lf\n", res);
+
+
 
 
 

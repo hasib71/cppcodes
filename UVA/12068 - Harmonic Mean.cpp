@@ -107,20 +107,40 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 11
 
-
-
-void init()
-{
-
-}
-
+ll ara[MAXX];
+ll N;
 
 int main()
 {
-    init();
+    int kases, kaseno = 0;
 
+    sf("%d", &kases);
 
+    while(kases--)
+    {
+        sf("%lld", &N);
 
-    return 0;
+        ll up = 1, down = 0;
+
+        loop(i, N)
+        {
+            sf("%lld", &ara[i]);
+            up *= ara[i];
+        }
+
+        loop(i, N)
+        {
+            down += (up/ara[i]);
+        }
+
+        up *= N;
+
+        ll g = __gcd(up, down);
+        up /= g;
+        down /= g;
+
+        pf("Case %d: %lld/%lld\n", ++kaseno, up, down);
+    }
 }

@@ -107,13 +107,102 @@ struct ASDF{
 
 //Header ends here
 
+ll N;
+
+vector<ll>primes;
+#define MAXX 100007
+
+void generatePrimes()
+{
+    bool isPrime[MAXX];
+
+    mem(isPrime, 1);
+
+    ll root = sqrt(MAXX) + 7;
+
+    for(int i=3; i<root; i+=2)
+    {
+        if(isPrime[i])
+        {
+            for(int j=i*i; j<MAXX; j+=2*i)
+            {
+                isPrime[j] = false;
+            }
+        }
+    }
 
 
+    primes.pb(2);
+
+    for(int i=3; i<MAXX; i+=2)
+    {
+        if(isPrime[i])
+        {
+            primes.pb(i);
+        }
+    }
+
+}
+
+
+
+
+ll solve()
+{
+    if(N == 1)
+    {
+        return 2;
+    }
+    ll ret = 0;
+    ll root = sqrt(N);
+
+    int cntUnique = 0;
+
+    for(int i=0; i<SZ(primes) && primes[i] <= root; i++ )
+    {
+        if((N%primes[i]) == 0)
+        {
+            ll tmp = 1;
+
+            cntUnique++;
+
+            while( (N%primes[i]) == 0 )
+            {
+                tmp *= primes[i];
+                N /= primes[i];
+            }
+
+            ret += tmp;
+
+            root = sqrt(N);
+
+            //dump(ret);
+        }
+    }
+
+    if(N != 1)
+    {
+        ret += N;
+        cntUnique++;
+    }
+
+    if(cntUnique < 2)
+    {
+        ret++;
+    }
+
+
+
+    return ret;
+
+
+}
 
 void init()
 {
-
+    generatePrimes();
 }
+
 
 
 int main()
@@ -121,6 +210,19 @@ int main()
     init();
 
 
+    int kaseno = 0;
 
-    return 0;
+    while(true)
+    {
+        sf("%lld", &N);
+
+        if(N == 0) break;
+
+        pf("Case %d: %lld\n", ++kaseno, solve());
+
+
+    }
+
+
+
 }

@@ -110,15 +110,94 @@ struct ASDF{
 
 
 
+#define INF (1<<20)
+
+
+#define MAXX 150007
+#define MAX_MASK 16
+#define MAX_USER 4
+
+
+#define type int
+
+int N;
+type cost[3][MAXX];
+
+type dp[MAXX][MAX_MASK][MAX_USER];
+
+type rec(int pos, int mask, int lastUser)
+{
+    type &ret = dp[pos][mask][lastUser];
+
+    if(ret != -1) return ret;
+
+
+    if(pos >= N)
+    {
+        if(mask == 7)
+        {
+            return ret = 0;
+        }
+        else
+        {
+            return ret = INF;
+        }
+    }
+
+
+    ret = INF;
+
+    loop(i, 3)
+    {
+        if(lastUser == i)
+        {
+            ret = min(ret, rec(pos+1, mask, lastUser) + cost[lastUser][pos]);
+        }
+        else
+        {
+            if( (mask & (1<<i)) == 0 )
+            {
+                ret = min(ret, rec(pos+1, mask | (1<<i), i ) + cost[i][pos]);
+            }
+        }
+    }
+
+
+    return ret;
+
+}
+
+
 void init()
 {
-
+    mem(dp, -1);
 }
 
 
 int main()
 {
+
     init();
+
+    sf("%d", &N);
+
+    loop(i, 3)
+    {
+        loop(j, N)
+        {
+            sf("%d", &cost[i][j]);
+        }
+    }
+
+
+    type ret = INF;
+
+    loop(i, 3)
+    {
+        ret = min(ret, rec(1, 1<<i, i) + cost[i][0] );
+    }
+
+    cout<<ret<<endl;
 
 
 

@@ -108,6 +108,35 @@ struct ASDF{
 //Header ends here
 
 
+class Point{
+public:
+        double x, y;
+
+        Point operator-(Point A)
+        {
+            Point ret;
+            ret.x = this->x - A.x;
+            ret.y = this->y - A.y;
+            return ret;
+        }
+
+};
+
+double sq(double x)
+{
+    return x*x;
+}
+
+
+double dist(Point A, Point B)
+{
+    double ret = sq(A.x - B.x) + sq(A.y - B.y);
+    return sqrt(ret);
+}
+
+
+
+
 
 
 void init()
@@ -119,6 +148,25 @@ void init()
 int main()
 {
     init();
+
+
+    Point A, B, C;
+
+    while(cin>>A.x>>A.y>>B.x>>B.y>>C.x>>C.y)
+    {
+        double a, b, c;
+        a = dist(A, B);
+        b = dist(A, C);
+        c = dist(B, C);
+
+        double s = (a + b + c)/2.0;
+
+        double area = sqrt( s * (s - a) * (s - b) * (s - c) );
+
+        double R = (a*b*c)/(4*area);
+
+        pf("%.2lf\n",2.0*PI*R);
+    }
 
 
 

@@ -115,10 +115,55 @@ void init()
 
 }
 
+#define sq(x) (x*x)
+#define toDegree(x) ((x) * 180/PI)
+
 
 int main()
 {
     init();
+
+    int kases;
+    double r1, r2, r3;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        sf("%lf %lf %lf", &r1, &r2, &r3);
+
+
+        double s = r1 + r2 + r3;
+
+        double area = sqrt(s*r1*r2*r3);
+
+        double a = r2 + r3;
+        double b = r1 + r3;
+        double c = r1 + r2;
+
+        double A = (sq(b) + sq(c) - sq(a)) / (2*b*c);
+
+        A = acos(A);
+
+        A = toDegree(A);
+
+        double B = ( sq(a) + sq(c) - sq(b) ) / (2*a*c);
+
+        B = acos(B);
+
+        B = toDegree(B);
+
+        double C = (sq(a) + sq(b) - sq(c)) / (2*a*b);
+
+        C = acos(C);
+
+        C = toDegree(C);
+
+        area = area - (PI*r1*r1 * (A/360.0)) - (PI*r2*r2* (B/360.0)) - (PI*r3*r3*(C/360.0));
+
+        pf("%.6lf\n", area);
+
+    }
 
 
 

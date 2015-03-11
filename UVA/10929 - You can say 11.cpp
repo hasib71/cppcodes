@@ -107,6 +107,36 @@ struct ASDF{
 
 //Header ends here
 
+string str;
+
+
+void solve()
+{
+    int powOfTen = 1;
+
+    int remainder = 0;
+
+    for(int i=SZ(str)-1; i>-1; i--)
+    {
+
+        remainder = remainder + (powOfTen * (str[i] - '0'));
+        remainder = remainder % 11;
+
+        powOfTen = ( powOfTen * 10 ) % 11;
+    }
+
+    if(remainder == 0)
+    {
+        pf("%s is a multiple of 11.\n", str.c_str());
+    }
+    else
+    {
+        pf("%s is not a multiple of 11.\n", str.c_str());
+    }
+}
+
+
+
 
 
 
@@ -119,6 +149,18 @@ void init()
 int main()
 {
     init();
+
+    while(true)
+    {
+        cin>>str;
+
+        if(str == "0")
+        {
+            break;
+        }
+
+        solve();
+    }
 
 
 

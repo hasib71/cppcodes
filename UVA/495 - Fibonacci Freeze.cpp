@@ -81,23 +81,94 @@ ostream& operator,(ostream& output, T x)
 
 //Header ends here
 
+struct Math{
+    string num;
 
+    Math operator+(Math &other)
+    {
+        Math output;
+
+        output.num = "";
+
+        int len = max(SZ(num), SZ(other.num));
+
+
+        int hate = 0;
+        int sum;
+
+
+        loop(i, len)
+        {
+            //dump(i);
+            sum = hate;
+            hate = 0;
+
+            if(i < SZ(num))
+            {
+                sum += num[i];
+            }
+
+            if(i < SZ(other.num))
+            {
+                sum += other.num[i];
+            }
+
+            output.num.push_back(sum%10);
+            hate = sum/10;
+
+            //cerr<<"done"<<endl;
+        }
+
+        while(hate != 0)
+        {
+            output.num.push_back(hate % 10);
+            hate /= 10;
+        }
+
+    return output;
+
+    }
+
+
+    void print()
+    {
+        for(int i = SZ(num)-1; i>-1; i--)
+        {
+            printf("%c", num[i] + '0');
+        }
+        printf("\n");
+    }
+
+};
+
+
+
+#define MAXX 5007
 
 int main()
 {
-    int fib[5007];
-    fib[0] = 0;
-    fib[1] = 1;
-    for(int i=2; i<5007; i++)
+    Math fib[MAXX];
+
+    fib[0].num.push_back(0);
+    fib[1].num.push_back(1);
+
+    for(int i=2; i<MAXX; i++)
     {
         fib[i] = fib[i-1] + fib[i-2];
     }
+
+
+
+
+
+
 
     int n;
 
     while(cin>>n)
     {
-        pf("The Fibonacci number for %d is %lld\n", n, fib[n]);
+        pf("The Fibonacci number for %d is ", n);
+        fib[n].print();
     }
 
 

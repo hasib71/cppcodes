@@ -108,7 +108,7 @@ struct ASDF{
 //Header ends here
 
 
-
+#define toRadian(x) ((x) * PI / 180.0)
 
 void init()
 {
@@ -119,6 +119,37 @@ void init()
 int main()
 {
     init();
+
+    double l, h, w, theta;
+
+    while(cin>>l>>w>>h>>theta)
+    {
+        double tmp = atan(h/l);
+
+        double ret = 0;
+
+        if(toRadian(theta)> tmp)
+        {
+            //dump(true);
+            theta = 90.0 - theta;
+
+            swap(h, l);
+
+            ret = w*0.5*l*l*tan(toRadian(theta));
+        }
+        else
+        {
+            ret = w * (l*h - 0.5*l*l*tan(toRadian(theta)));
+        }
+
+
+        if(l == 0 || h == 0 || w == 0)
+        {
+            ret = 0;
+        }
+
+        pf("%.3lf mL\n", ret);
+    }
 
 
 

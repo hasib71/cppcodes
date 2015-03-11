@@ -108,17 +108,106 @@ struct ASDF{
 //Header ends here
 
 
+#define MOD 1000000007
 
 
-void init()
+
+ll BigMod(ll base, ll power)
 {
+    if(power == 0)
+    {
+        return (ll)1;
+    }
 
+    ll half = power/2;
+
+    ll ret = BigMod(base, half);
+
+    ret = (ret * ret) % MOD;
+
+    if( (power & 1) )
+    {
+        ret = (ret * base) % MOD;
+    }
+
+    return ret;
 }
+
+
+
+
+
+int N;
+
+string str;
+
+ll cnt[10];
+
 
 
 int main()
 {
-    init();
+
+    cin>>N;
+    cin>>str;
+
+    mem(cnt, 0);
+
+    loop(i, N)
+    {
+        if(str[i] == 'A')
+        {
+            cnt[0]++;
+        }
+        else if(str[i] == 'C')
+        {
+            cnt[1]++;
+        }
+        else if(str[i] == 'G')
+        {
+            cnt[2]++;
+        }
+        else
+        {
+            cnt[3]++;
+        }
+    }
+
+
+    sort(cnt, cnt+4);
+
+
+    reverse(cnt, cnt+4);
+
+
+    ll options = 0;
+
+
+    loop(i, 4)
+    {
+        if(cnt[i] == cnt[0])
+        {
+
+            options++;
+        }
+        else
+        {
+           break;
+        }
+    }
+
+
+
+    ll ret = BigMod(options, N);
+
+    cout<<ret<<endl;
+
+
+
+
+
+
+
 
 
 

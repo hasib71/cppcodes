@@ -108,6 +108,7 @@ struct ASDF{
 //Header ends here
 
 
+#define MAXX 10007
 
 
 void init()
@@ -119,6 +120,55 @@ void init()
 int main()
 {
     init();
+
+    int kases, N;
+
+    double len[MAXX];
+
+    take(kases);
+
+    while(kases--)
+    {
+        take(N);
+
+        loop(i, N)
+        {
+            take(len[i]);
+        }
+
+        sort(len, len + N);
+
+        reverse(len, len + N);
+
+        double max_area = 0;
+
+        loop(i, N)
+        {
+            int j = i + 1;
+            int k = j + 1;
+            if(k>=N)
+            {
+                break;
+            }
+
+            if(len[i] < len[j] + len[k])
+            {
+                double s = (len[i] + len[j] + len[k]) / 2.0;
+
+                double area = sqrt(s*(s - len[i])*(s - len[j]) * (s - len[k]));
+
+                max_area = max(max_area, area);
+
+                //break;
+            }
+
+
+
+
+        }
+
+        pf("%.2lf\n", max_area);
+    }
 
 
 

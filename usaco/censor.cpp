@@ -1,3 +1,10 @@
+/*
+ID: himuhas1
+TASK: censor
+LANG: C++
+*/
+
+
 /****************************************************************
    ▄█    █▄       ▄████████    ▄████████  ▄█  ▀█████████▄
   ███    ███     ███    ███   ███    ███ ███    ███    ███
@@ -107,6 +114,104 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 1000007
+
+
+string str, pattern;
+
+bool used[MAXX];
+
+int pi[MAXX];
+
+
+
+void compute_prefix_function()
+{
+    int m = SZ(pattern) - 1;
+
+    pi[1] = 0;
+    int k = 0;
+
+    for(int q=2; q<=m; q++)
+    {
+        while( k > 0 && pattern[k+1] != pattern[q])
+        {
+            k = pi[k];
+        }
+        if(pattern[k+1] == pattern[q])
+        {
+            k++;
+        }
+        pi[q] = k;
+    }
+}
+
+
+void kmp_matcher()
+{
+
+
+    mem(used, 0);
+
+    int n = SZ(str) - 1;
+
+    int m = SZ(pattern) - 1;
+
+    compute_prefix_function();
+
+    int q = 0;
+
+    for(int i=1; i<=n; i++)
+    {
+        if(used[i])
+        {
+            continue;
+        }
+
+
+        while(q > 0 && pattern[q+1] != str[i])
+        {
+            q = pi[q];
+        }
+
+        if(pattern[q+1] == str[i])
+        {
+            q++;
+        }
+
+        if(q == m)
+        {
+            int j = i;
+
+            int cnt = 0;
+
+            while(cnt < m && j > 0)
+            {
+                if(used[j] == false)
+                {
+                    used[j] = true;
+                    cnt++;
+                }
+                j--;
+            }
+
+            cnt = 1;
+
+            while(cnt < m && j > 0)
+            {
+                if(used[j] == false)
+                {
+                    cnt++;
+                }
+                j--;
+            }
+
+            i = j;
+            q = 0;
+        }
+    }
+
+}
 
 
 
@@ -119,6 +224,32 @@ void init()
 int main()
 {
     init();
+
+    #ifndef hasibpc
+        read("censor.in");
+        write("censor.out");
+    #endif // hasibpc
+
+
+    cin>>str>>pattern;
+
+    str = " " + str;
+
+    pattern = " " + pattern;
+
+    kmp_matcher();
+
+    for(int i=1; i<SZ(str); i++)
+    {
+        if(!used[i])
+        {
+            pf("%c", str[i]);
+        }
+    }
+
+    cout<<endl;
+
+
 
 
 

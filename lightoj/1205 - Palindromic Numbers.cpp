@@ -109,16 +109,187 @@ struct ASDF{
 
 
 
+ll countPalindromeOfSize(int len)
+{
+
+    int halfLen = len/2;
+    if((len%2) == 1)
+    {
+        halfLen++;
+    }
+
+    ll ret = 1;
+
+    for(int i=0; i<halfLen; i++)
+    {
+        ret *= (ll)10;
+    }
+    //dump(len);
+    //dump(ret);
+    return ret;
+}
+
+
+
+
+ll countPalindromeTillThisPosition(string str)
+{
+
+    loop(i, SZ(str))
+    {
+        str[i] = str[i] - '0';
+    }
+
+
+    ll ret = 0;
+
+
+    int len = SZ(str);
+
+    int halfLen = len/2;
+
+    if((len%2) == 1)
+    {
+        halfLen++;
+    }
+
+    for(int i=1; i<len; i++)
+    {
+        ret += (countPalindromeOfSize(i) / (ll)10)*(ll)9;
+        //cerr<<"   ret = "<<ret<<endl;
+    }
+
+    //dump(ret);
+
+
+    loop(i, halfLen)
+    {
+        if(i == 0)
+        {
+            ret += (str[i] - 1) * countPalindromeOfSize(len - 2*(i+1));   // -1 for ! zero
+        }
+        else
+        {
+            ret += (str[i]) * countPalindromeOfSize(len - 2*(i+1));
+        }
+    }
+
+
+    bool flag = true;
+
+    //
+    {
+        int i, j;
+        i = halfLen - 1;
+        j = i;
+
+        if((len%2) == 0)
+        {
+            j++;
+        }
+
+        while(i>=0)
+        {
+            if(str[j] < str[i])
+            {
+                flag = false;
+                break;
+            }
+            else if(str[j] > str[i])
+            {
+                break;
+            }
+
+            i--;
+            j++;
+        }
+    }
+
+    if(flag) ret++;
+
+    return ret;
+
+
+}
+
+
+string toStr(ll num)
+{
+    if(num == 0)
+    {
+        return "0";
+    }
+
+    string str;
+
+    while(num != 0)
+    {
+       str.pb( num%10 + '0');
+       num /= 10;
+    }
+
+    reverse(all(str));
+
+    return str;
+}
+
+
+
+
+
+
 
 void init()
 {
+    //cout<<countPalindromeOfSize(-3);
+    //cout<<countPalindromeTillThisPosition("");
+    //cout<<toStr(104);
 
+    //read("input");
 }
 
 
 int main()
 {
     init();
+
+    int kases, kaseno = 0;
+
+    ll a, b;
+
+    string aa, bb;
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        cin>>a>>b;
+
+        if(a > b)
+        {
+            swap(a, b);
+        }
+
+        ll res = 0;
+
+        if(a == 0)
+        {
+            res++;
+        }
+        else
+        {
+            a--;
+        }
+
+        aa = toStr(a);
+        bb = toStr(b);
+
+
+        res += countPalindromeTillThisPosition(bb) - countPalindromeTillThisPosition(aa);
+
+
+        pf("Case %d: %lld\n", ++kaseno, res);
+    }
 
 
 

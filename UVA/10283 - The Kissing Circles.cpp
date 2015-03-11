@@ -108,6 +108,12 @@ struct ASDF{
 //Header ends here
 
 
+#define SIN(a) (sin(((a)*PI)/180.0))
+
+
+double R, r, N;
+
+
 
 
 void init()
@@ -119,6 +125,37 @@ void init()
 int main()
 {
     init();
+
+    while(cin>>R>>N)
+    {
+        if(N == 1)
+        {
+            pf("%.10lf %.10lf %.10lf\n", R, 0.0, 0.0);
+        }
+        else
+        {
+            double theta = 360.0 / N;
+
+            double halfTheta = theta/2.0;
+
+            r = (R * SIN(halfTheta)) / (1 + SIN(halfTheta));
+
+            double blue = 0.5*(R-r)*r*SIN(90.0 - halfTheta);
+
+            blue = blue - (PI*r*r*(180.0 - theta)/720.0);
+
+            blue = blue*N*2.0;
+
+
+            double green = (PI*R*R) - blue - N*PI*r*r;
+
+
+            pf("%.10lf %.10lf %.10lf\n", r, blue, green);
+
+        }
+    }
+
+
 
 
 

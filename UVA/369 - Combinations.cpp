@@ -107,18 +107,59 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 107
+
+
+ll nCr[MAXX][MAXX];
+
+ll ncr(int n, int r)
+{
+    if(r == 0)
+    {
+        return 1;
+    }
+
+    if(n < r)
+    {
+        return 0;
+    }
+
+    ll &ret = nCr[n][r];
+
+    if(ret != -1) return ret;
+
+    return ret = ncr(n-1, r) + ncr(n-1, r-1);
+}
+
+
 
 
 
 void init()
 {
-
+    mem(nCr, -1);
 }
 
 
 int main()
 {
     init();
+
+
+    ll N, R;
+
+    while(true)
+    {
+        sf("%lld %lld", &N, &R);
+        if(N==0 && R == 0)
+        {
+            break;
+        }
+        else
+        {
+            pf("%lld things taken %lld at a time is %lld exactly.\n", N, R, ncr(N,R));
+        }
+    }
 
 
 

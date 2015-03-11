@@ -108,17 +108,123 @@ struct ASDF{
 //Header ends here
 
 
+#define MAXX 10007
 
+
+
+ll A, C;
+vector<ll>primes;
+
+
+
+void generatePrimes()
+{
+
+    bool isPrime[MAXX];
+
+    mem(isPrime, 1);
+
+    int root = sqrt(MAXX) + 7;
+
+    for(int i=3; i<root; i+=2)
+    {
+        if(isPrime[i])
+        {
+            for(int j=i*i; j<MAXX; j+=2*i)
+            {
+                isPrime[j] = false;
+            }
+        }
+    }
+
+    primes.pb(2);
+
+
+
+    for(int i=3; i<MAXX; i+=2)
+    {
+        if(isPrime[i])
+        {
+            primes.pb(i);
+        }
+    }
+
+}
 
 void init()
 {
+    generatePrimes();
 
+}
+
+
+void solve()
+{
+    if((C%A) != 0)
+    {
+        pf("NO SOLUTION\n");
+    }
+    else
+    {
+        ll root = sqrt(C);
+
+        ll ret = 1;
+
+        for(int i=0; i<SZ(primes) && primes[i] <= root; i++)
+        {
+            if((C%primes[i]) == 0)
+            {
+                ll tmp = 1;
+
+                while( (C%primes[i]) == 0 && (A % primes[i]) == 0 )
+                {
+                    tmp*=primes[i];
+                    C /= primes[i];
+                    A /= primes[i];
+                }
+
+                if( (C % primes[i]) == 0 )
+                {
+                    do {
+                        tmp *= primes[i];
+                        C /= primes[i];
+                    }while( (C%primes[i]) == 0 );
+
+                    ret *= tmp;
+
+                }
+
+                root = sqrt(C);
+            }
+        }
+
+        if(C != 1)
+        {
+            if(A != C)
+            {
+                ret *= C;
+            }
+        }
+
+        pf("%lld\n", ret);
+    }
 }
 
 
 int main()
 {
     init();
+
+    int kases;
+
+    take(kases);
+
+    while(kases--)
+    {
+        take(A, C);
+
+        solve();
+    }
 
 
 

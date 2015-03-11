@@ -107,6 +107,84 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 1000007
+
+int cnt;
+int pi[MAXX];
+
+void computePrefixFunction(string P)
+{
+    int m = SZ(P);
+
+    pi[0] = -1;
+
+    int k = -1;
+
+    for(int i=1; i<m; i++)
+    {
+        while(k > -1 && P[k+1] != P[i])
+        {
+            k = pi[k];
+        }
+
+        if(P[k+1] == P[i])
+        {
+            k++;
+        }
+
+        pi[i] = k;
+    }
+}
+
+
+void KMP(string T, string P)
+{
+    cnt = 0; // How many times matched
+
+    int n = SZ(T);
+    int m = SZ(P);
+
+    computePrefixFunction(P);
+
+    int q = -1;
+
+    loop(i, n)
+    {
+        while(q > -1 && P[q+1] != T[i])
+        {
+            q = pi[q];
+        }
+
+        if(P[q+1] == T[i])
+        {
+            q++;
+        }
+
+        if(q == m-1)
+        {
+            cnt++;
+            q = pi[q];
+        }
+    }
+
+
+
+}
+
+
+
+
+
+string A, B;
+
+
+
+int solve()
+{
+    KMP(A, B);
+
+    return cnt;
+}
 
 
 
@@ -119,6 +197,17 @@ void init()
 int main()
 {
     init();
+
+    int kases, kaseno = 0;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        cin>>A>>B;
+
+        pf("Case %d: %d\n", ++kaseno, solve());
+    }
 
 
 

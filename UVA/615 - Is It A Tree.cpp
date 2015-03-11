@@ -110,6 +110,24 @@ struct ASDF{
 
 
 
+
+
+
+set<int>NodeList;
+
+set<int>inputNodes;
+
+map<int,int>parent;
+
+
+int find(int u)
+{
+    if(parent[u] == u) return u;
+    return parent[u] = find(parent[u]);
+}
+
+
+
 void init()
 {
 
@@ -119,6 +137,75 @@ void init()
 int main()
 {
     init();
+
+    int kaseno = 0;
+    int p, q;
+    int edge;
+    bool possible;
+
+    while(true)
+    {
+        scanf("%d %d", &p, &q);
+        if(p < 0 && q < 0)
+        {
+            break;
+        }
+        else
+        {
+            edge = 0;
+            NodeList.clear();
+            inputNodes.clear();
+            parent.clear();
+            possible = true;
+
+            while(p != 0 && q != 0)
+            {
+                edge++;
+                NodeList.insert(p);
+                NodeList.insert(q);
+
+                if(parent[p] == 0)
+                {
+                    parent[p] = p;
+                }
+
+                if(parent[q] == 0)
+                {
+                    parent[q] = q;
+                }
+
+                int u = find(p);
+                int v = find(q);
+                if(u == v)
+                {
+                    possible = false;
+                }
+
+                parent[ v ] = u;
+
+                if(inputNodes.find(q) != inputNodes.end())
+                {
+                    possible = false;
+                }
+                else
+                {
+                    inputNodes.insert(q);
+                }
+
+                scanf("%d %d", &p, &q);
+            }
+
+            if( edge == 0 || (possible && (edge == SZ(NodeList) - 1) && (edge == SZ(inputNodes)) ) )
+            {
+                pf("Case %d is a tree.\n", ++kaseno);
+            }
+            else
+            {
+                pf("Case %d is not a tree.\n", ++kaseno);
+            }
+
+        }
+    }
 
 
 

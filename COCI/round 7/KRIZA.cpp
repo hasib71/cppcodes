@@ -107,7 +107,10 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 100007
 
+
+int pos[MAXX];
 
 
 void init()
@@ -116,9 +119,66 @@ void init()
 }
 
 
+
+
+
+
 int main()
 {
     init();
+
+    ll result = 0;
+
+    int N, K;
+
+    int id;
+
+    int curId;
+
+    sf("%d %d", &N, &K);
+
+    loop(i, N)
+    {
+        scanf("%d", &id);
+
+        if(i == 0)
+        {
+            curId = id;
+        }
+
+        pos[id] = i;
+    }
+
+
+    id = 1;
+
+    loop(bla, K)
+    {
+        if(id == (N+1))
+        {
+            id = 1;
+        }
+
+
+        ll diff = pos[id] - pos[curId];
+
+        if(diff < 0)
+        {
+            diff += N;
+        }
+
+        //pf("For door %d, require = %lld\n", id, diff);
+
+        result += diff;
+
+        curId = id;
+
+        id++;
+    }
+
+    cout<<result<<endl;
+
+
 
 
 

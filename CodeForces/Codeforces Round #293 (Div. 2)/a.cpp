@@ -120,6 +120,50 @@ int main()
 {
     init();
 
+    string s, t, output;
+
+    cin>>s>>t;
+
+    bool possible = false;
+
+    output = s;
+
+
+
+
+
+    loop(i, SZ(output))
+    {
+        if(s[i] != 'z')
+        {
+            output[i] = s[i] + 1;
+
+            for(int j=i+1; j<SZ(s); j++)
+            {
+                output[j] = 'a';
+            }
+
+            if(s < output && output < t)
+            {
+                possible = true;
+                break;
+            }
+        }
+
+        output[i] = s[i];
+
+    }
+
+    if(possible)
+    {
+        cout<<output<<endl;
+    }
+
+    else
+    {
+        cout<<"No such string"<<endl;
+    }
+
 
 
     return 0;

@@ -107,18 +107,110 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 107
+
+
+
+int n, m;
+
+
+bool isHappyBoy[MAXX], isHappyGirl[MAXX];
 
 
 
 void init()
 {
+    mem(isHappyBoy, 0);
+    mem(isHappyGirl, 0);
+}
+
+
+bool isPossible()
+{
+    int b = 0, g = 0;
+
+    loop(cnt, 10000007)
+    {
+
+        if(isHappyBoy[b] || isHappyGirl[g])
+        {
+            isHappyBoy[b] = isHappyGirl[g] = true;
+        }
+
+        b = (b+1);
+        g = (g+1);
+
+        if(b == n)
+        {
+            b = 0;
+        }
+
+        if(g == m)
+        {
+            g = 0;
+        }
+
+    }
+
+    loop(i, n)
+    {
+        if(isHappyBoy[i] == false)
+        {
+            return false;
+        }
+    }
+
+    loop(i, m)
+    {
+        if(isHappyGirl[i] == false)
+        {
+            return false;
+        }
+    }
+
+    return true;
+
 
 }
+
+
 
 
 int main()
 {
     init();
+
+    cin>>n>>m;
+
+    int b, x;
+
+    cin>>b;
+
+    loop(i, b)
+    {
+        cin>>x;
+        isHappyBoy[x] = true;
+    }
+
+    cin>>b;
+
+    loop(i, b)
+    {
+        cin>>x;
+        isHappyGirl[x] = true;
+    }
+
+
+    if(isPossible())
+    {
+        cout<<"Yes"<<endl;
+    }
+    else
+    {
+        cout<<"No"<<endl;
+    }
+
+
 
 
 

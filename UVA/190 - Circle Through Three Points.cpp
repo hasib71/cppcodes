@@ -108,6 +108,35 @@ struct ASDF{
 //Header ends here
 
 
+class Point{
+public:
+        double x, y;
+
+        Point operator-(Point A)
+        {
+            Point ret;
+            ret.x = this->x - A.x;
+            ret.y = this->y - A.y;
+            return ret;
+        }
+
+};
+
+double sq(double x)
+{
+    return x*x;
+}
+
+
+double dist(Point A, Point B)
+{
+    double ret = sq(A.x - B.x) + sq(A.y - B.y);
+    return sqrt(ret);
+}
+
+
+
+
 
 
 void init()
@@ -119,6 +148,40 @@ void init()
 int main()
 {
     init();
+
+
+    Point A, B, C;
+
+    while(cin>>A.x>>A.y>>B.x>>B.y>>C.x>>C.y)
+    {
+        double a, b, c;
+        a = dist(A, B);
+        b = dist(A, C);
+        c = dist(B, C);
+
+        double s = (a + b + c)/2.0;
+
+        double area = sqrt( s * (s - a) * (s - b) * (s - c) );
+
+        double R = (a*b*c)/(4*area);
+
+        double AA, BB, CC, DD, PP, QQ, RR, h, k;
+
+        AA = 2*(B.x - A.x);
+        BB = 2*(B.y - A.y);
+        CC = sq(B.x) + sq(B.y) - sq(A.x) - sq(A.y);
+
+        PP = 2*(C.x - A.x);
+        QQ = 2*(C.y - A.y);
+        RR = sq(C.x) + sq(C.y) - sq(A.x) - sq(A.y);
+
+        h = (CC*QQ - BB*RR)/(AA*QQ - BB*PP);
+        k = (CC*PP - AA*RR)/(BB*PP - AA*QQ);
+
+        pf("(x %c %.3lf)^2 + (y %c %.3lf)^2 = %.3lf^2\n", h>=0? '-' : '+', abs(h), k>=0? '-': '+', abs(k), R);
+        pf("x^2 + y^2 %c %.3lfx %c %.3lfy %c %.3lf = 0\n\n", h>=0 ? '-' : '+' , abs(2*h), k>=0? '-' : '+', abs(2*k), sq(h) + sq(k) >= sq(R) ? '+' : '-', abs(sq(h) + sq(k) - sq(R)) );
+
+    }
 
 
 

@@ -120,6 +120,24 @@ int main()
 {
     init();
 
+    double u, v, w;
+
+    while(cin>>u>>v>>w)
+    {
+        double tmp = 2*(u*u*v*v + v*v*w*w + w*w*u*u) - (u*u*u*u + v*v*v*v + w*w*w*w);
+        if(tmp <= 0)
+        {
+            pf("-1.000\n");
+        }
+        else
+        {
+            double area = sqrt( tmp ) / 3.0;
+            pf("%.3lf\n", area);
+        }
+
+
+    }
+
 
 
     return 0;

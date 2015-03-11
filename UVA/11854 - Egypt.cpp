@@ -115,10 +115,40 @@ void init()
 
 }
 
+template<typename T>
+T sq(T &x)
+{
+    return x*x;
+}
+
+
+
 
 int main()
 {
     init();
+
+
+    ll A[3];
+
+    while(cin>>A[0]>>A[1]>>A[2])
+    {
+        if(A[0] == 0 && A[1] == 0 && A[2] == 0)
+        {
+            break;
+        }
+
+        sort(A, A + 3);
+
+        if(sq(A[2]) == sq(A[0]) + sq(A[1]))
+        {
+            pf("right\n");
+        }
+        else
+        {
+            pf("wrong\n");
+        }
+    }
 
 
 

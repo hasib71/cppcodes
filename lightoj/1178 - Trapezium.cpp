@@ -120,6 +120,30 @@ int main()
 {
     init();
 
+    int kases, kaseno = 0;
+
+    cin>>kases;
+
+    double a, b, c, d;
+
+    while(kases--)
+    {
+        cin>>a>>b>>c>>d;
+
+        if(a>c) swap(a, c);
+
+        double s = (b + d + c - a)/2.0;
+
+
+        double area = sqrt(s * (s - b) * (s - d) *(s - c + a));
+
+        double h = (2*area) / (c - a );
+
+        area = area + a*h;
+
+        pf("Case %d: %.7lf\n",++kaseno, area);
+    }
+
 
 
     return 0;

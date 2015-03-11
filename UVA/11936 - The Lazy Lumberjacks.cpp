@@ -120,6 +120,25 @@ int main()
 {
     init();
 
+    int kases, a[3];
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        loop(i, 3) cin>>a[i];
+
+        sort(a, a+3);
+        if(a[0] + a[1] <= a[2])
+        {
+            pf("Wrong!!\n");
+        }
+        else
+        {
+            pf("OK\n");
+        }
+    }
+
 
 
     return 0;

@@ -107,6 +107,16 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 27
+
+int totalItems;
+int priceList[MAXX];
+int totalNeed;
+int cntNeededItems[MAXX];
+int menuItems[4];
+int menuPrice;
+
+
 
 
 
@@ -119,6 +129,74 @@ void init()
 int main()
 {
     init();
+
+
+    cin>>totalItems;
+
+    for(int i=1; i<=totalItems; i++)
+    {
+        cin>>priceList[i];
+    }
+
+    cin>>menuPrice;
+
+    loop(i, 4)
+    {
+        cin>>menuItems[i];
+    }
+
+    cin>>totalNeed;
+
+    loop(i, totalNeed)
+    {
+        int id;
+        cin>>id;
+        cntNeededItems[id]++;
+    }
+
+
+    int result = 0;
+
+    while(true)
+    {
+        int sum = 0;
+
+        loop(i, 4)
+        {
+            if( cntNeededItems[ menuItems[i] ] > 0 )
+            {
+                sum += priceList[ menuItems[i] ];
+            }
+        }
+
+        if(sum >= menuPrice)
+        {
+            result += menuPrice;
+            loop(i, 4)
+            {
+                if( cntNeededItems[ menuItems[i] ] > 0 )
+                {
+                    //sum += priceList[ menuItems[i] ];
+                    cntNeededItems[ menuItems[i] ]--;
+                }
+            }
+        }
+        else
+        {
+            break;
+        }
+    }
+
+
+
+    loop(i, MAXX)
+    {
+        result += priceList[i] * cntNeededItems[i];
+    }
+
+    cout<<result<<endl;
+
+
 
 
 

@@ -107,6 +107,9 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 53
+
+bool f[MAXX];
 
 
 
@@ -119,6 +122,51 @@ void init()
 int main()
 {
     init();
+
+    int N;
+
+    string str;
+
+    cin>>N;
+
+    cin>>str;
+
+    mem(f, 0);
+
+    loop(i, N)
+    {
+        char ch = str[i];
+
+        if('a' <= ch && ch <= 'z')
+        {
+            f[ ch - 'a' ] = true;
+        }
+        else
+        {
+            f[ch - 'A'] = true;
+        }
+    }
+
+    int cnt = 0;
+
+    loop(i, 26)
+    {
+        if(f[i])
+        {
+            cnt++;
+        }
+    }
+
+    if(cnt != 26)
+    {
+        cout<<"NO"<<endl;
+    }
+    else
+    {
+        cout<<"YES"<<endl;
+    }
+
+
 
 
 

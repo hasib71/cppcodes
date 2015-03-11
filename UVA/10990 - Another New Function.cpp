@@ -107,18 +107,91 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 2000007
+
+
+
+int phi[MAXX];
+
+ll depth[MAXX], comu[MAXX];
+
+
+void generatePhi()
+{
+    loop(i, MAXX)
+    {
+        phi[i] = i;
+    }
+
+    for(int i=2; i<MAXX; i+=2)
+    {
+        phi[i] /= 2;
+    }
+
+    bool isPrime[MAXX];
+
+    mem(isPrime, 1);
+
+    for(int i=3; i<MAXX; i+=2)
+    {
+        if(isPrime[i])
+        {
+            for(int j=i; j<MAXX; j+=i)
+            {
+                phi[j] = (phi[j]/i) * (i-1);
+                isPrime[j] = false;
+            }
+        }
+    }
+}
+
+void generateDepth()
+{
+    for(int i=2; i<MAXX; i++)
+    {
+        depth[i] = depth[ phi[i] ] + 1;
+    }
+}
+
+
+void generateComu()
+{
+    for(int i=1; i<MAXX; i++)
+    {
+        comu[i] = comu[i-1] + depth[i];
+    }
+}
+
+
+
 
 
 
 void init()
 {
+    generatePhi();
 
+    generateDepth();
+
+    generateComu();
 }
 
 
 int main()
 {
     init();
+
+
+    int kases, n, m;
+
+    take(kases);
+
+    while(kases--)
+    {
+        take(m, n);
+
+        pf("%lld\n", comu[n] - comu[m-1]);
+    }
 
 
 

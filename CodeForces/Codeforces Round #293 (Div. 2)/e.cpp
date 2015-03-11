@@ -107,6 +107,42 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 100007
+#define INF (1LL<<35)
+
+
+int n, k;
+
+char str[50];
+
+ll ara[MAXX];
+
+
+
+ll convert()
+{
+    if(str[0] == '?')
+    {
+        return INF;
+    }
+
+    ll ret = 0;
+
+    int len = strlen(str);
+
+    ll p = 1;
+
+    for(int i=len-1; i>=0; i--)
+    {
+        ret += (str[i] - '0') * p;
+
+        p *= 10;
+    }
+
+    return ret;
+}
+
+
 
 
 
@@ -119,6 +155,36 @@ void init()
 int main()
 {
     init();
+
+    sf("%d %d", &n, &k);
+
+    loop(i, n)
+    {
+        sf("%s", str);
+
+        ara[i] = convert();
+
+    }
+
+    bool possible = true;
+
+
+    loop(i, n)
+    {
+        int prev = i - k;
+
+        ll greaterThan = -(INF), lessThan = (INF);
+
+        if(prev >= 0)
+        {
+            greaterThan = ara[prev]
+        }
+
+
+
+
+    }
+
 
 
 

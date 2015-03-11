@@ -107,20 +107,56 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 1007
 
 
-
-void init()
-{
-
-}
+ll ara[MAXX];
+int len;
 
 
 int main()
 {
-    init();
+
+
+    while(true)
+    {
+        sf("%lld", &ara[0]);
+        if(ara[0] == 0)
+        {
+            break;
+        }
+
+        for(len=1; ; len++)
+        {
+            sf("%lld", &ara[len]);
+            if(ara[len] == 0)
+            {
+                break;
+            }
+        }
+
+        vector<ll>v;
+
+        for(int i=0; i<len; i++)
+        {
+            for(int j=i+1; j<len; j++)
+            {
+                v.pb(abs(ara[j] - ara[i]));
+            }
+        }
+
+
+        ll ret = 0;
+        loop(i, SZ(v))
+        {
+            ret = __gcd(ret, v[i]);
+        }
+
+        cout<<ret<<endl;
+
+    }
 
 
 
-    return 0;
+
 }

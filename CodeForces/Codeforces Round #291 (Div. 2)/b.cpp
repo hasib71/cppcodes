@@ -116,9 +116,60 @@ void init()
 }
 
 
+int n, x, y;
+int p, q;
+int g;
+
+set<paii>s;
+
+
 int main()
 {
     init();
+
+
+    cin>>n>>x>>y;
+
+
+    loop(i, n)
+    {
+        cin>>p>>q;
+
+        p -= x;
+        q -= y;
+
+
+        if(p*q >= 0)
+        {
+            p = abs(p);
+            q = abs(q);
+
+            g = __gcd(p, q);
+        }
+        else
+        {
+            p = abs(p);
+            q = abs(q);
+
+            g = __gcd(p, q);
+
+            p = -p;
+        }
+
+        p /= g;
+        q /= g;
+
+        s.insert(MP(p, q));
+    }
+
+    cout<<SZ(s)<<endl;
+
+
+
+
+
+
+
 
 
 

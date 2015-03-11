@@ -108,6 +108,25 @@ struct ASDF{
 //Header ends here
 
 
+#define MAXX 300007
+
+#define MY_TYPE pair<double, int>
+
+int N, K;
+
+double ara[MAXX];
+
+double comuSum[MAXX];
+
+
+MY_TYPE dp[MAXX];
+
+
+double get(int pos)
+{
+    return comuSum[pos] - comuSum[pos- K];
+}
+
 
 
 void init()
@@ -119,6 +138,47 @@ void init()
 int main()
 {
     init();
+
+    scanf("%d %d", &N, &K);
+
+    comuSum[0] = 0;
+
+    for(int i=1; i<=N; i++)
+    {
+        scanf("%lf", &ara[i]);
+
+        comuSum[i] = comuSum[i-1] + ara[i];
+    }
+
+    dp[K] = MP(get(K)/(double)K, K);
+
+    double result = dp[K].fr;
+
+    for(int i=K+1; i<=N; i++)
+    {
+        MY_TYPE tmp1, tmp2;
+
+        tmp1 = MP( (dp[i-1].fr*(double)dp[i-1].sc + ara[i]) / (double)(dp[i-1].sc + 1),   dp[i-1].sc + 1);
+
+        tmp2 =  MP( get(i)/ (double)K, K);
+
+        dp[i] = max(tmp1, tmp2);
+
+        result = max(result, dp[i].fr);
+    }
+
+
+    pf("%.6lf\n", result);
+
+
+
+
+
+
+
+
+
+
 
 
 

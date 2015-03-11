@@ -107,7 +107,7 @@ struct ASDF{
 
 //Header ends here
 
-
+#define MAXX 60
 
 
 void init()
@@ -116,9 +116,76 @@ void init()
 }
 
 
+int given[MAXX], need[MAXX];
+
+
+
+int toint(char c)
+{
+    if('A' <= c && c <= 'Z')
+    {
+        return c - 'A' + 26;
+    }
+    else
+    {
+        return c - 'a';
+    }
+}
+
+
+
 int main()
 {
     init();
+
+
+    string s, t;
+
+    cin>>s>>t;
+
+    int yay, whoops;
+    yay = whoops = 0;
+
+
+
+    loop(i, SZ(s))
+    {
+        need[ toint(s[i]) ]++;
+    }
+
+    loop(i, SZ(t))
+    {
+        given[ toint(t[i]) ]++;
+    }
+
+
+
+    loop(i, MAXX)
+    {
+        int tmp = min(need[i], given[i]);
+
+        need[i] -= tmp;
+        given[i] -= tmp;
+
+        yay += tmp;
+    }
+
+
+    loop(i, 26)
+    {
+        int tmp = min(need[i] + need[i+26], given[i] + given[i+26]);
+
+        whoops += tmp;
+    }
+
+    cout<<yay<<" "<<whoops<<endl;
+
+
+
+
+
+
+
 
 
 

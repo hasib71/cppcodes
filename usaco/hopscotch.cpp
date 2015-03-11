@@ -1,3 +1,10 @@
+/*
+ID: himuhas1
+TASK: hopscotch
+LANG: C++
+*/
+
+
 /****************************************************************
    ▄█    █▄       ▄████████    ▄████████  ▄█  ▀█████████▄
   ███    ███     ███    ███   ███    ███ ███    ███    ███
@@ -107,6 +114,63 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 17
+
+int R, C;
+
+char graph[MAXX][MAXX];
+
+ll dp[MAXX][MAXX][2];
+
+
+int getColor(int i, int j)
+{
+    if(graph[i][j] == 'B')
+    {
+        return 0;
+    }
+    return 1;
+}
+
+int getOppositColor(int i, int j)
+{
+    if(graph[i][j] == 'B')
+    {
+        return 1;
+    }
+    return 0;
+}
+
+
+
+void solve()
+{
+    dp[0][0][ getColor(0,0) ] = 1;
+
+    loop(r, R)
+    {
+        loop(c, C)
+        {
+            int T = getColor(r, c);
+            int O = getOppositColor(r, c);
+
+            loop(i, r)
+            {
+                loop(j, c)
+                {
+                    if(graph[i][j] != graph[r][c])
+                    {
+                        dp[r][c][T] += dp[i][j][O];
+                    }
+                }
+            }
+        }
+    }
+
+    cout<<dp[R-1][C-1][0] + dp[R-1][C-1][1]<<endl;
+
+}
+
 
 
 
@@ -118,7 +182,22 @@ void init()
 
 int main()
 {
+    #ifndef hasibpc
+        read("hopscotch.in");
+        write("hopscotch.out");
+    #endif // hasibpc
+
     init();
+
+    cin>>R>>C;
+
+    loop(i, R)
+    {
+        cin>>graph[i];
+    }
+
+
+    solve();
 
 
 

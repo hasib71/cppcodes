@@ -109,18 +109,85 @@ struct ASDF{
 
 
 
+#define MAXX 107
 
-void init()
+
+int rows, columns;
+
+char graph[MAXX][MAXX];
+
+bool visited[MAXX][MAXX];
+
+int component;
+
+
+int dx[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+int dy[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+
+
+void dfs(paii u)
 {
+    visited[u.fr][u.sc] = true;
 
+    paii v;
+
+    loop(i, 8)
+    {
+        v = MP(u.fr + dx[i], u.sc + dy[i]);
+        if(0<=v.fr && v.fr <rows && 0<= v.sc && v.sc <columns)
+        {
+            if( ! visited[v.fr][v.sc] && graph[v.fr][v.sc] == '@' )
+            {
+                dfs(v);
+            }
+        }
+    }
+}
+
+
+void solve()
+{
+    mem(visited, 0);
+
+    component = 0;
+
+    loop(i, rows)
+    {
+        loop(j, columns)
+        {
+            if(!visited[i][j] && graph[i][j] == '@')
+            {
+                component++;
+                dfs(MP(i, j));
+            }
+        }
+    }
 }
 
 
 int main()
 {
-    init();
+    while(true)
+    {
+        sf("%d %d", &rows, &columns);
+        if(rows == 0) break;
+
+        loop(i, rows)
+        {
+            sf("%s", graph[i]);
+        }
+
+        solve();
+        //dump(component);
+        pf("%d\n", component);
+
+
+    }
 
 
 
-    return 0;
+
+
+
 }

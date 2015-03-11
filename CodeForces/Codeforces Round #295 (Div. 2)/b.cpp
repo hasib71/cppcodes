@@ -107,6 +107,63 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 100007
+
+
+ll dist[MAXX];
+
+bool visited[MAXX];
+
+int target;
+
+ll bfs(int u)
+{
+    mem(visited, 0);
+
+    visited[u] = true;
+
+    dist[u] = 0;
+
+    queue<int>Q;
+
+    Q.push(u);
+
+    while(!Q.empty())
+    {
+        u = Q.front(); Q.pop();
+
+        if(u == target)
+        {
+            break;
+        }
+
+        int v = 2*u;
+
+        if(v < MAXX && !visited[v])
+        {
+            visited[v] = true;
+            dist[v] = dist[u] + 1;
+            Q.push(v);
+        }
+
+        v = u - 1;
+
+        if(0<= v && !visited[v])
+        {
+            visited[v] = true;
+            dist[v] = dist[u] + 1;
+            Q.push(v);
+        }
+    }
+
+    return dist[target];
+}
+
+
+
+
+
+
 
 
 
@@ -119,6 +176,12 @@ void init()
 int main()
 {
     init();
+
+    int start;
+
+    cin>>start>>target;
+
+    cout<<bfs(start)<<endl;
 
 
 

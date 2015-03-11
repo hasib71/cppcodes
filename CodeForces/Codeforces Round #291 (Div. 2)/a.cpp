@@ -115,10 +115,28 @@ void init()
 
 }
 
+#define nm(x) (x - '0')
 
 int main()
 {
     init();
+
+
+    string str;
+
+    cin>>str;
+
+    if(str[0] != '9')
+    {
+        str[0] = min(nm(str[0] ) , 9 - nm(str[0])  ) + '0';
+    }
+
+    for(int i=1; i<SZ(str); i++)
+    {
+        str[i] = min(nm(str[i] ) , 9 - nm(str[i])  ) + '0';
+    }
+
+    cout<<str<<endl;
 
 
 

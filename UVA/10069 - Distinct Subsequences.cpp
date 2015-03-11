@@ -110,6 +110,108 @@ struct ASDF{
 
 
 
+struct BigInteger {
+    string num;
+
+    BigInteger operator+(BigInteger other)
+    {
+        BigInteger ret;
+
+        int maxLen = max( SZ(num), SZ(other.num) );
+
+        int hate = 0;
+
+        loop(i, maxLen)
+        {
+            int sum = (i<SZ(num)?num[i] : 0) + (i<SZ(other.num) ? other.num[i]:0) + hate;
+            ret.num.push_back(sum%10);
+            hate = sum/10;
+        }
+        while(hate != 0)
+        {
+            ret.num.push_back(hate%10);
+            hate /= 10;
+        }
+        return ret;
+    }
+
+
+    void operator+=(BigInteger other)
+    {
+        num = (*this + other).num;
+    }
+
+};
+
+
+#define MAXX 10107
+
+
+
+
+string str, pattern;
+
+BigInteger dp[MAXX][107];
+bool visited[MAXX][107];
+
+
+
+BigInteger rec(int i, int j)
+{
+    //dump(i);
+    //dump(j);
+    BigInteger &ret = dp[i][j];
+
+    if( visited[i][j] ) return ret;
+
+    visited[i][j] = true;
+
+    ret.num.clear();
+
+    if(j >= SZ(pattern))
+    {
+        ret.num.pb(1);
+        return ret;
+    }
+    else if(i >= SZ(str))
+    {
+
+        ret.num.pb(0);
+        return ret;
+    }
+    else
+    {
+
+        ret = rec(i+1, j);
+
+        if(str[i] == pattern[j])
+        {
+            ret = ret+ rec(i+1, j+1);
+        }
+
+        return ret;
+    }
+
+}
+
+
+
+void solve()
+{
+    mem(visited, 0);
+    string res = rec(0, 0).num;
+    reverse(all(res));
+    loop(i, SZ(res))
+    {
+        res[i] = res[i] + '0';
+    }
+
+    cout<<res<<endl;
+
+}
+
+
+
 void init()
 {
 
@@ -119,6 +221,17 @@ void init()
 int main()
 {
     init();
+
+    int kases;
+
+    take(kases);
+
+    while(kases--)
+    {
+        cin>>str>>pattern;
+
+        solve();
+    }
 
 
 

@@ -109,6 +109,9 @@ struct ASDF{
 
 
 
+#define sq(x) ((x)*(x))
+
+
 
 void init()
 {
@@ -116,9 +119,45 @@ void init()
 }
 
 
+struct Point{
+    double x, y;
+
+    double operator-(const Point &P) const
+    {
+        return sqrt(sq(this->x - P.x) + sq(this->y - P.y));
+    }
+
+};
+
+
 int main()
 {
     init();
+
+    int kases, kaseno = 0;
+
+    Point O, A, B;
+
+    cin>>kases;
+
+    while(kases--)
+    {
+        cin>>O.x>>O.y>>A.x>>A.y>>B.x>>B.y;
+
+        double r = O - A;
+
+        double p = A - B;
+
+        double theta = 1.0 - (sq(p)/(2.0*sq(r)));
+
+        theta = acos(theta);
+
+        double s = r * theta;
+
+        pf("Case %d: %.6lf\n", ++kaseno, s);
+
+
+    }
 
 
 

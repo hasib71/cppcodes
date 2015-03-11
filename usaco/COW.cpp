@@ -1,3 +1,9 @@
+/*
+ID: himuhas1
+TASK: cow
+LANG: C++
+*/
+
 /****************************************************************
    ▄█    █▄       ▄████████    ▄████████  ▄█  ▀█████████▄
   ███    ███     ███    ███   ███    ███ ███    ███    ███
@@ -107,6 +113,69 @@ struct ASDF{
 
 //Header ends here
 
+int len;
+string str;
+
+
+#define MAXX 100007
+
+ll cntC[MAXX], cntW[MAXX];
+
+
+void solve()
+{
+    mem(cntC, 0);
+    mem(cntW, 0);
+
+    int T = 0;
+
+    loop(i, len)
+    {
+        if(str[i] == 'C')
+        {
+            cntC[i] = ++T;
+        }
+        else
+        {
+            cntC[i] = T;
+        }
+    }
+
+    T = 0;
+
+    for(int i=len - 1; i>-1; i--)
+    {
+        if(str[i] == 'W')
+        {
+            cntW[i] = ++T;
+        }
+        else
+        {
+            cntW[i] = T;
+        }
+    }
+
+
+    ll result = 0;
+
+    loop(i, len)
+    {
+        if(str[i] == 'O')
+        {
+            result += cntC[i] * cntW[i];
+        }
+    }
+
+    cout<<result<<endl;
+
+}
+
+
+
+
+
+
+
 
 
 
@@ -118,7 +187,19 @@ void init()
 
 int main()
 {
+    #ifndef hasibpc
+        read("cow.in");
+        write("cow.out");
+    #endif // hasibpc
+
+
     init();
+
+    cin>>len;
+    cin>>str;
+
+    solve();
+
 
 
 

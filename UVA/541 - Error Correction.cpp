@@ -107,6 +107,59 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 107
+
+int graph[MAXX][MAXX];
+
+vector<int>rowOdd, columnOdd;
+
+int n;
+
+
+
+void solve()
+{
+    rowOdd.clear();
+
+    columnOdd.clear();
+
+    loop(i, n)
+    {
+        int row = 0, column = 0;
+
+        loop(j, n)
+        {
+            row += graph[i][j];
+            column += graph[j][i];
+        }
+
+        if((row%2) == 1)
+        {
+            rowOdd.pb(i);
+        }
+
+        if((column%2) == 1)
+        {
+            columnOdd.pb(i);
+        }
+    }
+
+    if( SZ(columnOdd) == 0 && SZ(rowOdd) == 0 )
+    {
+        pf("OK\n");
+    }
+    else if(SZ(columnOdd) == 1 && SZ(rowOdd) == 1)
+    {
+        pf("Change bit (%d,%d)\n", rowOdd[0] + 1, columnOdd[0] + 1);
+    }
+    else
+    {
+        pf("Corrupt\n");
+    }
+
+
+}
+
 
 
 
@@ -119,6 +172,30 @@ void init()
 int main()
 {
     init();
+
+
+    while(true)
+    {
+        sf("%d", &n);
+
+        if(n == 0)
+        {
+            break;
+        }
+
+
+        loop(i, n)
+        {
+            loop(j, n)
+            {
+                sf("%d", &graph[i][j]);
+            }
+        }
+
+        solve();
+    }
+
+
 
 
 

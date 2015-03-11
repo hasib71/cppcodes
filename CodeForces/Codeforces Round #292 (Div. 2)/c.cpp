@@ -108,17 +108,98 @@ struct ASDF{
 //Header ends here
 
 
+int len;
+string str;
+
+
+int primes[] = {2, 3, 5, 7};
+
+int cnt[4]; /// two=0, three=1, five=2, seven=3
+
+int fac[10];
+
+
+
+void add(int n)
+{
+    int tmp = fac[n];
+
+    loop(i, 4)
+    {
+        while( (tmp%primes[i]) == 0 )
+        {
+            tmp /= primes[i];
+            cnt[i]++;
+        }
+    }
+}
+
+void remove(int n)
+{
+    int tmp = fac[n];
+
+    loop(i, 4)
+    {
+        while( (tmp % primes[i]) == 0 )
+        {
+            tmp /= primes[i];
+            cnt[i]--;
+        }
+    }
+}
+
+
+
+string solve()
+{
+    string ret = "";
+
+    mem(cnt, 0);
+
+    loop(i, len)
+    {
+        add(str[i] - '0');
+    }
+
+    for(int i=3; i>=0; i--)
+    {
+        while(cnt[i] > 0)
+        {
+            ret.pb('0' + primes[i]);
+
+            remove(primes[i]);
+        }
+    }
+
+    //dump(ret);
+
+    return ret;
+
+
+
+}
+
 
 
 void init()
 {
+    fac[0] = 1;
 
+    for(int i=1; i<10; i++)
+    {
+        fac[i] = i*fac[i-1];
+    }
 }
 
 
 int main()
 {
     init();
+
+
+    cin>>len>>str;
+
+    cout<<solve()<<endl;
 
 
 

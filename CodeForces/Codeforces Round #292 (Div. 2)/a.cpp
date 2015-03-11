@@ -121,6 +121,44 @@ int main()
     init();
 
 
+    ll a, b, s;
+
+    cin>>a>>b>>s;
+
+    if(a < 0)
+    {
+        a = -a;
+    }
+
+    if(b < 0)
+    {
+        b = -b;
+    }
+
+
+    ll needed = (a+b);
+
+    if(s < needed)
+    {
+        cout<<"No"<<endl;
+    }
+    else
+    {
+        needed = s - needed;
+
+        if((needed % 2) == 0)
+        {
+            cout<<"Yes"<<endl;
+        }
+        else
+        {
+            cout<<"No"<<endl;
+        }
+    }
+
+
+
+
 
     return 0;
 }

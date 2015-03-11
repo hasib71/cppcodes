@@ -107,7 +107,18 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 100007
 
+
+int n;
+int weight[MAXX];
+
+
+
+void solve()
+{
+
+}
 
 
 void init()
@@ -119,6 +130,23 @@ void init()
 int main()
 {
     init();
+
+    int kases, kaseno = 0;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        sf("%d", &n);
+
+        loop(i, n)
+        {
+            sf("%d", &weight[i]);
+        }
+
+
+
+    }
 
 
 

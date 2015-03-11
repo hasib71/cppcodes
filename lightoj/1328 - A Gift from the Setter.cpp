@@ -107,6 +107,37 @@ struct ASDF{
 
 //Header ends here
 
+#define MAXX 100007
+
+#define MOD 1000007
+
+ll a[MAXX];
+
+int K, C, N;
+
+ll v[MAXX];
+
+
+ll solve()
+{
+    sort(a, a + N);
+
+    reverse(a, a + N);
+
+    ll ret = 0;
+
+    v[0] = 0;
+
+    FOR(i, 1, N)
+    {
+        v[i] = v[i-1] + (a[i-1] - a[i]) * (ll)i;
+        ret += v[i];
+    }
+
+    return ret;
+
+}
+
 
 
 
@@ -119,6 +150,29 @@ void init()
 int main()
 {
     init();
+
+    int kases, kaseno = 0;
+
+    take(kases);
+
+    while(kases--)
+    {
+        take(K, C, N, a[0]);
+
+        FOR(i, 1, N)
+        {
+            a[i] = (a[i-1]*K + C) % MOD;
+        }
+
+
+        pf("Case %d: %lld\n", ++kaseno, solve());
+
+
+
+
+    }
+
+
 
 
 
