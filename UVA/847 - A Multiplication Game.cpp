@@ -176,19 +176,64 @@ ostream& operator,(ostream &out, T x)
 
 /**********Hasib Templates Ends Here**************/
 
-/**
- *  WARTNING for me:
- *     Never use    FOR
- *     Never use    pii, pll, vi, vi
- *     Never use    ff, ss, phl, sp, nl
- */
+#include<unordered_map>
+
+unordered_map<ll, bool>mp;
 
 
-int main ()
+
+ll N;
+
+bool can_win(ll k)
 {
-    #ifdef hasibpc
-        read("input.txt");
-    #endif // hasibpc
+    if(k >= N)
+    {
+        return false;
+    }
+
+
+    if(mp.find(k) != mp.end())
+    {
+        return mp[k];
+    }
+    else
+    {
+        for(ll i=2; i<10; i++)
+        {
+            if(can_win(k*i) == false)
+            {
+                return mp[k] = true;
+            }
+        }
+        return mp[k] = false;
+    }
+}
+
+
+
+
+
+
+int main () {
+    #ifdef forthright48
+    //freopen ( "input.txt", "r", stdin );
+    //freopen ( "output.txt", "w", stdout );
+    #endif // forthright48
+
+
+    while(sf("%lld", &N) == 1)
+    {
+        mp.clear();
+
+        if(can_win(1))
+        {
+            pf("Stan wins.\n");
+        }
+        else
+        {
+            pf("Ollie wins.\n");
+        }
+    }
 
 
     return 0;

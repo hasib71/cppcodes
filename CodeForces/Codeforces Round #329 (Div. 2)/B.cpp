@@ -176,19 +176,92 @@ ostream& operator,(ostream &out, T x)
 
 /**********Hasib Templates Ends Here**************/
 
-/**
- *  WARTNING for me:
- *     Never use    FOR
- *     Never use    pii, pll, vi, vi
- *     Never use    ff, ss, phl, sp, nl
- */
+
+#define MAXX 100007
+
+#define kk sc
+#define bb fr
+
+int n;
+ll x1, x2;
+pall points[MAXX];
 
 
-int main ()
-{
-    #ifdef hasibpc
-        read("input.txt");
-    #endif // hasibpc
+
+
+
+int main () {
+    #ifdef forthright48
+    //freopen ( "input.txt", "r", stdin );
+    //freopen ( "output.txt", "w", stdout );
+    #endif // forthright48
+
+
+    sf("%d", &n);
+
+    sf("%lld %lld", &x1, &x2);
+
+    loop(i, n)
+    {
+        sf("%lld %lld", &points[i].kk, &points[i].bb);
+
+        points[i].bb += points[i].kk * x1;
+    }
+
+
+
+
+
+    sort(points, points+n);
+
+    bool possible = false;
+
+
+    for(int j=1; j<n; j++)
+    {
+        int i = j - 1;
+
+        if(points[i].kk == points[j].kk)
+        {
+            if(points[i].bb == points[j].bb)
+            {
+                possible = true;
+                break;
+            }
+        }
+        else
+        {
+            if(points[i].bb < points[j].bb && points[i].kk > points[j].kk)
+            {
+                double x = ((double)(points[j].bb - points[i].bb)) / ((double)(points[i].kk - points[j].kk));
+
+                ll miki = (points[j].bb - points[i].bb);
+                ll mouse = (points[i].kk - points[j].kk);
+
+
+                if( ((miki % mouse) == 0) && ((miki / mouse) == (x2 - x1)) )
+                {
+                    continue;
+                }
+                else if(x < (double)(x2 - x1))
+                {
+                    possible = true;
+                    break;
+                }
+            }
+        }
+    }
+
+
+
+    if(possible)
+    {
+        pf("YES\n");
+    }
+    else
+    {
+        pf("NO\n");
+    }
 
 
     return 0;

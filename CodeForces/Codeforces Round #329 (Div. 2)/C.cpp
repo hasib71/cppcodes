@@ -176,19 +176,11 @@ ostream& operator,(ostream &out, T x)
 
 /**********Hasib Templates Ends Here**************/
 
-/**
- *  WARTNING for me:
- *     Never use    FOR
- *     Never use    pii, pll, vi, vi
- *     Never use    ff, ss, phl, sp, nl
- */
-
-
-int main ()
-{
-    #ifdef hasibpc
-        read("input.txt");
-    #endif // hasibpc
+int main () {
+    #ifdef forthright48
+    //freopen ( "input.txt", "r", stdin );
+    //freopen ( "output.txt", "w", stdout );
+    #endif // forthright48
 
 
     return 0;

@@ -176,19 +176,73 @@ ostream& operator,(ostream &out, T x)
 
 /**********Hasib Templates Ends Here**************/
 
-/**
- *  WARTNING for me:
- *     Never use    FOR
- *     Never use    pii, pll, vi, vi
- *     Never use    ff, ss, phl, sp, nl
- */
+
+vector<string>v;
+
+int check(char a, char b)
+{
+    int cnt = 0;
+
+
+    loop(i, SZ(v))
+    {
+        bool possible = true;
+        loop(j, SZ(v[i]))
+        {
+            if(v[i][j] != a && v[i][j] != b)
+            {
+                possible = false;
+                break;
+            }
+        }
+
+        if(possible)
+        {
+            cnt += SZ(v[i]);
+        }
+    }
+
+    return cnt;
+}
 
 
 int main ()
 {
     #ifdef hasibpc
-        read("input.txt");
-    #endif // hasibpc
+    //freopen ( "input.txt", "r", stdin );
+    //freopen ( "output.txt", "w", stdout );
+    #endif // forthright48
+
+
+
+
+
+    int n;
+
+    sf("%d", &n);
+
+    string s;
+
+    loop(i, n)
+    {
+        cin>>s;
+        v.pb(s);
+    }
+
+
+    int mx = 0;
+
+    for(char a = 'a'; a<='z'; a++)
+    {
+        for(char b = a; b<='z'; b++ )
+        {
+            mx = max(mx, check(a, b));
+        }
+    }
+
+    cout<<mx<<endl;
+
+
 
 
     return 0;
