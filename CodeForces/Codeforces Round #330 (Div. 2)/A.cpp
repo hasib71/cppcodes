@@ -183,6 +183,8 @@ ostream& operator,(ostream &out, T x)
  *     Never use    ff, ss, phl, sp, nl
  */
 
+#define MAXX 207
+int ara[MAXX];
 
 int main ()
 {
@@ -190,6 +192,36 @@ int main ()
         //read("input.txt");
         //write("output.txt");
     #endif // hasibpc
+
+
+
+    int n, m;
+
+    sf("%d %d", &n, &m);
+
+
+    int cnt = 0;
+
+
+    int twm = 2*m;
+
+    loop(i, n)
+    {
+        loop(j, twm)
+        {
+            sf("%d", &ara[j]);
+        }
+
+        loop(j, m)
+        {
+            if(ara[2*j] + ara[2*j + 1])
+            {
+                cnt++;
+            }
+        }
+    }
+
+    cout<<cnt<<endl;
 
 
     return 0;

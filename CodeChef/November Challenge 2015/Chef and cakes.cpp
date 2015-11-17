@@ -183,13 +183,87 @@ ostream& operator,(ostream &out, T x)
  *     Never use    ff, ss, phl, sp, nl
  */
 
+#define MAXX 1000007
+
+int solve(int n, int k)
+{
+    int cnt = 0;
+
+    bool marked[MAXX];
+
+    mem(marked, 0);
+
+    vector<int>v;
+
+    v.pb(-1);
+
+
+    for(int i=k+1; i<=n; i++)
+    {
+        v.pb(i);
+    }
+
+    for(int i=1; i<=k; i++)
+    {
+        v.pb(i);
+    }
+
+    vdump(v);
+
+    int idx = 1;
+
+    while(true)
+    {
+        if(marked[idx])
+        {
+            break;
+        }
+
+        marked[idx] = true;
+        vdump(idx);
+        cnt++;
+
+        idx = v[idx];
+
+    }
+
+
+    return cnt;
+
+}
+
+int solve2(int n, int k)
+{
+    return n/__gcd(n, k);
+}
 
 int main ()
 {
     #ifdef hasibpc
         //read("input.txt");
-        //write("output.txt");
     #endif // hasibpc
+
+
+    int n, k;
+    int kases;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        sf("%d %d", &n, &k);
+        k = solve2(n, k);
+
+        if(k == n)
+        {
+            pf("Yes\n");
+        }
+        else
+        {
+            pf("No %d\n", k);
+        }
+    }
+
 
 
     return 0;

@@ -184,12 +184,113 @@ ostream& operator,(ostream &out, T x)
  */
 
 
+
+
+struct Calculas{
+
+    double stepSize = 0.0001;
+
+    double integrate( double (*f)(double),  double start, double end)
+    {
+        double ret = 0.0;
+
+        for(double x = start; x<=end; x+=stepSize)
+        {
+            ret += f(x)*stepSize;
+        }
+
+        return ret;
+    }
+
+    double simson(double (*f)(double), double start, double end)
+    {
+        return (end - start)*(f(start) + 4.0*f( (start+end)/2.0 ) + f(end) ) / 6.0;
+    }
+
+
+    double simsonDeep(double (*f)(double), double start, double end, double n=100.0)
+    {
+        double h = (end - start)/n;
+
+        double x, r;
+        char m = 0;
+        double s = 0.0;
+
+        for(x = start; x<=end; x+=h)
+        {
+            r = f(x);
+            if(x == start || x == end)
+            {
+                s += r;
+            }
+            else
+            {
+                m = !m;
+                s += r*(m+1)*2.0;
+            }
+        }
+
+        return s*(h/3.0);
+    }
+
+};
+
+double A;
+
+double innerEquation(double x)
+{
+ return sqrt(A*A - x*x) - A/2.0;
+}
+
+
+double outerEquation(double x)
+{
+    return -innerEquation(x);
+}
+
+
+
+
+
 int main ()
 {
     #ifdef hasibpc
         //read("input.txt");
         //write("output.txt");
     #endif // hasibpc
+
+    Calculas c;
+
+
+
+
+    while(sf("%lf", &A) != EOF)
+    {
+        /*
+
+        double ret1 = 4.0*c.integrate(innerEquation, A/2.0, (sqrt(3.0)*A)/2.0);
+
+        double ret3 = 8.0*c.integrate(outerEquation, (sqrt(3.0)*A)/2.0, A);
+
+        double ret2 = A*A - ret1 - ret3;
+
+        */
+
+        double r1 = 4.0*c.simsonDeep(innerEquation, A/2.0, (sqrt(3.0)*A)/2.0, 10.0);
+
+        double r3 = 8.0*c.simsonDeep(outerEquation, (sqrt(3.0)*A)/2.0, A, 10.0);
+
+        double r2 = A*A - r1 - r3;
+
+        //pf("%.3lf %.3lf %.3lf\n",ret1, ret2, ret3);
+        pf("%.3lf %.3lf %.3lf\n",r1, r2, r3);
+    }
+
+
+
+
+
+
 
 
     return 0;

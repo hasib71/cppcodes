@@ -16,7 +16,7 @@
 #include <climits>
 #include <iomanip>
 #include <cassert>
-//#include <unordered_map>
+#include <unordered_map>
 
 #define pb push_back
 #define nl puts ("")
@@ -184,12 +184,129 @@ ostream& operator,(ostream &out, T x)
  */
 
 
+
+#define MAXX 100007
+#define MOD 1000000007
+
+//#define mypair pair<int, ll >
+
+ll A[MAXX], B[MAXX];
+ll n, k;                    /// block length = k
+ll cntBlocks;
+
+struct mypair{
+    int fr;
+    ll sc;
+
+    bool operator==(const mypair &p) const
+    {
+        return fr == p.fr && sc == p.sc;
+    }
+};
+
+namespace std{
+
+    template<>
+    struct hash<mypair>{
+        int operator()(const mypair &p) const
+        {
+            return p.fr/10;
+        }
+    };
+
+};
+
+
+unordered_map<mypair, ll>mp;
+
+ll rec(int idxBlock, int pos, ll r)
+{
+    if(pos >= k)
+    {
+        if(r == 0)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+    mypair p;
+    p.fr = pos;
+    p.sc = r;
+
+    if(mp.find(p) != mp.end())
+    {
+        return mp[p];
+    }
+
+    ll ret = 0;
+
+    loop(i, 10)
+    {
+
+        if(pos == 0 && (i == B[idxBlock]) )
+        {
+            continue;
+        }
+
+        ret += rec(idxBlock, pos+1, (r*10 + i)%A[idxBlock]);
+
+        if(ret >= MOD) ret %= MOD;
+
+    }
+
+
+    return mp[p] = ret;
+
+}
+
+
+void solve()
+{
+    ll ret = 1;
+
+    for(ll i=0; i<cntBlocks; i++)
+    {
+        mp.clear();
+        ret = ret * rec(i, 0, 0);
+
+        if(ret >= MOD) ret = ret % MOD;
+    }
+
+    pf("%lld\n", ret);
+}
+
+
+
 int main ()
 {
     #ifdef hasibpc
-        //read("input.txt");
+        read("input.txt");
         //write("output.txt");
     #endif // hasibpc
+
+
+    sf("%lld %lld", &n, &k);
+
+    cntBlocks = n/k;
+
+    loop(i, cntBlocks)
+    {
+        sf("%lld", &A[i]);
+    }
+
+    loop(i, cntBlocks)
+    {
+        sf("%lld", &B[i]);
+    }
+
+    solve();
+
+
 
 
     return 0;

@@ -184,12 +184,121 @@ ostream& operator,(ostream &out, T x)
  */
 
 
+#define mypair pair<int, paii>
+
+
+bool can_win(mypair p)
+{
+    int zero = p.fr;
+    int one = p.sc.fr;
+    int two = p.sc.sc;
+
+    if(zero + one + two == 0)
+    {
+        return false;
+    }
+
+
+
+    int r = (one + 2*two)%3;
+
+    if(r == 0)
+    {
+        if(zero == 0)
+        {
+            return false;
+        }
+        else
+        {
+            p.fr--;
+            return ! can_win(p);
+        }
+    }
+    else if(r == 1)
+    {
+        if(one == 0)
+        {
+            return false;
+        }
+        else
+        {
+            p.sc.fr--;
+            return ! can_win(p);
+        }
+    }
+    else
+    {
+        if(two == 0)
+        {
+            return false;
+        }
+        else
+        {
+            p.sc.sc --;
+            return ! can_win(p);
+        }
+    }
+
+
+
+
+
+
+}
+
+
 int main ()
 {
     #ifdef hasibpc
-        //read("input.txt");
-        //write("output.txt");
+        ///read("input.txt");
     #endif // hasibpc
+
+
+
+    int kases, kaseno = 0;
+    string str;
+    int zero, one, two;
+
+    int d;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        cin>>str;
+
+        zero = one = two = 0;
+
+        loop(i, SZ(str))
+        {
+            d = str[i] - '0';
+
+            d = d % 3;
+
+            if(d == 0)
+            {
+                zero++;
+            }
+            else if(d == 1)
+            {
+                one++;
+            }
+            else
+            {
+                two++;
+            }
+        }
+
+        if(can_win(MP(zero, MP(one, two))))
+        {
+            pf("Case %d: S\n", ++kaseno);
+        }
+        else
+        {
+            pf("Case %d: T\n", ++kaseno);
+        }
+
+    }
 
 
     return 0;

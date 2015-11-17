@@ -184,12 +184,68 @@ ostream& operator,(ostream &out, T x)
  */
 
 
+ll A, D, L, R;
+
+
+ll F(ll N)
+{
+    if(N == 0) return 0;
+
+    N = N%9;
+
+    if(N == 0)
+    {
+        return 9;
+    }
+    else
+    {
+        return N;
+    }
+}
+
+
+
+
+void solve()
+{
+    ll mul = (R - L + 1) / 9;
+
+    ll sum = 0;
+
+    for(ll i = L; i<(L+9); i++)
+    {
+        sum += F( A + F(i-1) * F(D) );
+    }
+
+    sum = sum * mul;
+
+    L = L + 9 * mul;
+
+
+    for(ll i=L; i<=R; i++)
+    {
+        sum += F(A + F(D)*F(i-1));
+    }
+
+    pf("%lld\n", sum);
+}
+
 int main ()
 {
     #ifdef hasibpc
-        //read("input.txt");
-        //write("output.txt");
+        read("input.txt");
     #endif // hasibpc
+
+    int kases;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        sf("%lld %lld %lld %lld", &A, &D, &L, &R);
+
+        solve();
+    }
 
 
     return 0;

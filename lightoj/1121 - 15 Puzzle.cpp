@@ -183,13 +183,189 @@ ostream& operator,(ostream &out, T x)
  *     Never use    ff, ss, phl, sp, nl
  */
 
+#define MAXX 5
+#define MAXDEPTH 11
+
+int grid[MAXX][MAXX];
+
+int dirx[] = {1, 0, 0, -1};
+int diry[] = {0, -1, 1, 0};
+
+int oppositDir[] = {3, 2, 1, 0};
+
+char name[] = "DLRU";
+
+bool isValid(int g[5][5])
+{
+    int n = 1;
+
+    loop(i, 4)
+    {
+        loop(j, 4)
+        {
+            if(n == 16)
+            {
+                break;
+            }
+
+            if(g[i][j] != n)
+            {
+                return false;
+            }
+
+            n++;
+        }
+    }
+
+    return true;
+}
+
+
+
+
+
+string rec(int a, int b, int cnt, int lastMove)
+{
+
+    if(isValid(grid))
+    {
+        return "\n";
+    }
+
+
+    if( (cnt + (3 - a) + (3 - b)) > MAXDEPTH ) return "";
+
+
+
+
+
+    if(cnt > MAXDEPTH)
+    {
+        return "";
+    }
+
+
+
+    int x, y;
+
+    string ret;
+    string tmp;
+
+
+    loop(i, 4)
+    {
+        if(lastMove != inf && i == oppositDir[lastMove]) continue;
+
+        x = a + dirx[i];
+        y = b + diry[i];
+
+        if(0 <= x && x < 4 && 0 <= y && y < 4)
+        {
+            swap(grid[a][b], grid[x][y]);
+
+            tmp = rec(x, y, cnt+1, i);
+
+            if(SZ(tmp))
+            {
+                if(SZ(ret) == 0)
+                {
+                    ret = name[i] + tmp;
+                }
+                else
+                {
+                    tmp = name[i] + tmp;
+
+                    if(SZ(tmp) < SZ(ret))
+                    {
+                        ret = tmp;
+                    }
+                    else if(SZ(tmp) == SZ(ret))
+                    {
+                        ret = min(ret, tmp);
+                    }
+                }
+            }
+
+            swap(grid[a][b], grid[x][y]);
+
+        }
+    }
+
+
+    return ret;
+
+
+
+
+}
+
+
+
+
+
+void solve()
+{
+    string ret;
+    loop(i, 4)
+    {
+        loop(j, 4)
+        {
+            if(grid[i][j] == 0)
+            {
+                ret = rec(i, j, 1, inf);
+                goto hell;
+            }
+        }
+    }
+
+    hell:
+        if(SZ(ret))
+        {
+            cout<<ret;
+        }
+        else
+        {
+            cout<<"This puzzle is not solvable."<<endl;
+        }
+}
+
+
 
 int main ()
 {
+
+
     #ifdef hasibpc
-        //read("input.txt");
+        read("input.txt");
         //write("output.txt");
     #endif // hasibpc
+
+
+    int kases, kaseno = 0;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        loop(i, 4)
+        {
+            loop(j, 4)
+            {
+                sf("%d", &grid[i][j]);
+            }
+        }
+
+
+        pf("Case %d: ", ++kaseno);
+
+
+        solve();
+
+
+    }
+
+
+
 
 
     return 0;

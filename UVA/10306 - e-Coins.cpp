@@ -183,13 +183,90 @@ ostream& operator,(ostream &out, T x)
  *     Never use    ff, ss, phl, sp, nl
  */
 
+#define MAXX 900
+#define INF (1<<29)
+int n, S;
+paii coins[47];
+int dp[MAXX][MAXX];
+
+void solve()
+{
+    loop(i, MAXX) loop(j, MAXX) dp[i][j] = INF;
+    dp[0][0] = 0;
+
+    int x, y;
+
+    loop(i, MAXX)
+    {
+        loop(j, MAXX)
+        {
+            if(dp[i][j] != INF)
+            {
+                loop(k, n)
+                {
+                    x = i + coins[k].fr;
+                    y = j + coins[k].sc;
+
+                    if(x < MAXX && y< MAXX)
+                    {
+                        dp[x][y] = min(dp[x][y], dp[i][j] + 1 );
+                    }
+                }
+            }
+        }
+    }
+
+    S = S*S;
+
+    int ret = INF;
+
+    loop(i, MAXX)
+    {
+        loop(j, MAXX)
+        {
+            if(i*i + j*j == S)
+            {
+                ret = min(ret, dp[i][j]);
+            }
+        }
+    }
+
+    if(ret == INF)
+    {
+        pf("not possible\n");
+    }
+    else
+    {
+        pf("%d\n", ret);
+    }
+
+
+}
+
 
 int main ()
 {
     #ifdef hasibpc
-        //read("input.txt");
+        read("input.txt");
         //write("output.txt");
     #endif // hasibpc
+
+
+    int kases, kaseno = 0;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        sf("%d %d", &n, &S);
+
+        loop(i, n)
+        {
+            sf("%d %d", &coins[i].fr, &coins[i].sc);
+        }
+
+        solve();
+    }
 
 
     return 0;
