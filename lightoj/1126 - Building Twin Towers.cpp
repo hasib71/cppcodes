@@ -1,132 +1,279 @@
-#include<iostream>
-#include<cstdio>
-#include<cstring>
-#include<cstdlib>
-#include<cmath>
+/***********Template Starts Here***********/
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <algorithm>
+#include <map>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <deque>
+#include <functional>
+#include <string>
+#include <iostream>
+#include <cctype>
+#include <set>
+#include <climits>
+#include <iomanip>
+#include <cassert>
+//#include <unordered_map>
 
-#include<algorithm>
-#include<vector>
-#include<queue>
-#include<stack>
-#include<map>
-#include<utility>
-#include<set>
+#define pb push_back
+#define nl puts ("")
+#define sp printf ( " " )
+#define phl printf ( "hello\n" )
+#define ff first
+#define ss second
+#define POPCOUNT __builtin_popcountll
+#define RIGHTMOST __builtin_ctzll
+#define LEFTMOST(x) (63-__builtin_clzll((x)))
+#define MP make_pair
+#define FOR(i,x,y) for(int i = (x) ; i <= (y) ; ++i)
+#define ROF(i,x,y) for(int i = (y) ; i >= (x) ; --i)
+#define CLR(x,y) memset(x,y,sizeof(x))
+#define UNIQUE(V) (V).erase(unique((V).begin(),(V).end()),(V).end())
+#define MIN(a,b) ((a)<(b)?(a):(b))
+#define MAX(a,b) ((a)>(b)?(a):(b))
+#define NUMDIGIT(x,y) (((int)(log10((x))/log10((y))))+1)
+#define SQ(x) ((x)*(x))
+#define ABS(x) ((x)<0?-(x):(x))
+#define FABS(x) ((x)+eps<0?-(x):(x))
+#define ALL(x) (x).begin(),(x).end()
+#define LCM(x,y) (((x)/gcd((x),(y)))*(y))
+#define SZ(x) ((int)(x).size())
+#define NORM(x) if(x>=mod)x-=mod;
 
+using namespace std;
 
-#define FOR(i, s, e) for(int i=s; i<e; i++)
-#define loop(i, n) FOR(i, 0, n)
+typedef long long vlong;
+typedef unsigned long long uvlong;
+typedef pair < int, int > pii;
+typedef pair < vlong, vlong > pll;
+typedef vector<pii> vii;
+typedef vector<int> vi;
+
+const vlong inf = 2147383647;
+const double pi = 2 * acos ( 0.0 );
+const double eps = 1e-9;
+
+#ifdef forthright48
+     #include <ctime>
+     clock_t tStart = clock();
+     #define debug(args...) {dbg,args; cerr<<endl;}
+     #define timeStamp printf("Execution Time: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC)
+#else
+    #define debug(args...)  // Just strip off all debug tokens
+    #define timeStamp
+#endif
+
+struct debugger{
+    template<typename T> debugger& operator , (const T& v){
+        cerr<<v<<" ";
+        return *this;
+    }
+}dbg;
+
+//int knightDir[8][2] = { {-2,1},{-1,2},{1,2},{2,1},{2,-1},{-1,-2},{1,-2},{-2,-1} };
+//int dir4[4][2] = {{-1,0},{0,1},{1,0},{0,-1}};
+
+inline vlong gcd ( vlong a, vlong b ) {
+    a = ABS ( a ); b = ABS ( b );
+    while ( b ) { a = a % b; swap ( a, b ); } return a;
+}
+
+vlong ext_gcd ( vlong A, vlong B, vlong *X, vlong *Y ){
+    vlong x2, y2, x1, y1, x, y, r2, r1, q, r;
+    x2 = 1; y2 = 0;
+    x1 = 0; y1 = 1;
+    for (r2 = A, r1 = B; r1 != 0; r2 = r1, r1 = r, x2 = x1, y2 = y1, x1 = x, y1 = y ) {
+        q = r2 / r1;
+        r = r2 % r1;
+        x = x2 - (q * x1);
+        y = y2 - (q * y1);
+    }
+    *X = x2; *Y = y2;
+    return r2;
+}
+
+inline vlong modInv ( vlong a, vlong m ) {
+    vlong x, y;
+    ext_gcd( a, m, &x, &y );
+    if ( x < 0 ) x += m; //modInv is never negative
+    return x;
+}
+
+inline vlong power ( vlong a, vlong p ) {
+    vlong res = 1, x = a;
+    while ( p ) {
+        if ( p & 1 ) res = ( res * x );
+        x = ( x * x ); p >>= 1;
+    }
+    return res;
+}
+
+inline vlong bigmod ( vlong a, vlong p, vlong m ) {
+    vlong res = 1 % m, x = a % m;
+    while ( p ) {
+        if ( p & 1 ) res = ( res * x ) % m;
+        x = ( x * x ) % m; p >>= 1;
+    }
+    return res;
+}
+
+/***********Template Ends Here***********/
+
+/*********** Hasib Templates Starts Here**********/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define loop(i, n) for(int i=0; i<(n); i++)
 #define sf scanf
 #define pf printf
-#define pb push_back
-#define MP make_pair
 #define fr first
 #define sc second
 #define ll long long
 #define dd double
-#define all(v) v.begin(), v.end()
+#define all(v) (v).begin(), (v).end()
 #define PI acos(-1.0)
-#define mem(ara, value) memset(ara, value, sizeof(ara))
+#define mem(ara, val) memset(ara, val, sizeof(ara))
 #define paii pair<int, int>
 #define pall pair<ll, ll>
-#define SZ(a) int(a.size())
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
-#define dump(x) cout<<#x<<" = "<<x<<endl
+#define vdump(x) cerr<<#x<<" = "<<x<<endl;
+#define dump(args...) cerr,args; cerr<<endl
 
-using namespace std;
-
-#define take(args...) asdf,args
-#define debug(args...) asdfg,args; cout<<endl
-struct ASDF{
-    ASDF& operator,(int &a) {
-        sf("%d", &a);
-        return *this;
-    }
-    ASDF& operator,(long int &a){
-        sf("%ld", &a);
-        return *this;
-    }
-    ASDF& operator,(long long int &a){
-        sf("%lld", &a);
-        return *this;
-    }
-    ASDF& operator,(char &c){
-        sf("%c", &c);
-        return *this;
-    }
-    ASDF& operator,(double &d){
-        sf("%lf", &d);
-        return *this;
-    }
-
-    template<typename T>
-    ASDF& operator,(T &a){
-        cin>>a;
-        return *this;
-    }
-}asdf;
-struct ASDFG{
-    template<typename T>
-    ASDFG& operator,(vector<T> &v){
-        pf("[");
-        cout<<v[0];
-        FOR(i, 1, SZ(v)){
-            cout<<", "<<v[i];
-        }
-        pf("]");
-        return *this;
-    }
-
-    template<typename T>
-    ASDFG& operator,(T x) {
-        cout<<x<<" ";
-        return *this;
-    }
-
-
-}asdfg;
-
-
-
-//Header ends here
-
-#define MAXX 500002
-
-char dp[MAXX];
-
-int sizes[52];
-
-int main()
+template<typename T>
+ostream& operator<<(ostream& out, vector<T> v)
 {
-    int n;
-    int kases, kaseno = 0;
+    out<<"[ ";
 
-    take(kases);
-
-    while(kases--)
+    loop(i, SZ(v))
     {
-        take(n);
+        if(i) out<<", ";
+        out<<v[i];
+    }
 
-        loop(i, n)
+    out<<" ]";
+    return out;
+}
+
+template<typename T1, typename T2>
+ostream& operator<<(ostream &out, pair<T1, T2> p)
+{
+    out<<"( "<<p.fr<<", "<<p.sc<<")";
+    return out;
+}
+
+template<typename T>
+ostream& operator,(ostream &out, T x)
+{
+    out<<x<<" ";
+    return out;
+}
+
+
+/**********Hasib Templates Ends Here**************/
+
+/**
+ *  WARTNING for me:
+ *     Never use    FOR
+ *     Never use    pii, pll, vi, vi
+ *     Never use    ff, ss, phl, sp, nl
+ */
+
+ #define MAXX 57
+ #define MAXSUM 500007
+
+ int ara[MAXX];
+ int N;
+
+int dp[2][MAXSUM];
+
+int solve()
+{
+    mem(dp, -1);
+
+    dp[0][0] = 0;
+
+    int now, pre;
+
+    now = 1, pre = 0;
+
+
+    loop(i, N)
+    {
+        loop(j, MAXSUM)
         {
-            take(sizes[i]);
-        }
-
-        mem(dp, 0);
-
-        dp[0] = 1;
-
-        int mx = 0;
-
-        loop(i, n)
-        {
-            for(int j=mx; j>-1;  j--)
+            if(dp[pre][j] != -1)
             {
+                dp[now][j] = max(dp[now][j], dp[pre][j]);
+
+                int diff = abs(j - ara[i]);
+
+                dp[now][diff] = max(dp[now][diff], max(dp[pre][diff], dp[pre][ j ] + ara[i] ));
+
+                //pf("dp[%d] = %d\n", diff, dp[now][diff]);
+
+                diff = j + ara[i];
+
+                dp[now][diff] = max(dp[now][diff], max(dp[pre][diff], dp[pre][ j ] + ara[i] ));
+
+                //pf("dp[%d] = %d\n", diff, dp[now][diff]);
 
             }
         }
+
+        swap(now, pre);
     }
+
+    return max(dp[now][0], dp[pre][0]);
+
+
 
 
 }
 
+
+int main ()
+{
+    #ifdef hasibpc
+        read("input.txt");
+        //write("output.txt");
+    #endif // hasibpc
+
+
+    int kases, kaseno = 0;
+
+    sf("%d", &kases);
+
+    while(kases--)
+    {
+        sf("%d", &N);
+        loop(i, N)
+        {
+            sf("%d", &ara[i]);
+        }
+
+
+        sort(ara, ara+N); ///optimization :D
+
+        int ret = solve();
+
+        if(ret != 0)
+        {
+            pf("Case %d: %d\n",++kaseno, ret/2);
+        }
+        else
+        {
+            pf("Case %d: impossible\n", ++kaseno);
+        }
+
+
+    }
+
+
+
+    return 0;
+}

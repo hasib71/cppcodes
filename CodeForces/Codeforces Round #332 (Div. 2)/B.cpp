@@ -183,92 +183,86 @@ ostream& operator,(ostream &out, T x)
  *     Never use    ff, ss, phl, sp, nl
  */
 
+#define MAXX 100007
 
-#define MAXX 107
+int cnt[MAXX];
+int a[MAXX];
 
-#define INF (1<<29)
-
-int N;
-
-int ara[MAXX];
-
-int comu[MAXX];
-
-int dp[MAXX][MAXX];
-
-int visited[MAXX][MAXX];
-
-int cc = 0;
-
-
-int rec(int pos1, int pos2)
-{
-    if(pos1 > pos2 ) return 0;
-
-    int &ret = dp[pos1][pos2];
-    if(visited[pos1][pos2] == cc) return ret;
-    visited[pos1][pos2] = cc;
-
-
-    ret = -INF;
-    int tmp;
-
-    for(int i=pos1; i<=pos2; i++)
-    {
-        tmp = comu[i] - comu[pos1-1] + ( comu[pos2] - comu[i] - rec(i+1, pos2));
-
-        ret = max(ret, tmp);
-    }
-
-    for(int i=pos2; i>= pos1; i--)
-    {
-        tmp = comu[pos2] - comu[i-1] + (comu[i-1] - comu[pos1 -1] - rec( pos1, i - 1 ) );
-
-        ret = max(ret, tmp);
-    }
-    //dump(pos1, pos2, ret);
-    return ret;
-}
-
-
-int solve()
-{
-
-    for(int i=1; i<=N; i++)
-    {
-        comu[i] = comu[i-1] + ara[i];
-    }
-
-    cc++;
-
-    int playerOne = rec(1, N);
-    int playerTwo = comu[N] - playerOne;
-
-    return playerOne - playerTwo;
-}
-
-
-
-
-int main()
+int main ()
 {
     #ifdef hasibpc
-        read("input.txt");
+        //read("input.txt");
+        //write("output.txt");
     #endif // hasibpc
-    int kases, kaseno = 0;
 
-    sf("%d", &kases);
 
-    while(kases--)
+    int n, m;
+    int f, b;
+
+    sf("%d %d", &n, &m);
+
+
+    loop(i, n)
     {
-        sf("%d", &N);
+        sf("%d", &f);
 
-        loop(i, N)
+        if(cnt[f] == 0)
         {
-            sf("%d", &ara[i+1]);
+            cnt[f] = i+1;
         }
-
-        pf("Case %d: %d\n", ++kaseno, solve());
+        else
+        {
+            cnt[f] = -1; ///ambi
+        }
     }
+
+    bool ambi = false;
+    bool possible = true;
+
+
+
+
+    loop(i, m)
+    {
+        sf("%d", &b);
+
+        if(cnt[b] == 0)
+        {
+            possible = false; ///impossible
+        }
+        else if(cnt[b] == -1)
+        {
+            ambi = true; ///ambi
+        }
+        else
+        {
+            a[i] = cnt[b];
+        }
+    }
+
+
+    if(possible && (!ambi))
+    {
+        pf("Possible\n");
+
+        loop(i, m)
+        {
+            if(i) pf(" ");
+            pf("%d", a[i]);
+        }
+        pf("\n");
+    }
+    else if(possible && ambi)
+    {
+        pf("Ambiguity\n");
+
+    }
+    else
+    {
+        pf("Impossible\n");
+    }
+
+
+
     return 0;
 }

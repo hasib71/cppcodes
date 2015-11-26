@@ -184,91 +184,125 @@ ostream& operator,(ostream &out, T x)
  */
 
 
-#define MAXX 107
+#define MAXX 407
 
-#define INF (1<<29)
+bool hasEdge[MAXX][MAXX];
 
-int N;
+vector<int>graph[MAXX];
 
-int ara[MAXX];
+bool visited[MAXX];
+int dist[MAXX];
 
-int comu[MAXX];
-
-int dp[MAXX][MAXX];
-
-int visited[MAXX][MAXX];
-
-int cc = 0;
-
-
-int rec(int pos1, int pos2)
-{
-    if(pos1 > pos2 ) return 0;
-
-    int &ret = dp[pos1][pos2];
-    if(visited[pos1][pos2] == cc) return ret;
-    visited[pos1][pos2] = cc;
-
-
-    ret = -INF;
-    int tmp;
-
-    for(int i=pos1; i<=pos2; i++)
-    {
-        tmp = comu[i] - comu[pos1-1] + ( comu[pos2] - comu[i] - rec(i+1, pos2));
-
-        ret = max(ret, tmp);
-    }
-
-    for(int i=pos2; i>= pos1; i--)
-    {
-        tmp = comu[pos2] - comu[i-1] + (comu[i-1] - comu[pos1 -1] - rec( pos1, i - 1 ) );
-
-        ret = max(ret, tmp);
-    }
-    //dump(pos1, pos2, ret);
-    return ret;
-}
-
-
-int solve()
+void bfs()
 {
 
-    for(int i=1; i<=N; i++)
+    int u, v;
+
+    queue<int>Q;
+
+    Q.push(1);
+    visited[1] = true;
+    dist[1] = 0;
+
+
+    while(! Q.empty() )
     {
-        comu[i] = comu[i-1] + ara[i];
+        u = Q.front();
+        Q.pop();
+
+        loop(i, SZ(graph[u]))
+        {
+            v = graph[u][i];
+
+            if(!visited[v])
+            {
+                visited[v] = true;
+                Q.push(v);
+                dist[v] = dist[u] + 1;
+            }
+        }
     }
 
-    cc++;
-
-    int playerOne = rec(1, N);
-    int playerTwo = comu[N] - playerOne;
-
-    return playerOne - playerTwo;
 }
 
 
 
-
-int main()
+int main ()
 {
     #ifdef hasibpc
-        read("input.txt");
+        //read("input.txt");
+        //write("output.txt");
     #endif // hasibpc
-    int kases, kaseno = 0;
 
-    sf("%d", &kases);
 
-    while(kases--)
+    int n, m;
+
+    int u, v;
+
+    sf("%d %d", &n, &m);
+
+    loop(i, m)
     {
-        sf("%d", &N);
+        sf("%d %d", &u, &v);
 
-        loop(i, N)
-        {
-            sf("%d", &ara[i+1]);
-        }
-
-        pf("Case %d: %d\n", ++kaseno, solve());
+        hasEdge[u][v] = hasEdge[v][u] = true;
     }
+
+
+
+
+    if(hasEdge[1][n])
+    {
+        for(int i=1; i<=n; i++)
+        {
+            for(int j=1; j<=n; j++)
+            {
+                if( ! hasEdge[i][j])
+                {
+                    graph[i].pb(j);
+                }
+            }
+        }
+    }
+    else
+    {
+        for(int i=1; i<=n; i++)
+        {
+            for(int j=1; j<=n; j++)
+            {
+                if( hasEdge[i][j] )
+                {
+                    graph[i].pb(j);
+                }
+            }
+        }
+    }
+
+
+    bfs();
+
+
+    if(visited[n])
+    {
+        pf("%d\n", dist[n]);
+    }
+    else
+    {
+        pf("-1\n");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return 0;
 }

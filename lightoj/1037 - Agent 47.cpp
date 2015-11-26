@@ -183,78 +183,94 @@ ostream& operator,(ostream &out, T x)
  *     Never use    ff, ss, phl, sp, nl
  */
 
-
-#define MAXX 107
-
-#define INF (1<<29)
-
-int N;
-
-int ara[MAXX];
-
-int comu[MAXX];
-
-int dp[MAXX][MAXX];
-
-int visited[MAXX][MAXX];
-
-int cc = 0;
+ #define MAXX 17
+ #define INF (1<<29)
 
 
-int rec(int pos1, int pos2)
+ int N;
+ int health[MAXX];
+ int dp[1<<MAXX];
+ char grid[MAXX][MAXX];
+
+
+int rec(int state)
 {
-    if(pos1 > pos2 ) return 0;
-
-    int &ret = dp[pos1][pos2];
-    if(visited[pos1][pos2] == cc) return ret;
-    visited[pos1][pos2] = cc;
 
 
-    ret = -INF;
-    int tmp;
-
-    for(int i=pos1; i<=pos2; i++)
+    if(state == ( (1<<N) - 1))
     {
-        tmp = comu[i] - comu[pos1-1] + ( comu[pos2] - comu[i] - rec(i+1, pos2));
-
-        ret = max(ret, tmp);
+        return 0;
     }
 
-    for(int i=pos2; i>= pos1; i--)
-    {
-        tmp = comu[pos2] - comu[i-1] + (comu[i-1] - comu[pos1 -1] - rec( pos1, i - 1 ) );
 
-        ret = max(ret, tmp);
+    int &ret = dp[state];
+
+    if(ret != -1)
+    {
+        return ret;
     }
-    //dump(pos1, pos2, ret);
+
+
+    int highestDamage[MAXX];
+
+    loop(i, MAXX)
+    {
+        highestDamage[i] = 1;
+    }
+
+
+
+    loop(i, N)
+    {
+        if( (state & (1<<i)) )
+        {
+            /// dead
+
+            loop(j, N)
+            {
+                highestDamage[j] = max(highestDamage[j], (int)grid[i][j] );
+            }
+        }
+    }
+
+
+
+
+
+    ret = INF;
+
+    loop(i, N)
+    {
+        if( (state & (1<<i)) == 0 )
+        {
+            /// alive
+
+            ret = min(ret, rec(state | (1<<i)) + (health[i] / highestDamage[i]) + (int)((health[i] % highestDamage[i]) > 0) );
+        }
+    }
+
+
     return ret;
 }
 
 
+
 int solve()
 {
+    mem(dp, -1);
+    return rec(0);
 
-    for(int i=1; i<=N; i++)
-    {
-        comu[i] = comu[i-1] + ara[i];
-    }
-
-    cc++;
-
-    int playerOne = rec(1, N);
-    int playerTwo = comu[N] - playerOne;
-
-    return playerOne - playerTwo;
 }
 
 
 
-
-int main()
+int main ()
 {
     #ifdef hasibpc
         read("input.txt");
+        //write("output.txt");
     #endif // hasibpc
+
     int kases, kaseno = 0;
 
     sf("%d", &kases);
@@ -262,13 +278,24 @@ int main()
     while(kases--)
     {
         sf("%d", &N);
+        loop(i, N) sf("%d", &health[i]);
 
         loop(i, N)
         {
-            sf("%d", &ara[i+1]);
+            sf("%s", grid[i]);
+            loop(j, N)
+            {
+                grid[i][j] -= '0';
+            }
         }
 
         pf("Case %d: %d\n", ++kaseno, solve());
+
+
+
+
     }
+
+
     return 0;
 }

@@ -184,91 +184,75 @@ ostream& operator,(ostream &out, T x)
  */
 
 
-#define MAXX 107
-
-#define INF (1<<29)
-
-int N;
-
-int ara[MAXX];
-
-int comu[MAXX];
-
-int dp[MAXX][MAXX];
-
-int visited[MAXX][MAXX];
-
-int cc = 0;
-
-
-int rec(int pos1, int pos2)
-{
-    if(pos1 > pos2 ) return 0;
-
-    int &ret = dp[pos1][pos2];
-    if(visited[pos1][pos2] == cc) return ret;
-    visited[pos1][pos2] = cc;
-
-
-    ret = -INF;
-    int tmp;
-
-    for(int i=pos1; i<=pos2; i++)
-    {
-        tmp = comu[i] - comu[pos1-1] + ( comu[pos2] - comu[i] - rec(i+1, pos2));
-
-        ret = max(ret, tmp);
-    }
-
-    for(int i=pos2; i>= pos1; i--)
-    {
-        tmp = comu[pos2] - comu[i-1] + (comu[i-1] - comu[pos1 -1] - rec( pos1, i - 1 ) );
-
-        ret = max(ret, tmp);
-    }
-    //dump(pos1, pos2, ret);
-    return ret;
-}
-
-
-int solve()
-{
-
-    for(int i=1; i<=N; i++)
-    {
-        comu[i] = comu[i-1] + ara[i];
-    }
-
-    cc++;
-
-    int playerOne = rec(1, N);
-    int playerTwo = comu[N] - playerOne;
-
-    return playerOne - playerTwo;
-}
-
-
-
-
-int main()
+int main ()
 {
     #ifdef hasibpc
-        read("input.txt");
+        //read("input.txt");
+        //write("output.txt");
     #endif // hasibpc
-    int kases, kaseno = 0;
 
-    sf("%d", &kases);
 
-    while(kases--)
+
+
+
+    ll x;
+
+    vector<pall>v;
+
+
+    cin>>x;
+
+
+
+
+
+    ll a = 0, b = 0;
+    ll m;
+
+
+    for(ll n = 1; ; n++)
     {
-        sf("%d", &N);
+        b = a + b;
 
-        loop(i, N)
+        a += n;
+
+        if( (x+b)%a == 0 )
         {
-            sf("%d", &ara[i+1]);
+            m = (x + b)/a;
+
+            if(n <= m)
+            {
+                v.pb(MP(n, m));
+            }
+            else
+            {
+                break;
+            }
         }
 
-        pf("Case %d: %d\n", ++kaseno, solve());
+
+        if( (x + b)/a < n ) break;
+
+
     }
+
+    for(int i=SZ(v)-1; i>=0; i--)
+    {
+        if(v[i].fr != v[i].sc)
+        {
+            v.pb(MP(v[i].sc, v[i].fr));
+        }
+    }
+
+    pf("%d\n", SZ(v));
+    loop(i, SZ(v))
+    {
+        pf("%lld %lld\n", v[i].fr, v[i].sc);
+    }
+
+
+
+
+
     return 0;
 }

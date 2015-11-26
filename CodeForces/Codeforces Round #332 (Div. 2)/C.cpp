@@ -183,92 +183,84 @@ ostream& operator,(ostream &out, T x)
  *     Never use    ff, ss, phl, sp, nl
  */
 
+#define MAXX 100007
 
-#define MAXX 107
-
-#define INF (1<<29)
-
+int forw[MAXX];
+paii ara[MAXX];
 int N;
 
-int ara[MAXX];
 
-int comu[MAXX];
-
-int dp[MAXX][MAXX];
-
-int visited[MAXX][MAXX];
-
-int cc = 0;
-
-
-int rec(int pos1, int pos2)
-{
-    if(pos1 > pos2 ) return 0;
-
-    int &ret = dp[pos1][pos2];
-    if(visited[pos1][pos2] == cc) return ret;
-    visited[pos1][pos2] = cc;
-
-
-    ret = -INF;
-    int tmp;
-
-    for(int i=pos1; i<=pos2; i++)
-    {
-        tmp = comu[i] - comu[pos1-1] + ( comu[pos2] - comu[i] - rec(i+1, pos2));
-
-        ret = max(ret, tmp);
-    }
-
-    for(int i=pos2; i>= pos1; i--)
-    {
-        tmp = comu[pos2] - comu[i-1] + (comu[i-1] - comu[pos1 -1] - rec( pos1, i - 1 ) );
-
-        ret = max(ret, tmp);
-    }
-    //dump(pos1, pos2, ret);
-    return ret;
-}
-
-
-int solve()
-{
-
-    for(int i=1; i<=N; i++)
-    {
-        comu[i] = comu[i-1] + ara[i];
-    }
-
-    cc++;
-
-    int playerOne = rec(1, N);
-    int playerTwo = comu[N] - playerOne;
-
-    return playerOne - playerTwo;
-}
-
-
-
-
-int main()
+int main ()
 {
     #ifdef hasibpc
-        read("input.txt");
+        //read("input.txt");
+        //write("output.txt");
     #endif // hasibpc
-    int kases, kaseno = 0;
 
-    sf("%d", &kases);
 
-    while(kases--)
+    sf("%d", &N);
+
+    loop(i, N)
     {
-        sf("%d", &N);
+        sf("%d", &ara[i].fr);
+        ara[i].sc = i;
+    }
 
-        loop(i, N)
+
+    sort(ara, ara+N);
+
+
+
+    int x, y;
+
+    mem(forw, -1);
+
+    loop(i, N)
+    {
+        x = ara[i].sc;
+        y = i;
+
+        if(x > y)
         {
-            sf("%d", &ara[i+1]);
+            swap(x, y);
         }
 
-        pf("Case %d: %d\n", ++kaseno, solve());
+        forw[x] = max(y, forw[x]);
     }
+
+
+    int cnt = 0;
+
+
+    x = 0;
+
+    loop(i, N)
+    {
+        x = max(forw[i], x);
+
+        if(x == i)
+        {
+            cnt++;
+        }
+    }
+
+    cout<<cnt<<endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return 0;
 }

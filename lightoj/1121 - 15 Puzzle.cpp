@@ -184,7 +184,7 @@ ostream& operator,(ostream &out, T x)
  */
 
 #define MAXX 5
-#define MAXDEPTH 11
+#define MAXDEPTH 51
 
 int grid[MAXX][MAXX];
 
@@ -192,7 +192,7 @@ int dirx[] = {1, 0, 0, -1};
 int diry[] = {0, -1, 1, 0};
 
 int oppositDir[] = {3, 2, 1, 0};
-
+int tillNowBestDist;
 char name[] = "DLRU";
 
 bool isValid(int g[5][5])
@@ -221,6 +221,34 @@ bool isValid(int g[5][5])
 }
 
 
+int h()
+{
+
+    int x, y;
+    int expectedMove = 0;
+
+
+    loop(i, 4)
+    {
+        loop(j, 4)
+        {
+            if(grid[i][j] == 0)
+            {
+                //expectedMove += (3 - i) + (3 - j);
+            }
+            else
+            {
+                x = grid[i][j] / 4;
+                y = grid[i][j] % 4;
+
+                expectedMove += abs(i - x) + abs(j - y);
+            }
+        }
+    }
+
+    return max(expectedMove - 30, 0);
+}
+
 
 
 
@@ -233,16 +261,8 @@ string rec(int a, int b, int cnt, int lastMove)
     }
 
 
-    if( (cnt + (3 - a) + (3 - b)) > MAXDEPTH ) return "";
+    if( cnt + h() > tillNowBestDist ) return "";
 
-
-
-
-
-    if(cnt > MAXDEPTH)
-    {
-        return "";
-    }
 
 
 
@@ -306,6 +326,7 @@ string rec(int a, int b, int cnt, int lastMove)
 void solve()
 {
     string ret;
+    tillNowBestDist = MAXDEPTH;
     loop(i, 4)
     {
         loop(j, 4)
@@ -355,18 +376,11 @@ int main ()
             }
         }
 
-
         pf("Case %d: ", ++kaseno);
-
 
         solve();
 
-
     }
-
-
-
-
 
     return 0;
 }
