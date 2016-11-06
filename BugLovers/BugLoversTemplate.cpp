@@ -142,7 +142,9 @@ using namespace std;
 #define read(nm) freopen(nm, "r", stdin)
 #define write(nm) freopen(nm, "w", stdout)
 #define vdump(x) cerr<<#x<<" = "<<x<<endl;
-#define dump(args...) cerr,args; cerr<<endl
+//#define dump(args...) cerr,args; cerr<<endl
+#define dump(args...) cerr<<"("<<#args<<") = (* ",args,"*)\n";
+#define pbp(a,b) pb(MP(a,b))
 
 template<typename T>
 ostream& operator<<(ostream& out, vector<T> v)
